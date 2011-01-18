@@ -1,0 +1,441 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3CC4E6C912E6561200AF7AB8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CC4E6C812E6561200AF7AB8 /* Cocoa.framework */; };
+		3CC4E6D312E6561300AF7AB8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3CC4E6D112E6561300AF7AB8 /* InfoPlist.strings */; };
+		3CC4E6DB12E6561300AF7AB8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CC4E6C812E6561200AF7AB8 /* Cocoa.framework */; };
+		3CC4E6DE12E6561300AF7AB8 /* OSULogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CC4E6C512E6561200AF7AB8 /* OSULogger.framework */; };
+		3CC4E6E412E6561300AF7AB8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3CC4E6E212E6561300AF7AB8 /* InfoPlist.strings */; };
+		3CC4E6E712E6561300AF7AB8 /* OSULoggerTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 3CC4E6E612E6561300AF7AB8 /* OSULoggerTests.h */; };
+		3CC4E6E912E6561300AF7AB8 /* OSULoggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CC4E6E812E6561300AF7AB8 /* OSULoggerTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3CC4E6DC12E6561300AF7AB8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3CC4E6BB12E6561200AF7AB8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3CC4E6C412E6561200AF7AB8;
+			remoteInfo = OSULogger;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3CC4E6C512E6561200AF7AB8 /* OSULogger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OSULogger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CC4E6C812E6561200AF7AB8 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		3CC4E6CB12E6561300AF7AB8 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		3CC4E6CC12E6561300AF7AB8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		3CC4E6CD12E6561300AF7AB8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		3CC4E6D012E6561300AF7AB8 /* OSULogger-Info.plist */ = {isa = PBXFileReference; path = "OSULogger-Info.plist"; sourceTree = "<group>"; };
+		3CC4E6D212E6561300AF7AB8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3CC4E6D412E6561300AF7AB8 /* OSULogger-Prefix.pch */ = {isa = PBXFileReference; path = "OSULogger-Prefix.pch"; sourceTree = "<group>"; };
+		3CC4E6DA12E6561300AF7AB8 /* OSULoggerTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OSULoggerTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CC4E6E112E6561300AF7AB8 /* OSULoggerTests-Info.plist */ = {isa = PBXFileReference; path = "OSULoggerTests-Info.plist"; sourceTree = "<group>"; };
+		3CC4E6E312E6561300AF7AB8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3CC4E6E512E6561300AF7AB8 /* OSULoggerTests-Prefix.pch */ = {isa = PBXFileReference; path = "OSULoggerTests-Prefix.pch"; sourceTree = "<group>"; };
+		3CC4E6E612E6561300AF7AB8 /* OSULoggerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OSULoggerTests.h; sourceTree = "<group>"; };
+		3CC4E6E812E6561300AF7AB8 /* OSULoggerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OSULoggerTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3CC4E6C112E6561200AF7AB8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3CC4E6C912E6561200AF7AB8 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3CC4E6D612E6561300AF7AB8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3CC4E6DB12E6561300AF7AB8 /* Cocoa.framework in Frameworks */,
+				3CC4E6DE12E6561300AF7AB8 /* OSULogger.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3CC4E6B912E6561200AF7AB8 = {
+			isa = PBXGroup;
+			children = (
+				3CC4E6CE12E6561300AF7AB8 /* OSULogger */,
+				3CC4E6DF12E6561300AF7AB8 /* OSULoggerTests */,
+				3CC4E6C712E6561200AF7AB8 /* Frameworks */,
+				3CC4E6C612E6561200AF7AB8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3CC4E6C612E6561200AF7AB8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3CC4E6C512E6561200AF7AB8 /* OSULogger.framework */,
+				3CC4E6DA12E6561300AF7AB8 /* OSULoggerTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3CC4E6C712E6561200AF7AB8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3CC4E6C812E6561200AF7AB8 /* Cocoa.framework */,
+				3CC4E6CA12E6561300AF7AB8 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3CC4E6CA12E6561300AF7AB8 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3CC4E6CB12E6561300AF7AB8 /* AppKit.framework */,
+				3CC4E6CC12E6561300AF7AB8 /* CoreData.framework */,
+				3CC4E6CD12E6561300AF7AB8 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		3CC4E6CE12E6561300AF7AB8 /* OSULogger */ = {
+			isa = PBXGroup;
+			children = (
+				3CC4E6CF12E6561300AF7AB8 /* Supporting Files */,
+			);
+			path = OSULogger;
+			sourceTree = "<group>";
+		};
+		3CC4E6CF12E6561300AF7AB8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3CC4E6D012E6561300AF7AB8 /* OSULogger-Info.plist */,
+				3CC4E6D112E6561300AF7AB8 /* InfoPlist.strings */,
+				3CC4E6D412E6561300AF7AB8 /* OSULogger-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3CC4E6DF12E6561300AF7AB8 /* OSULoggerTests */ = {
+			isa = PBXGroup;
+			children = (
+				3CC4E6E612E6561300AF7AB8 /* OSULoggerTests.h */,
+				3CC4E6E812E6561300AF7AB8 /* OSULoggerTests.m */,
+				3CC4E6E012E6561300AF7AB8 /* Supporting Files */,
+			);
+			path = OSULoggerTests;
+			sourceTree = "<group>";
+		};
+		3CC4E6E012E6561300AF7AB8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3CC4E6E112E6561300AF7AB8 /* OSULoggerTests-Info.plist */,
+				3CC4E6E212E6561300AF7AB8 /* InfoPlist.strings */,
+				3CC4E6E512E6561300AF7AB8 /* OSULoggerTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		3CC4E6C212E6561200AF7AB8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		3CC4E6C412E6561200AF7AB8 /* OSULogger */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3CC4E6EC12E6561300AF7AB8 /* Build configuration list for PBXNativeTarget "OSULogger" */;
+			buildPhases = (
+				3CC4E6C012E6561200AF7AB8 /* Sources */,
+				3CC4E6C112E6561200AF7AB8 /* Frameworks */,
+				3CC4E6C212E6561200AF7AB8 /* Headers */,
+				3CC4E6C312E6561200AF7AB8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OSULogger;
+			productName = OSULogger;
+			productReference = 3CC4E6C512E6561200AF7AB8 /* OSULogger.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		3CC4E6D912E6561300AF7AB8 /* OSULoggerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3CC4E6EF12E6561300AF7AB8 /* Build configuration list for PBXNativeTarget "OSULoggerTests" */;
+			buildPhases = (
+				3CC4E6D512E6561300AF7AB8 /* Sources */,
+				3CC4E6D612E6561300AF7AB8 /* Frameworks */,
+				3CC4E6D712E6561300AF7AB8 /* Resources */,
+				3CC4E6D812E6561300AF7AB8 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3CC4E6DD12E6561300AF7AB8 /* PBXTargetDependency */,
+			);
+			name = OSULoggerTests;
+			productName = OSULoggerTests;
+			productReference = 3CC4E6DA12E6561300AF7AB8 /* OSULoggerTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3CC4E6BB12E6561200AF7AB8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Oregon State University (COAS)";
+			};
+			buildConfigurationList = 3CC4E6BE12E6561200AF7AB8 /* Build configuration list for PBXProject "OSULogger" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 3CC4E6B912E6561200AF7AB8;
+			productRefGroup = 3CC4E6C612E6561200AF7AB8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3CC4E6C412E6561200AF7AB8 /* OSULogger */,
+				3CC4E6D912E6561300AF7AB8 /* OSULoggerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3CC4E6C312E6561200AF7AB8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3CC4E6D312E6561300AF7AB8 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3CC4E6D712E6561300AF7AB8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3CC4E6E412E6561300AF7AB8 /* InfoPlist.strings in Resources */,
+				3CC4E6E712E6561300AF7AB8 /* OSULoggerTests.h in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3CC4E6D812E6561300AF7AB8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3CC4E6C012E6561200AF7AB8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3CC4E6D512E6561300AF7AB8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3CC4E6E912E6561300AF7AB8 /* OSULoggerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3CC4E6DD12E6561300AF7AB8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3CC4E6C412E6561200AF7AB8 /* OSULogger */;
+			targetProxy = 3CC4E6DC12E6561300AF7AB8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		3CC4E6D112E6561300AF7AB8 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3CC4E6D212E6561300AF7AB8 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		3CC4E6E212E6561300AF7AB8 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3CC4E6E312E6561300AF7AB8 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3CC4E6EA12E6561300AF7AB8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		3CC4E6EB12E6561300AF7AB8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		3CC4E6ED12E6561300AF7AB8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OSULogger/OSULogger-Prefix.pch";
+				INFOPLIST_FILE = "OSULogger/OSULogger-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		3CC4E6EE12E6561300AF7AB8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OSULogger/OSULogger-Prefix.pch";
+				INFOPLIST_FILE = "OSULogger/OSULogger-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		3CC4E6F012E6561300AF7AB8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OSULoggerTests/OSULoggerTests-Prefix.pch";
+				INFOPLIST_FILE = "OSULoggerTests/OSULoggerTests-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		3CC4E6F112E6561300AF7AB8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OSULoggerTests/OSULoggerTests-Prefix.pch";
+				INFOPLIST_FILE = "OSULoggerTests/OSULoggerTests-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3CC4E6BE12E6561200AF7AB8 /* Build configuration list for PBXProject "OSULogger" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3CC4E6EA12E6561300AF7AB8 /* Debug */,
+				3CC4E6EB12E6561300AF7AB8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3CC4E6EC12E6561300AF7AB8 /* Build configuration list for PBXNativeTarget "OSULogger" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3CC4E6ED12E6561300AF7AB8 /* Debug */,
+				3CC4E6EE12E6561300AF7AB8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		3CC4E6EF12E6561300AF7AB8 /* Build configuration list for PBXNativeTarget "OSULoggerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3CC4E6F012E6561300AF7AB8 /* Debug */,
+				3CC4E6F112E6561300AF7AB8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3CC4E6BB12E6561200AF7AB8 /* Project object */;
+}
