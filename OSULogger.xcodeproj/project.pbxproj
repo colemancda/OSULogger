@@ -32,13 +32,13 @@
 		3CC4E6CB12E6561300AF7AB8 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		3CC4E6CC12E6561300AF7AB8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		3CC4E6CD12E6561300AF7AB8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		3CC4E6D012E6561300AF7AB8 /* OSULogger-Info.plist */ = {isa = PBXFileReference; path = "OSULogger-Info.plist"; sourceTree = "<group>"; };
+		3CC4E6D012E6561300AF7AB8 /* OSULogger-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OSULogger-Info.plist"; sourceTree = "<group>"; };
 		3CC4E6D212E6561300AF7AB8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		3CC4E6D412E6561300AF7AB8 /* OSULogger-Prefix.pch */ = {isa = PBXFileReference; path = "OSULogger-Prefix.pch"; sourceTree = "<group>"; };
+		3CC4E6D412E6561300AF7AB8 /* OSULogger-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OSULogger-Prefix.pch"; sourceTree = "<group>"; };
 		3CC4E6DA12E6561300AF7AB8 /* OSULoggerTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OSULoggerTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3CC4E6E112E6561300AF7AB8 /* OSULoggerTests-Info.plist */ = {isa = PBXFileReference; path = "OSULoggerTests-Info.plist"; sourceTree = "<group>"; };
+		3CC4E6E112E6561300AF7AB8 /* OSULoggerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OSULoggerTests-Info.plist"; sourceTree = "<group>"; };
 		3CC4E6E312E6561300AF7AB8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		3CC4E6E512E6561300AF7AB8 /* OSULoggerTests-Prefix.pch */ = {isa = PBXFileReference; path = "OSULoggerTests-Prefix.pch"; sourceTree = "<group>"; };
+		3CC4E6E512E6561300AF7AB8 /* OSULoggerTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OSULoggerTests-Prefix.pch"; sourceTree = "<group>"; };
 		3CC4E6E612E6561300AF7AB8 /* OSULoggerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OSULoggerTests.h; sourceTree = "<group>"; };
 		3CC4E6E812E6561300AF7AB8 /* OSULoggerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OSULoggerTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
