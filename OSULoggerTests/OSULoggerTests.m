@@ -7,18 +7,28 @@
 //
 
 #import "OSULoggerTests.h"
-
+#import "OSULogger.h"
 
 @implementation OSULoggerTests
 
 - (void)setUp {
     [super setUp];
     
-    // Set-up code here.
+	
+}
+
+- (void)testOSULogger
+{
+	// Test initialization of the OSULogger
+	OSULogger *logger = [OSULogger sharedLogger];
+	STAssertNotNil(logger, @"Logger failed to initialize.");
+	
+	// 
+	
 }
 
 - (void)tearDown {
-    // Tear-down code here.
+
     
     [super tearDown];
 }

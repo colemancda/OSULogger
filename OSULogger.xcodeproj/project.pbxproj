@@ -14,6 +14,10 @@
 		3CC4E6E412E6561300AF7AB8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3CC4E6E212E6561300AF7AB8 /* InfoPlist.strings */; };
 		3CC4E6E712E6561300AF7AB8 /* OSULoggerTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 3CC4E6E612E6561300AF7AB8 /* OSULoggerTests.h */; };
 		3CC4E6E912E6561300AF7AB8 /* OSULoggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CC4E6E812E6561300AF7AB8 /* OSULoggerTests.m */; };
+		3CC4E6F512E65A1F00AF7AB8 /* OSULogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CC4E6F212E65A1F00AF7AB8 /* OSULogger.h */; };
+		3CC4E6F612E65A1F00AF7AB8 /* OSULogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CC4E6F312E65A1F00AF7AB8 /* OSULogger.m */; };
+		3CC4E6F712E65A1F00AF7AB8 /* versions.pl in Resources */ = {isa = PBXBuildFile; fileRef = 3CC4E6F412E65A1F00AF7AB8 /* versions.pl */; };
+		3CC4E6FA12E65A6400AF7AB8 /* version.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CC4E6F912E65A6400AF7AB8 /* version.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +45,10 @@
 		3CC4E6E512E6561300AF7AB8 /* OSULoggerTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OSULoggerTests-Prefix.pch"; sourceTree = "<group>"; };
 		3CC4E6E612E6561300AF7AB8 /* OSULoggerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OSULoggerTests.h; sourceTree = "<group>"; };
 		3CC4E6E812E6561300AF7AB8 /* OSULoggerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OSULoggerTests.m; sourceTree = "<group>"; };
+		3CC4E6F212E65A1F00AF7AB8 /* OSULogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSULogger.h; sourceTree = "<group>"; };
+		3CC4E6F312E65A1F00AF7AB8 /* OSULogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSULogger.m; sourceTree = "<group>"; };
+		3CC4E6F412E65A1F00AF7AB8 /* versions.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = versions.pl; sourceTree = "<group>"; };
+		3CC4E6F912E65A6400AF7AB8 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +113,10 @@
 		3CC4E6CE12E6561300AF7AB8 /* OSULogger */ = {
 			isa = PBXGroup;
 			children = (
+				3CC4E6F912E65A6400AF7AB8 /* version.h */,
+				3CC4E6F212E65A1F00AF7AB8 /* OSULogger.h */,
+				3CC4E6F312E65A1F00AF7AB8 /* OSULogger.m */,
+				3CC4E6F412E65A1F00AF7AB8 /* versions.pl */,
 				3CC4E6CF12E6561300AF7AB8 /* Supporting Files */,
 			);
 			path = OSULogger;
@@ -147,6 +159,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CC4E6F512E65A1F00AF7AB8 /* OSULogger.h in Headers */,
+				3CC4E6FA12E65A6400AF7AB8 /* version.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,6 +171,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3CC4E6EC12E6561300AF7AB8 /* Build configuration list for PBXNativeTarget "OSULogger" */;
 			buildPhases = (
+				3CC4E6F812E65A2E00AF7AB8 /* ShellScript */,
 				3CC4E6C012E6561200AF7AB8 /* Sources */,
 				3CC4E6C112E6561200AF7AB8 /* Frameworks */,
 				3CC4E6C212E6561200AF7AB8 /* Headers */,
@@ -222,6 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3CC4E6D312E6561300AF7AB8 /* InfoPlist.strings in Resources */,
+				3CC4E6F712E65A1F00AF7AB8 /* versions.pl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,6 +266,20 @@
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
+		3CC4E6F812E65A2E00AF7AB8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/version.h",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"/Users/wdillon/Documents/Source Code/Thesis/Working Copies/OSULogger/OSULogger/versions.pl\"";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -257,6 +287,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CC4E6F612E65A1F00AF7AB8 /* OSULogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +373,7 @@
 				INFOPLIST_FILE = "OSULogger/OSULogger-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_AFTER_BUILD = YES;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -361,6 +393,7 @@
 				INFOPLIST_FILE = "OSULogger/OSULogger-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_AFTER_BUILD = YES;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -426,6 +459,7 @@
 				3CC4E6EE12E6561300AF7AB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3CC4E6EF12E6561300AF7AB8 /* Build configuration list for PBXNativeTarget "OSULoggerTests" */ = {
 			isa = XCConfigurationList;
@@ -434,6 +468,7 @@
 				3CC4E6F112E6561300AF7AB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
