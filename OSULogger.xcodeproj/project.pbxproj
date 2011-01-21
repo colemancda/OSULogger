@@ -14,7 +14,7 @@
 		3CC4E6E412E6561300AF7AB8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3CC4E6E212E6561300AF7AB8 /* InfoPlist.strings */; };
 		3CC4E6E712E6561300AF7AB8 /* OSULoggerTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 3CC4E6E612E6561300AF7AB8 /* OSULoggerTests.h */; };
 		3CC4E6E912E6561300AF7AB8 /* OSULoggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CC4E6E812E6561300AF7AB8 /* OSULoggerTests.m */; };
-		3CC4E6F512E65A1F00AF7AB8 /* OSULogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CC4E6F212E65A1F00AF7AB8 /* OSULogger.h */; };
+		3CC4E6F512E65A1F00AF7AB8 /* OSULogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CC4E6F212E65A1F00AF7AB8 /* OSULogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3CC4E6F612E65A1F00AF7AB8 /* OSULogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CC4E6F312E65A1F00AF7AB8 /* OSULogger.m */; };
 		3CC4E6F712E65A1F00AF7AB8 /* versions.pl in Resources */ = {isa = PBXBuildFile; fileRef = 3CC4E6F412E65A1F00AF7AB8 /* versions.pl */; };
 		3CC4E6FA12E65A6400AF7AB8 /* version.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CC4E6F912E65A6400AF7AB8 /* version.h */; };
@@ -274,11 +274,12 @@
 			inputPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/version.h",
+				version.h,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"/Users/wdillon/Documents/Source Code/Thesis/Working Copies/OSULogger/OSULogger/versions.pl\"";
+			shellScript = "\"${SOURCE_ROOT}/OSULogger/versions.pl\"";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
