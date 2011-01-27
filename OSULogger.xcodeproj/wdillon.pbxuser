@@ -24,9 +24,9 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					735,
+					608,
 					20,
-					48.16259765625,
+					48,
 					43,
 					43,
 					20,
@@ -41,8 +41,35 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 317091425;
-			PBXWorkspaceStateSaveDate = 317091425;
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					568,
+					60,
+					20,
+					48,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 317753588;
+			PBXWorkspaceStateSaveDate = 317753588;
+		};
+		perUserProjectItems = {
+			3CF1F2B312F089E40056D5B6 /* PBXTextBookmark */ = 3CF1F2B312F089E40056D5B6 /* PBXTextBookmark */;
+			3CF1F2B412F089E40056D5B6 /* PBXTextBookmark */ = 3CF1F2B412F089E40056D5B6 /* PBXTextBookmark */;
+			3CF1F2B512F089E40056D5B6 /* PBXTextBookmark */ = 3CF1F2B512F089E40056D5B6 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 3C30954112E66E7C001A6DAC /* Source Control */;
 		userBuildSettings = {
@@ -53,5 +80,49 @@
 	};
 	3CC4E6D912E6561300AF7AB8 /* OSULoggerTests */ = {
 		activeExec = 0;
+	};
+	3CC4E6E612E6561300AF7AB8 /* OSULoggerTests.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {786, 532}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 294}";
+		};
+	};
+	3CC4E6F212E65A1F00AF7AB8 /* OSULogger.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1510, 962}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1417}";
+		};
+	};
+	3CF1F2B312F089E40056D5B6 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3CC4E6E612E6561300AF7AB8 /* OSULoggerTests.h */;
+		name = "OSULoggerTests.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 294;
+		vrLoc = 0;
+	};
+	3CF1F2B412F089E40056D5B6 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3CC4E6F212E65A1F00AF7AB8 /* OSULogger.h */;
+		name = "OSULogger.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1386;
+		vrLoc = 0;
+	};
+	3CF1F2B512F089E40056D5B6 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 3CC4E6F212E65A1F00AF7AB8 /* OSULogger.h */;
+		name = "OSULogger.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1417;
+		vrLoc = 0;
 	};
 }
