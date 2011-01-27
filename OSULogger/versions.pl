@@ -5,7 +5,7 @@
 use strict;
 
 # Get the current git commit hash and use it to set the CFBundleVersion value
-my $REV = `/opt/local/bin/git show --abbrev-commit | grep "^commit"`;
+my $REV = `/usr/bin/git show --abbrev-commit | grep "^commit"`;
 my $HEADER = "version.h";
 
 my $commit = "";
