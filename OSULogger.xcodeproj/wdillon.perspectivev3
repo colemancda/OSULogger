@@ -277,9 +277,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>19</integer>
-									<integer>17</integer>
-									<integer>0</integer>
+									<integer>21</integer>
+									<integer>20</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
@@ -300,7 +299,7 @@
 							<real>226</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>341 199 1314 979 0 0 1920 1178 </string>
+						<string>266 199 1314 979 0 0 1920 1178 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -316,7 +315,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>3CF1F2B112F089E40056D5B6</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>OSULogger.h</string>
+								<string>versions.pl</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -324,15 +323,17 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>3CF1F2B212F089E40056D5B6</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>OSULogger.h</string>
+										<string>versions.pl</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>3C50AB5C12F0FA1200B2ADC9</string>
+										<string>3C50AB8F12F1D8E400B2ADC9</string>
 										<key>history</key>
 										<array>
 											<string>3CF1F2B312F089E40056D5B6</string>
-											<string>3CF1F2B512F089E40056D5B6</string>
+											<string>3C50AB6B12F11E4B00B2ADC9</string>
+											<string>3C50AB7C12F1D8A300B2ADC9</string>
+											<string>3C50AB7D12F1D8A300B2ADC9</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -346,18 +347,18 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1066, 574}}</string>
+								<string>{{0, 0}, {1066, 566}}</string>
 								<key>RubberWindowFrame</key>
-								<string>341 199 1314 979 0 0 1920 1178 </string>
+								<string>266 199 1314 979 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>574pt</string>
+							<string>566pt</string>
 						</dict>
 						<dict>
 							<key>Proportion</key>
-							<string>359pt</string>
+							<string>367pt</string>
 							<key>Tabs</key>
 							<array>
 								<dict>
@@ -371,7 +372,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1066, 332}}</string>
+										<string>{{10, 27}, {1066, 340}}</string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -425,9 +426,9 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1066, 332}}</string>
+										<string>{{10, 27}, {1066, 340}}</string>
 										<key>RubberWindowFrame</key>
-										<string>341 199 1314 979 0 0 1920 1178 </string>
+										<string>266 199 1314 979 0 0 1920 1178 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXBuildResultsModule</string>
@@ -455,11 +456,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>3C50AB5D12F0FA1200B2ADC9</string>
+				<string>3C50AB7F12F1D8A300B2ADC9</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>3C50AB5E12F0FA1200B2ADC9</string>
+				<string>3C50AB8012F1D8A300B2ADC9</string>
 				<string>3CF1F2B112F089E40056D5B6</string>
-				<string>3C50AB5F12F0FA1200B2ADC9</string>
+				<string>3C50AB8112F1D8A300B2ADC9</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -632,7 +633,7 @@
 		<string>/Users/wdillon/dist-opencl/OSULogger/OSULogger.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>341 199 1314 979 0 0 1920 1178 </string>
+	<string>266 199 1314 979 0 0 1920 1178 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
