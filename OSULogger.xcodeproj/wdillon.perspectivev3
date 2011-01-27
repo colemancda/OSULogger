@@ -327,13 +327,13 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>3C50AB8F12F1D8E400B2ADC9</string>
+										<string>3CF1F40212F1DBED0056D5B6</string>
 										<key>history</key>
 										<array>
 											<string>3CF1F2B312F089E40056D5B6</string>
 											<string>3C50AB6B12F11E4B00B2ADC9</string>
 											<string>3C50AB7C12F1D8A300B2ADC9</string>
-											<string>3C50AB7D12F1D8A300B2ADC9</string>
+											<string>3C50AB8F12F1D8E400B2ADC9</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -347,18 +347,18 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1066, 566}}</string>
+								<string>{{0, 0}, {1066, 558}}</string>
 								<key>RubberWindowFrame</key>
 								<string>266 199 1314 979 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>566pt</string>
+							<string>558pt</string>
 						</dict>
 						<dict>
 							<key>Proportion</key>
-							<string>367pt</string>
+							<string>375pt</string>
 							<key>Tabs</key>
 							<array>
 								<dict>
@@ -372,7 +372,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1066, 340}}</string>
+										<string>{{10, 27}, {1066, 348}}</string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -426,7 +426,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1066, 340}}</string>
+										<string>{{10, 27}, {1066, 348}}</string>
 										<key>RubberWindowFrame</key>
 										<string>266 199 1314 979 0 0 1920 1178 </string>
 									</dict>
@@ -456,11 +456,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>3C50AB7F12F1D8A300B2ADC9</string>
+				<string>3CF1F39812F1D9CE0056D5B6</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>3C50AB8012F1D8A300B2ADC9</string>
+				<string>3CF1F39912F1D9CE0056D5B6</string>
 				<string>3CF1F2B112F089E40056D5B6</string>
-				<string>3C50AB8112F1D8A300B2ADC9</string>
+				<string>3CF1F39A12F1D9CE0056D5B6</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -630,7 +630,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>/Users/wdillon/dist-opencl/OSULogger/OSULogger.xcodeproj</string>
+		<string>/Users/wdillon/Documents/Source Code/Thesis/Working Copies/OSULogger/OSULogger.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>266 199 1314 979 0 0 1920 1178 </string>

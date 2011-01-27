@@ -215,6 +215,7 @@
 			};
 			buildConfigurationList = 3CC4E6BE12E6561200AF7AB8 /* Build configuration list for PBXProject "OSULogger" */;
 			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
