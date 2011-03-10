@@ -1,4 +1,4 @@
-#!/opt/local/bin/perl
+#!/usr/bin/perl
 # Xcode auto-versioning script for Subversion by Axel Andersson
 # Updated for git by Marcus S. Zarra and Matt Long
 
