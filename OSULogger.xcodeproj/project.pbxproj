@@ -274,7 +274,6 @@
 			inputPaths = (
 			);
 			outputPaths = (
-				version.h,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
