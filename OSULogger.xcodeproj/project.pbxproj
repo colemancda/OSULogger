@@ -9,9 +9,10 @@
 /* Begin PBXBuildFile section */
 		3C210B31138B15CE00FFA1BA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C210B30138B15CE00FFA1BA /* Cocoa.framework */; };
 		3C210B3B138B15CE00FFA1BA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3C210B39138B15CE00FFA1BA /* InfoPlist.strings */; };
-		3C210B45138B15F600FFA1BA /* OSULogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C210B42138B15F600FFA1BA /* OSULogger.h */; };
+		3C210B45138B15F600FFA1BA /* OSULogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C210B42138B15F600FFA1BA /* OSULogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3C210B46138B15F600FFA1BA /* OSULogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C210B43138B15F600FFA1BA /* OSULogger.m */; };
 		3C210B47138B15F600FFA1BA /* versions.pl in Resources */ = {isa = PBXBuildFile; fileRef = 3C210B44138B15F600FFA1BA /* versions.pl */; };
+		3C210B51138B189100FFA1BA /* version.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C210B50138B189100FFA1BA /* version.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		3C210B42138B15F600FFA1BA /* OSULogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSULogger.h; sourceTree = "<group>"; };
 		3C210B43138B15F600FFA1BA /* OSULogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSULogger.m; sourceTree = "<group>"; };
 		3C210B44138B15F600FFA1BA /* versions.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = versions.pl; sourceTree = "<group>"; };
+		3C210B50138B189100FFA1BA /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 		3C210B36138B15CE00FFA1BA /* OSULogger */ = {
 			isa = PBXGroup;
 			children = (
+				3C210B50138B189100FFA1BA /* version.h */,
 				3C210B42138B15F600FFA1BA /* OSULogger.h */,
 				3C210B43138B15F600FFA1BA /* OSULogger.m */,
 				3C210B37138B15CE00FFA1BA /* Supporting Files */,
@@ -105,6 +108,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C210B45138B15F600FFA1BA /* OSULogger.h in Headers */,
+				3C210B51138B189100FFA1BA /* version.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,6 +119,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3C210B3F138B15CE00FFA1BA /* Build configuration list for PBXNativeTarget "OSULogger" */;
 			buildPhases = (
+				3C210B4C138B17AB00FFA1BA /* ShellScript */,
 				3C210B28138B15CE00FFA1BA /* Sources */,
 				3C210B29138B15CE00FFA1BA /* Frameworks */,
 				3C210B2A138B15CE00FFA1BA /* Headers */,
@@ -166,6 +171,23 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3C210B4C138B17AB00FFA1BA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+				"$(SOURCE_ROOT)/version.h",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SOURCE_ROOT}/OSULogger/versions.pl\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		3C210B28138B15CE00FFA1BA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -209,7 +231,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -229,7 +251,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -281,6 +303,7 @@
 				3C210B41138B15CE00FFA1BA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
