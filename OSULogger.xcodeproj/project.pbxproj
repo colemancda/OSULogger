@@ -347,6 +347,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				RUN_CLANG_STATIC_ANALYZER = YES;
+				SHARED_PRECOMPS_DIR = build;
+				SYMROOT = build;
 			};
 			name = Debug;
 		};
@@ -364,7 +366,9 @@
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				RUN_CLANG_STATIC_ANALYZER = YES;
+				RUN_CLANG_STATIC_ANALYZER = NO;
+				SHARED_PRECOMPS_DIR = build;
+				SYMROOT = build;
 			};
 			name = Release;
 		};
@@ -374,7 +378,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_LOCATION = NO;
-				DSTROOT = /;
+				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -384,8 +388,9 @@
 				GCC_PREFIX_HEADER = "OSULogger/OSULogger-Prefix.pch";
 				INFOPLIST_FILE = "OSULogger/OSULogger-Info.plist";
 				INSTALL_PATH = /Library/Frameworks;
+				LD_DYLIB_INSTALL_NAME = "/Library/Frameworks$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(EXECUTABLE_PATH)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_AFTER_BUILD = YES;
+				TEST_AFTER_BUILD = NO;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -397,7 +402,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_LOCATION = NO;
-				DSTROOT = /;
+				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -406,8 +411,9 @@
 				GCC_PREFIX_HEADER = "OSULogger/OSULogger-Prefix.pch";
 				INFOPLIST_FILE = "OSULogger/OSULogger-Info.plist";
 				INSTALL_PATH = /Library/Frameworks;
+				LD_DYLIB_INSTALL_NAME = "/Library/Frameworks$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(EXECUTABLE_PATH)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_AFTER_BUILD = YES;
+				TEST_AFTER_BUILD = NO;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
