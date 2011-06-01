@@ -14,10 +14,13 @@ static OSULogger *sharedLogger = nil;
 
 void OSULog(NSString *format, ... )
 {
+	// Do the work of generating the NSString now, using the format
 	va_list arguments;
 	va_start(arguments, format);
 	NSString *tempString = [[NSString alloc] initWithFormat:format arguments:arguments];
 	va_end(arguments);
+	
+	// Enqueue the actual logging until later, but keep the timestamp
 	
 	[[OSULogger sharedLogger] logString:tempString];
 	[tempString release];
@@ -102,14 +105,59 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 	return self;
 }
 
+- (void)logUsingFormat:(NSString *)format, ...
+{
+	va_list argumentList;
+	
+	NSString *tempString = [NSString stringWithFormat:format, argumentList];
+	
+	[self logString:tempString];
+}
+
+- (void)logString:(NSString *)string
+		 withFile:(NSString *)file
+			 line:(NSInteger)line
+		  version:(NSString *)version
+	  andSeverity:(NSInteger)severity
+{
+	// It's possible that the __FILE__ macro includes the full path.
+	// We only really want the filename.
+	NSArray *pathCompontents = [file componentsSeparatedByString:@"/"];
+	
+	[self logString:[NSString stringWithFormat:@"%@:%d:%@: %@",
+					 [pathCompontents objectAtIndex:[pathCompontents count] - 1],
+					 line,
+					 version,
+					 string]
+	   withSeverity:severity];
+}
+
 - (void)logString:(NSString *)string
 {
-	[self logString:string withSeverity:LOG_NONE];
+	NSDate *now = [NSDate date];
+	
+	dispatch_async(dispatch_get_main_queue(), ^(void) {
+		[self internalLogString:string withSeverity:LOG_NONE andDate:now];
+	});
 	
 	return;
 }
 
 - (void)logString:(NSString *)string withSeverity:(NSInteger)severity
+{
+	NSDate *now = [NSDate date];
+	
+	dispatch_async(dispatch_get_main_queue(), ^(void) {
+		[self internalLogString:string withSeverity:severity andDate:now];
+	});
+	
+	return;
+}
+
+// This "internal" function should only be called on the main thread
+- (void)internalLogString:(NSString *)string
+			 withSeverity:(NSInteger)severity
+				  andDate:(NSDate *)date
 {
 	NSXMLElement *eventElement = [NSXMLElement elementWithName:@"event" stringValue:string];
 	NSXMLNode *attribute = nil;
@@ -141,14 +189,8 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 //		OSULOGGER_LOGGER((char *)[string UTF8String]);
 //	}
 
-	// A given asl client should only be called from one thread.
-	// We'll sacrifice some of the time accuracy in the ASL structure
-	// and use GCD to ensure that by scheduling it on the main thread
-//	dispatch_async(dispatch_get_main_queue(), ^{
-		asl_log(aslClient, NULL, asl_severity, "%s", [string cStringUsingEncoding:NSUTF8StringEncoding]);
-//	});
-
-//	asl_log(NULL, NULL, asl_severity, "%s", [string cStringUsingEncoding:NSUTF8StringEncoding]);
+	// We should already be on the main thread
+	asl_log(aslClient, NULL, asl_severity, "%s", [string cStringUsingEncoding:NSUTF8StringEncoding]);
 
 	if (attribute != nil) {
 		[eventElement addAttribute:attribute];
@@ -165,6 +207,7 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 	[eventElement addAttribute:[NSXMLNode attributeWithName:@"timestamp"
 												stringValue:[formatter stringFromDate:[NSDate date]]]];
 	
+// This should really be changed to be an NSNotification
 	if( delegate ) {
 		if( [delegate respondsToSelector:@selector(logUpdatedString:)] ) {
 			[delegate logUpdatedString:[NSString stringWithFormat:@"%@: %@: %@\n",
@@ -181,33 +224,6 @@ void OSULogs(NSInteger severity, NSString *format, ... )
     }	
 	
 	return;
-}
-
-- (void)logString:(NSString *)string
-		 withFile:(NSString *)file
-			 line:(NSInteger)line
-		  version:(NSString *)version
-	  andSeverity:(NSInteger)severity
-{
-	// It's possible that the __FILE__ macro includes the full path.
-	// We only really want the filename.
-	NSArray *pathCompontents = [file componentsSeparatedByString:@"/"];
-	
-	[self logString:[NSString stringWithFormat:@"%@:%d:%@: %@",
-					 [pathCompontents objectAtIndex:[pathCompontents count] - 1],
-					 line,
-					 version,
-					 string]
-	   withSeverity:severity];
-}
-
-- (void)logUsingFormat:(NSString *)format, ...
-{
-	va_list argumentList;
-	
-	NSString *tempString = [NSString stringWithFormat:format, argumentList];
-	
-	[self logString:tempString];
 }
 
 - (NSString *)stringValue

@@ -19,6 +19,8 @@ logString:string withFile:__BASE_FILE__ line:__LINE__ version:[NSString stringWi
 void OSULog(NSString *format, ... ) NS_FORMAT_FUNCTION(1, 2);
 void OSULogs(NSInteger, NSString *format, ... ) NS_FORMAT_FUNCTION(2, 3);
 
+typedef void (^LogBlock)(void);
+
 enum LOG_SEVERITY {
 	LOG_FAIL  = 4,
 	LOG_WARN  = 3,
@@ -59,6 +61,11 @@ enum LOG_SEVERITY {
 			 line:(NSInteger)line
 		  version:(NSString *)version
 	  andSeverity:(NSInteger)severity;
+
+// This function is for class internal use only
+- (void)internalLogString:(NSString *)string
+			 withSeverity:(NSInteger)severity
+				  andDate:(NSDate *)date;
 
 - (NSString *)stringValue;
 
