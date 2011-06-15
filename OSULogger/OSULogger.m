@@ -30,7 +30,8 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 {
 	va_list arguments;
 	va_start(arguments, format);
-	NSString *tempString = [[NSString alloc] initWithFormat:format arguments:arguments];
+	NSString *tempString = [[NSString alloc] initWithFormat:format
+												  arguments:arguments];
 	va_end(arguments);
 	
 	[[OSULogger sharedLogger] logString:tempString
@@ -59,6 +60,10 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 
 - (void)dealloc
 {
+	// Wait at most 1 second for pending operations to complete.
+	dispatch_group_wait(loggerGroup, dispatch_time(DISPATCH_TIME_NOW, 1000));
+	dispatch_release(loggerGroup);
+	
 	asl_close(aslClient);
 	OSULogs(LOG_WARN, @"Over release of \"OSULogger\".");
 	[super dealloc];
@@ -87,14 +92,25 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 	formatter = [[NSDateFormatter alloc] init];
 	[formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
 	[formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss.SSS"];
+
+	// Create a dispatch group for the logger
+	loggerGroup = dispatch_group_create();
+	if (loggerGroup == NULL) {
+		NSLog(@"Unable to create logger group in OSULogger!");
+		[self release];
+		self = nil;
+		return self;
+	}
+	
+	loggerQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
 	
 	// Create an Apple System Log client instance
-//	aslClient = NULL;
-	// Make absolutely sure that it's created and used on the same thread
-//	dispatch_async(dispatch_get_main_queue(), ^{
+	aslClient = NULL;
+	// Use the dispatch queue to perform this task
+	dispatch_group_async(loggerGroup, loggerQueue, ^{
 		aslClient = asl_open("DistOpenCLAgent", "edu.oregonstate.DistOpenCL", 0);
-//	});
-	
+	});
+		
 	// Insert a log message about starting up
 	[self logString:@"Started OSULogger."
 		   withFile:[NSString stringWithCString:__FILE__ encoding:NSUTF8StringEncoding]
@@ -103,6 +119,13 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 		andSeverity:LOG_INFO];
 	
 	return self;
+}
+
+- (void)flush
+{
+	// Wait at most 1 second for pending operations to complete.
+	dispatch_group_wait(loggerGroup, DISPATCH_TIME_FOREVER);
+	dispatch_release(loggerGroup);
 }
 
 - (void)logUsingFormat:(NSString *)format, ...
@@ -134,12 +157,7 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 
 - (void)logString:(NSString *)string
 {
-	NSDate *now = [NSDate date];
-	
-	dispatch_async(dispatch_get_main_queue(), ^(void) {
-		[self internalLogString:string withSeverity:LOG_NONE andDate:now];
-	});
-	
+	[self logString:string withSeverity:LOG_NONE];
 	return;
 }
 
@@ -147,8 +165,10 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 {
 	NSDate *now = [NSDate date];
 	
-	dispatch_async(dispatch_get_main_queue(), ^(void) {
-		[self internalLogString:string withSeverity:severity andDate:now];
+	dispatch_group_async(loggerGroup, loggerQueue, ^{
+		[self internalLogString:string
+				   withSeverity:severity
+						andDate:now];
 	});
 	
 	return;
@@ -184,12 +204,6 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 			break;
 	}
 	
-	// DTrace static probe for logger
-//	if (OSULOGGER_LOGGER_ENABLED()) {
-//		OSULOGGER_LOGGER((char *)[string UTF8String]);
-//	}
-
-	// We should already be on the main thread
 	asl_log(aslClient, NULL, asl_severity, "%s", [string cStringUsingEncoding:NSUTF8StringEncoding]);
 
 	if (attribute != nil) {

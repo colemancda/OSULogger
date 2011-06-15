@@ -43,6 +43,9 @@ enum LOG_SEVERITY {
 	
 	NSDateFormatter *formatter;
 	
+	dispatch_group_t loggerGroup;
+	dispatch_queue_t loggerQueue;
+	
 	id <OSULoggerDelegate> delegate;
 
 @private
@@ -61,6 +64,8 @@ enum LOG_SEVERITY {
 			 line:(NSInteger)line
 		  version:(NSString *)version
 	  andSeverity:(NSInteger)severity;
+
+- (void)flush;
 
 // This function is for class internal use only
 - (void)internalLogString:(NSString *)string
