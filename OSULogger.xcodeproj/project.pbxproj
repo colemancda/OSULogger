@@ -27,7 +27,7 @@
 		3C210B42138B15F600FFA1BA /* OSULogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSULogger.h; sourceTree = "<group>"; };
 		3C210B43138B15F600FFA1BA /* OSULogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSULogger.m; sourceTree = "<group>"; };
 		3C210B44138B15F600FFA1BA /* versions.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = versions.pl; sourceTree = "<group>"; };
-		3C210B50138B189100FFA1BA /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
+		3C210B50138B189100FFA1BA /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
