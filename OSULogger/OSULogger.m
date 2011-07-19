@@ -101,8 +101,10 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 		self = nil;
 		return self;
 	}
-	
-	loggerQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
+
+	loggerQueue = dispatch_queue_create("edu.orst.oce.osulogger", 
+										DISPATCH_QUEUE_SERIAL);
+//	loggerQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
 	
 	// Create an Apple System Log client instance
 	aslClient = NULL;
