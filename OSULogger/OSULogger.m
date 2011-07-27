@@ -42,6 +42,7 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 @implementation OSULogger
 
 @synthesize delegate;
+@synthesize dateFormatter;
 
 + (OSULogger *)sharedLogger
 {
@@ -89,9 +90,9 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 	[document setCharacterEncoding:@"UTF-8"];
 	
 	// Create a date formatter (for fractional seconds)
-	formatter = [[NSDateFormatter alloc] init];
-	[formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-	[formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss.SSS"];
+	dateFormatter = [[NSDateFormatter alloc] init];
+	[dateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+	[dateFormatter setDateFormat:@"YYYY-MM-dd HH:mm:ss.SSS"];
 
 	// Create a dispatch group for the logger
 	loggerGroup = dispatch_group_create();
@@ -221,7 +222,7 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 	}
 
 	[eventElement addAttribute:[NSXMLNode attributeWithName:@"timestamp"
-												stringValue:[formatter stringFromDate:[NSDate date]]]];
+												stringValue:[dateFormatter stringFromDate:[NSDate date]]]];
 	
 // This should really be changed to be an NSNotification
 	if( delegate ) {

@@ -41,7 +41,7 @@ enum LOG_SEVERITY {
 	NSXMLDocument *document;
 	NSXMLElement *root;
 	
-	NSDateFormatter *formatter;
+	NSDateFormatter *dateFormatter;
 	
 	dispatch_group_t loggerGroup;
 	dispatch_queue_t loggerQueue;
@@ -53,6 +53,7 @@ enum LOG_SEVERITY {
 }
 
 @property(readonly) NSXMLDocument *document;
+@property(readonly) NSDateFormatter *dateFormatter;
 
 + (char *)version;
 + (OSULogger *)sharedLogger;
