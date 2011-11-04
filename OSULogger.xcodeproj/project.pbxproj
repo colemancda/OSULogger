@@ -140,7 +140,7 @@
 		3C210B23138B15CE00FFA1BA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "Oregon State University (COAS)";
 			};
 			buildConfigurationList = 3C210B26138B15CE00FFA1BA /* Build configuration list for PBXProject "OSULogger" */;
