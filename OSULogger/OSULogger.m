@@ -243,26 +243,26 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 	return;
 }
 
-- (NSString *)stringValue
++ (NSString *)stringFromXMLRep:(NSXMLElement *)root
 {
 	NSMutableString *temp = [[NSMutableString alloc] init];
-	NSArray *children;
-	
-	@synchronized(root) {
-		children = [root children];
-	}
-	
-	@synchronized(children) {
-        for(NSXMLElement *element in children) {
-            // Print a nicely formated line for each entry
-            [temp appendFormat:@"%@: %@: %@\n",
-             [[element attributeForName:@"timestamp"] stringValue],
-             [[element attributeForName:@"severity"] stringValue],
-             [element stringValue]];
-        }
+    
+    for(NSXMLElement *element in [root children]) {
+        // Print a nicely formated line for each entry
+        [temp appendFormat:@"%@: %@: %@\n",
+         [[element attributeForName:@"timestamp"] stringValue],
+         [[element attributeForName:@"severity"] stringValue],
+         [element stringValue]];
     }
 	
-	return [temp autorelease];
+	return [temp autorelease];    
+}
+
+- (NSString *)stringValue
+{
+    @synchronized(root) {
+        return [OSULogger stringFromXMLRep:root];
+	}
 }
 
 - (NSString *)description

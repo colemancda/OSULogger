@@ -57,6 +57,7 @@ enum LOG_SEVERITY {
 
 + (char *)version;
 + (OSULogger *)sharedLogger;
++ (NSString *)stringFromXMLRep:(NSXMLElement *)root;
 
 - (void)logString:(NSString *)string;
 - (void)logString:(NSString *)string withSeverity:(NSInteger)severity;
