@@ -222,7 +222,7 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 	}
 
 	[eventElement addAttribute:[NSXMLNode attributeWithName:@"timestamp"
-												stringValue:[dateFormatter stringFromDate:[NSDate date]]]];
+												stringValue:[dateFormatter stringFromDate:date]]];
 	
 // This should really be changed to be an NSNotification
 	if( delegate ) {
