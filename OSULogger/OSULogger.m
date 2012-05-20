@@ -150,7 +150,7 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 	// We only really want the filename.
 	NSArray *pathCompontents = [file componentsSeparatedByString:@"/"];
 	
-	[self logString:[NSString stringWithFormat:@"%@:%d:%@: %@",
+	[self logString:[NSString stringWithFormat:@"%@:%ld:%@: %@",
 					 [pathCompontents objectAtIndex:[pathCompontents count] - 1],
 					 line,
 					 version,
@@ -272,7 +272,7 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 	
 	// Print log header:
     @synchronized(root) {
-        [temp insertString:[NSString stringWithFormat:@"Log beginning at: %@ with %d entries.\n",
+        [temp insertString:[NSString stringWithFormat:@"Log beginning at: %@ with %lu entries.\n",
 							[[root attributeForName:@"beginning"] stringValue],
 							[root childCount]]
 				   atIndex:0];
