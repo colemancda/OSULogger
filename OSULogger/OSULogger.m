@@ -23,7 +23,6 @@ void OSULog(NSString *format, ... )
 	// Enqueue the actual logging until later, but keep the timestamp
 	
 	[[OSULogger sharedLogger] logString:tempString];
-	[tempString release];
 }
 
 void OSULogs(NSInteger severity, NSString *format, ... )
@@ -36,7 +35,6 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 	
 	[[OSULogger sharedLogger] logString:tempString
 						   withSeverity:severity];
-	[tempString release];
 }
 
 @implementation OSULogger
@@ -67,7 +65,6 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 	
 	asl_close(aslClient);
 	OSULogs(LOG_WARN, @"Over release of \"OSULogger\".");
-	[super dealloc];
 }
 
 - (id)init
@@ -98,7 +95,6 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 	loggerGroup = dispatch_group_create();
 	if (loggerGroup == NULL) {
 		NSLog(@"Unable to create logger group in OSULogger!");
-		[self release];
 		self = nil;
 		return self;
 	}
@@ -116,9 +112,9 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 		
 	// Insert a log message about starting up
 	[self logString:@"Started OSULogger."
-		   withFile:[NSString stringWithCString:__FILE__ encoding:NSUTF8StringEncoding]
+		   withFile:@__FILE__
 			   line:__LINE__
-			version:[NSString stringWithCString:GIT_COMMIT encoding:NSUTF8StringEncoding]
+			version:@GIT_COMMIT
 		andSeverity:LOG_INFO];
 	
 	return self;
@@ -151,7 +147,7 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 	NSArray *pathCompontents = [file componentsSeparatedByString:@"/"];
 	
 	[self logString:[NSString stringWithFormat:@"%@:%ld:%@: %@",
-					 [pathCompontents objectAtIndex:[pathCompontents count] - 1],
+					 pathCompontents[[pathCompontents count] - 1],
 					 line,
 					 version,
 					 string]
@@ -232,7 +228,7 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 										[[eventElement attributeForName:@"severity"] stringValue],
 										[eventElement stringValue]]];
 		} else if( [delegate respondsToSelector:@selector(logUpdatedXML:)] ) { 
-			[delegate logUpdatedXML:[[eventElement copy] autorelease]];
+			[delegate logUpdatedXML:[eventElement copy]];
 		}
 	}
 
@@ -255,7 +251,7 @@ void OSULogs(NSInteger severity, NSString *format, ... )
          [element stringValue]];
     }
 	
-	return [temp autorelease];    
+	return temp;    
 }
 
 - (NSString *)stringValue

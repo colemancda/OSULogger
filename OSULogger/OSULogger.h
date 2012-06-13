@@ -76,7 +76,7 @@ enum LOG_SEVERITY {
 
 - (NSString *)stringValue;
 
-@property(retain) id <OSULoggerDelegate> delegate;
+@property(strong) id <OSULoggerDelegate> delegate;
 
 - (void)logUsingFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2);
 //- (void)logSeverety:(NSInteger)severity usingFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2);
