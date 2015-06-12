@@ -18,6 +18,10 @@
 		3C52A5A91B28A41D00078382 /* OSULogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52A5A71B28A41D00078382 /* OSULogger.swift */; };
 		3C52A5AA1B28A9FE00078382 /* OSULogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C210B43138B15F600FFA1BA /* OSULogger.m */; };
 		3C52A5AB1B28AA0100078382 /* OSULogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C210B43138B15F600FFA1BA /* OSULogger.m */; };
+		3C52AE511B2B79F900CD909E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52AE501B2B79F900CD909E /* AppDelegate.swift */; };
+		3C52AE531B2B79F900CD909E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C52AE521B2B79F900CD909E /* Assets.xcassets */; };
+		3C52AE561B2B79F900CD909E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C52AE541B2B79F900CD909E /* MainMenu.xib */; };
+		3C52AE5D1B2B7A5C00CD909E /* OSULogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C210B2D138B15CE00FFA1BA /* OSULogger.framework */; };
 		3C5EDE781B2A669D0089D30F /* exampleLog.xml in Resources */ = {isa = PBXBuildFile; fileRef = 3C5EDE771B2A669D0089D30F /* exampleLog.xml */; };
 		3C90BE521B2B6A51008EA880 /* exampleLog.string in Resources */ = {isa = PBXBuildFile; fileRef = 3C90BE511B2B6A51008EA880 /* exampleLog.string */; };
 /* End PBXBuildFile section */
@@ -29,6 +33,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 3C210B2C138B15CE00FFA1BA;
 			remoteInfo = OSULogger;
+		};
+		3C52AE5B1B2B7A1800CD909E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3C210B23138B15CE00FFA1BA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3C52AE4D1B2B79F900CD909E;
+			remoteInfo = LoggerTestApp;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -49,6 +60,11 @@
 		3C52A59E1B28A3EC00078382 /* OSULogger_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSULogger_Tests.swift; sourceTree = "<group>"; };
 		3C52A5A01B28A3EC00078382 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C52A5A71B28A41D00078382 /* OSULogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OSULogger.swift; sourceTree = "<group>"; };
+		3C52AE4E1B2B79F900CD909E /* LoggerTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoggerTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3C52AE501B2B79F900CD909E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3C52AE521B2B79F900CD909E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3C52AE551B2B79F900CD909E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		3C52AE571B2B79F900CD909E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C5EDE771B2A669D0089D30F /* exampleLog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = exampleLog.xml; sourceTree = "<group>"; };
 		3C90BE511B2B6A51008EA880 /* exampleLog.string */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = exampleLog.string; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -70,6 +86,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3C52AE4B1B2B79F900CD909E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3C52AE5D1B2B7A5C00CD909E /* OSULogger.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -78,6 +102,7 @@
 			children = (
 				3C210B36138B15CE00FFA1BA /* OSULogger */,
 				3C52A59D1B28A3EC00078382 /* OSULogger Tests */,
+				3C52AE4F1B2B79F900CD909E /* LoggerTestApp */,
 				3C210B2F138B15CE00FFA1BA /* Frameworks */,
 				3C210B2E138B15CE00FFA1BA /* Products */,
 			);
@@ -88,6 +113,7 @@
 			children = (
 				3C210B2D138B15CE00FFA1BA /* OSULogger.framework */,
 				3C52A59C1B28A3EC00078382 /* OSULogger Tests.xctest */,
+				3C52AE4E1B2B79F900CD909E /* LoggerTestApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -145,6 +171,17 @@
 			path = "OSULogger Tests";
 			sourceTree = "<group>";
 		};
+		3C52AE4F1B2B79F900CD909E /* LoggerTestApp */ = {
+			isa = PBXGroup;
+			children = (
+				3C52AE501B2B79F900CD909E /* AppDelegate.swift */,
+				3C52AE521B2B79F900CD909E /* Assets.xcassets */,
+				3C52AE541B2B79F900CD909E /* MainMenu.xib */,
+				3C52AE571B2B79F900CD909E /* Info.plist */,
+			);
+			path = LoggerTestApp;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -191,11 +228,29 @@
 			);
 			dependencies = (
 				3C52A5A31B28A3EC00078382 /* PBXTargetDependency */,
+				3C52AE5C1B2B7A1800CD909E /* PBXTargetDependency */,
 			);
 			name = "OSULogger Tests";
 			productName = "OSULogger Tests";
 			productReference = 3C52A59C1B28A3EC00078382 /* OSULogger Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		3C52AE4D1B2B79F900CD909E /* LoggerTestApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3C52AE581B2B79F900CD909E /* Build configuration list for PBXNativeTarget "LoggerTestApp" */;
+			buildPhases = (
+				3C52AE4A1B2B79F900CD909E /* Sources */,
+				3C52AE4B1B2B79F900CD909E /* Frameworks */,
+				3C52AE4C1B2B79F900CD909E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LoggerTestApp;
+			productName = LoggerTestApp;
+			productReference = 3C52AE4E1B2B79F900CD909E /* LoggerTestApp.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -209,6 +264,10 @@
 				TargetAttributes = {
 					3C52A59B1B28A3EC00078382 = {
 						CreatedOnToolsVersion = 7.0;
+						TestTargetID = 3C52AE4D1B2B79F900CD909E;
+					};
+					3C52AE4D1B2B79F900CD909E = {
+						CreatedOnToolsVersion = 7.0;
 					};
 				};
 			};
@@ -218,6 +277,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 3C210B21138B15CE00FFA1BA;
 			productRefGroup = 3C210B2E138B15CE00FFA1BA /* Products */;
@@ -226,6 +286,7 @@
 			targets = (
 				3C210B2C138B15CE00FFA1BA /* OSULogger */,
 				3C52A59B1B28A3EC00078382 /* OSULogger Tests */,
+				3C52AE4D1B2B79F900CD909E /* LoggerTestApp */,
 			);
 		};
 /* End PBXProject section */
@@ -246,6 +307,15 @@
 			files = (
 				3C90BE521B2B6A51008EA880 /* exampleLog.string in Resources */,
 				3C5EDE781B2A669D0089D30F /* exampleLog.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3C52AE4C1B2B79F900CD909E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3C52AE531B2B79F900CD909E /* Assets.xcassets in Resources */,
+				3C52AE561B2B79F900CD909E /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,6 +359,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3C52AE4A1B2B79F900CD909E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3C52AE511B2B79F900CD909E /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -296,6 +374,11 @@
 			isa = PBXTargetDependency;
 			target = 3C210B2C138B15CE00FFA1BA /* OSULogger */;
 			targetProxy = 3C52A5A21B28A3EC00078382 /* PBXContainerItemProxy */;
+		};
+		3C52AE5C1B2B7A1800CD909E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3C52AE4D1B2B79F900CD909E /* LoggerTestApp */;
+			targetProxy = 3C52AE5B1B2B7A1800CD909E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -306,6 +389,14 @@
 				3C210B3A138B15CE00FFA1BA /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		3C52AE541B2B79F900CD909E /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3C52AE551B2B79F900CD909E /* Base */,
+			);
+			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -465,6 +556,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.oregonstate.ceoas.OSULogger-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LoggerTestApp.app/Contents/MacOS/LoggerTestApp";
 			};
 			name = Debug;
 		};
@@ -500,6 +592,55 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.oregonstate.ceoas.OSULogger-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LoggerTestApp.app/Contents/MacOS/LoggerTestApp";
+			};
+			name = Release;
+		};
+		3C52AE591B2B79F900CD909E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = LoggerTestApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.oregonstate.ceoas.LoggerTestApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		3C52AE5A1B2B79F900CD909E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = LoggerTestApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.oregonstate.ceoas.LoggerTestApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -532,6 +673,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		3C52AE581B2B79F900CD909E /* Build configuration list for PBXNativeTarget "LoggerTestApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3C52AE591B2B79F900CD909E /* Debug */,
+				3C52AE5A1B2B79F900CD909E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
