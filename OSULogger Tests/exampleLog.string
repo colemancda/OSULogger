@@ -1,0 +1,63 @@
+2010-07-14 10:21:40.891: Warning: Starting Distributed OpenCL Agent
+2010-07-14 10:21:41.044: Information: Created UDP benchmark endpoint at 65488
+2010-07-14 10:21:41.044: Failure: Started browser.
+2010-07-14 10:21:41.045: Information: Starting service in 16.100000 seconds, unless peers are found.
+2010-07-14 10:21:41.045: Debugging: Found service: tundra3, more coming = TRUE
+2010-07-14 10:21:41.047: Undefined: Found service: tundra4, more coming = TRUE
+2010-07-14 10:21:41.048: Information: Found service: tundra2, more coming = TRUE
+2010-07-14 10:21:41.048: Information: Found service: tundra8, more coming = TRUE
+2010-07-14 10:21:41.049: Information: Found service: tundra5, more coming = TRUE
+2010-07-14 10:21:41.049: Applesauce: Found service: tundra7, more coming = FALSE
+2010-07-14 10:21:41.049: Information: Delaying service start 6 seconds
+2010-07-14 10:21:41.158: Information: Resolved address: 172.20.71.213:49191 for service name: tundra3
+2010-07-14 10:21:41.159: Information: Created TCP benchmark endpoint at 50157
+2010-07-14 10:21:41.159: Information: Created TCP benchmark endpoint at 50158
+2010-07-14 10:21:41.159: Information: Resolved address: 128.193.71.213:49191 for service name: tundra3
+2010-07-14 10:21:41.160: Information: Resolved address: 128.193.71.215:49195 for service name: tundra5
+2010-07-14 10:21:41.160: Information: Resolved address: 172.20.71.215:49195 for service name: tundra5
+2010-07-14 10:21:41.162: Information: Resolved address: 172.20.71.217:49196 for service name: tundra7
+2010-07-14 10:21:41.162: Information: Resolved address: 128.193.71.217:49196 for service name: tundra7
+2010-07-14 10:21:41.209: Information: Resolved address: 172.20.71.218:49193 for service name: tundra8
+2010-07-14 10:21:41.209: Information: Resolved address: 128.193.71.218:49193 for service name: tundra8
+2010-07-14 10:21:41.211: Information: Resolved address: 172.20.71.217:49190 for service name: tundra4
+2010-07-14 10:21:41.211: Information: Resolved address: 128.193.71.214:49190 for service name: tundra4
+2010-07-14 10:21:41.211: Information: Resolved address: 172.20.71.214:49190 for service name: tundra4
+2010-07-14 10:21:41.220: Information: Resolved address: 172.20.71.212:49195 for service name: tundra2
+2010-07-14 10:21:41.220: Information: Resolved address: 128.193.71.212:49195 for service name: tundra2
+2010-07-14 10:21:41.426: Information: Finished benchmarking 172.20.71.213 with UDP, Mean: 0.000116, Std. Dev.: 0.000024, Packet loss: 0.000000%
+2010-07-14 10:21:41.445: Information: Finished benchmarking 172.20.71.215 with UDP, Mean: 0.000121, Std. Dev.: 0.000105, Packet loss: 0.000000%
+2010-07-14 10:21:41.458: Information: Finished benchmarking 172.20.71.217 with UDP, Mean: 0.000130, Std. Dev.: 0.000148, Packet loss: 0.000000%
+2010-07-14 10:21:41.539: Information: Finished benchmarking 172.20.71.218 with UDP, Mean: 0.000117, Std. Dev.: 0.000114, Packet loss: 0.000000%
+2010-07-14 10:21:41.549: Information: Finished benchmarking 172.20.71.212 with UDP, Mean: 0.000117, Std. Dev.: 0.000022, Packet loss: 0.000000%
+2010-07-14 10:21:41.552: Information: Finished benchmarking 172.20.71.214 with UDP, Mean: 0.000126, Std. Dev.: 0.000144, Packet loss: 0.000000%
+2010-07-14 10:21:41.591: Information: Finished benchmarking 128.193.71.213 with UDP, Mean: 0.000256, Std. Dev.: 0.000053, Packet loss: 0.000000%
+2010-07-14 10:21:41.592: Information: Selected 172.20.71.213 for control connection
+2010-07-14 10:21:41.596: Information: Sending peering request to tundra3
+2010-07-14 10:21:41.598: Information: Finished benchmarking 128.193.71.215 with UDP, Mean: 0.000260, Std. Dev.: 0.000113, Packet loss: 0.000000%
+2010-07-14 10:21:41.598: Information: Selected 172.20.71.215 for control connection
+2010-07-14 10:21:41.603: Information: Finished benchmarking 128.193.71.217 with UDP, Mean: 0.000264, Std. Dev.: 0.000162, Packet loss: 0.000000%
+2010-07-14 10:21:41.605: Information: Sending peering request to tundra5
+2010-07-14 10:21:41.606: Information: Selected 172.20.71.217 for control connection
+2010-07-14 10:21:41.615: Information: Sending peering request to tundra7
+2010-07-14 10:21:41.648: Information: Finished benchmarking 128.193.71.218 with UDP, Mean: 0.000260, Std. Dev.: 0.000116, Packet loss: 0.000000%
+2010-07-14 10:21:41.649: Information: Selected 172.20.71.218 for control connection
+2010-07-14 10:21:41.652: Information: Sending peering request to tundra8
+2010-07-14 10:21:41.654: Information: Finished benchmarking 128.193.71.214 with UDP, Mean: 0.000259, Std. Dev.: 0.000160, Packet loss: 0.000000%
+2010-07-14 10:21:41.657: Information: Finished benchmarking 128.193.71.212 with UDP, Mean: 0.000257, Std. Dev.: 0.000053, Packet loss: 0.000000%
+2010-07-14 10:21:41.657: Information: Selected 172.20.71.212 for control connection
+2010-07-14 10:21:41.661: Information: Sending peering request to tundra2
+2010-07-14 10:21:42.798: Information: Received system configuration from tundra7.
+2010-07-14 10:21:42.854: Information: Received system configuration from tundra8.
+2010-07-14 10:21:42.882: Information: Received system configuration from tundra5.
+2010-07-14 10:21:42.911: Information: Received system configuration from tundra2.
+2010-07-14 10:21:42.936: Information: Received system configuration from tundra3.
+2010-07-14 10:21:46.288: Information: Connection to 172.20.71.217 insufficient, 100.000000% packet loss.
+2010-07-14 10:21:46.288: Information: Selected 172.20.71.214 for control connection
+2010-07-14 10:21:46.291: Information: Sending peering request to tundra4
+2010-07-14 10:21:47.050: Information: Net service will publish.
+2010-07-14 10:21:47.051: Information: Created net service for "_dist-opencl._tcp" on port 0.
+2010-07-14 10:21:47.322: Information: Received system configuration from tundra4.
+2010-07-14 10:21:47.802: Information: Net service published as forest.local.
+2010-07-14 10:21:48.053: Information: Found service: forest, more coming = FALSE
+2010-07-14 10:21:48.053: Information: NetServiceBrowser found self, ignoring.
+2010-07-14 10:22:19.491: Information: Connected to taiga.oce.orst.edu on port 52932.

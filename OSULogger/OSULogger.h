@@ -6,7 +6,7 @@
 //  Copyright 2010 Oregon State University. All rights reserved.
 //
 
-#import <asl.h>
+//#import <asl.h>
 #import <Cocoa/Cocoa.h>
 
 #define LOG_FLVS(string, severity) {[[OSULogger sharedLogger] \
@@ -29,13 +29,7 @@ enum LOG_SEVERITY {
 	LOG_NONE  = 0
 };
 
-@protocol OSULoggerDelegate <NSObject>
-@optional
-- (void)logUpdatedString:(NSString *)newString;
-- (void)logUpdatedXML:(NSXMLElement *)newElement;
-
-@end
-
+/*
 @interface OSULogger : NSObject {
 	
 	NSXMLDocument *document;
@@ -84,3 +78,4 @@ enum LOG_SEVERITY {
 - (NSString *)description;
 
 @end
+*/
