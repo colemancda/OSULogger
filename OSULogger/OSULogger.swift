@@ -8,7 +8,6 @@
 
 
 import Cocoa
-import SwiftyJSON
 
 let _sharedLogger = OSULogger()
 
@@ -60,7 +59,6 @@ public class OSULogger: NSObject {
     let dispatchQueue: dispatch_queue_t
     
     var events = [Event]()
-    var jsonRep = [JSON]()
     
     let dateFormatter = NSDateFormatter()
     var attributedString = NSMutableAttributedString()

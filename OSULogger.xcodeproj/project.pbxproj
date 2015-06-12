@@ -18,8 +18,6 @@
 		3C52A5A91B28A41D00078382 /* OSULogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52A5A71B28A41D00078382 /* OSULogger.swift */; };
 		3C52A5AA1B28A9FE00078382 /* OSULogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C210B43138B15F600FFA1BA /* OSULogger.m */; };
 		3C52A5AB1B28AA0100078382 /* OSULogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C210B43138B15F600FFA1BA /* OSULogger.m */; };
-		3C5EDE631B2A125C0089D30F /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C5EDE621B2A125C0089D30F /* SwiftyJSON.framework */; };
-		3C5EDE651B2A12640089D30F /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C5EDE641B2A12640089D30F /* SwiftyJSON.framework */; };
 		3C5EDE781B2A669D0089D30F /* exampleLog.xml in Resources */ = {isa = PBXBuildFile; fileRef = 3C5EDE771B2A669D0089D30F /* exampleLog.xml */; };
 		3C90BE521B2B6A51008EA880 /* exampleLog.string in Resources */ = {isa = PBXBuildFile; fileRef = 3C90BE511B2B6A51008EA880 /* exampleLog.string */; };
 /* End PBXBuildFile section */
@@ -51,8 +49,6 @@
 		3C52A59E1B28A3EC00078382 /* OSULogger_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSULogger_Tests.swift; sourceTree = "<group>"; };
 		3C52A5A01B28A3EC00078382 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C52A5A71B28A41D00078382 /* OSULogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OSULogger.swift; sourceTree = "<group>"; };
-		3C5EDE621B2A125C0089D30F /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../SwiftyJSON-448a32ce5b4ef524ec1c812f5a84004c1a91a587/build/Debug/SwiftyJSON.framework"; sourceTree = "<group>"; };
-		3C5EDE641B2A12640089D30F /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../SwiftyJSON-448a32ce5b4ef524ec1c812f5a84004c1a91a587/build/Debug/SwiftyJSON.framework"; sourceTree = "<group>"; };
 		3C5EDE771B2A669D0089D30F /* exampleLog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = exampleLog.xml; sourceTree = "<group>"; };
 		3C90BE511B2B6A51008EA880 /* exampleLog.string */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = exampleLog.string; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -62,7 +58,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C5EDE631B2A125C0089D30F /* SwiftyJSON.framework in Frameworks */,
 				3C210B31138B15CE00FFA1BA /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,7 +66,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C5EDE651B2A12640089D30F /* SwiftyJSON.framework in Frameworks */,
 				3C52A5A11B28A3EC00078382 /* OSULogger.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -101,8 +95,6 @@
 		3C210B2F138B15CE00FFA1BA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3C5EDE641B2A12640089D30F /* SwiftyJSON.framework */,
-				3C5EDE621B2A125C0089D30F /* SwiftyJSON.framework */,
 				3C210B30138B15CE00FFA1BA /* Cocoa.framework */,
 				3C210B32138B15CE00FFA1BA /* Other Frameworks */,
 			);
