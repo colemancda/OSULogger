@@ -71,17 +71,17 @@ class OSULogger_Tests: XCTestCase {
         sharedLogger.flush()
         
         // Make sure the correct number of events was created
-        assert(sharedLogger.events.count == sampleLog.events.count * 2 + 1,
-            "Some log events were missed (\(sharedLogger.events.count) == \(sampleLog.events.count * 2 + 1))")
+        assert(sharedLogger.events.count == sampleLog.events.count * 2,
+            "Some log events were missed (\(sharedLogger.events.count) == \(sampleLog.events.count * 2))")
         
         // Iterate through the logs and make sure that everything is in there
         for var i = 0; i < sampleLog.events.count; i++ {
             // Test messages
-            assert(sampleLog.events[i].message  == sharedLogger.events[i * 2 + 0 + 1].message, "Failed to preserve message in logger")
-            assert(sampleLog.events[i].message  == sharedLogger.events[i * 2 + 1 + 1].message, "Failed to preserve message in logger")
+            assert(sampleLog.events[i].message  == sharedLogger.events[i * 2 + 0].message, "Failed to preserve message in logger")
+            assert(sampleLog.events[i].message  == sharedLogger.events[i * 2 + 1].message, "Failed to preserve message in logger")
             // Test severities
-            assert(OSULogger.Severity.Undefined == sharedLogger.events[i * 2 + 0 + 1].severity, "Failed to set default severity in logger")
-            assert(sampleLog.events[i].severity == sharedLogger.events[i * 2 + 1 + 1].severity, "Failed to preserve severity in logger")
+            assert(OSULogger.Severity.Undefined == sharedLogger.events[i * 2 + 0].severity, "Failed to set default severity in logger")
+            assert(sampleLog.events[i].severity == sharedLogger.events[i * 2 + 1].severity, "Failed to preserve severity in logger")
         }
     }
     
@@ -104,19 +104,19 @@ class OSULogger_Tests: XCTestCase {
     }
 
     func testXMLReadAndWrite() {
-        // Create an XML representation of the sample log
-        let xmlStringOutput: String! = sampleLog.xmlStringValue()
-        assert(xmlStringOutput != nil, "Unable to get XML String output")
-        
         // Try to create a new logger class from the created XML
         var xmlTemp: NSXMLElement! = nil
         do {
+            // Create an XML representation of the sample log
+            let xmlStringOutput: String! = sampleLog.xmlStringValue()
+            assert(xmlStringOutput != nil, "Unable to get XML String output")
+
             xmlTemp = try NSXMLElement(XMLString: xmlStringOutput)
         } catch {
             assert(false, "NSXMLElement was not able to be made from XMLOutput")
         }
         
         // Try to create the logger
-        _ = OSULogger(xmlRep: xmlTemp)
+        assert(OSULogger(xmlRep: xmlTemp) == sampleLog, "Log created from intermediate XML does not match original")
     }
 }

@@ -9,6 +9,71 @@
 
 import Cocoa
 
+func == (lhs: NSDate, rhs: NSDate) -> Bool {
+    return lhs.isEqualToDate(rhs)
+}
+
+func != (lhs: NSDate, rhs: NSDate) -> Bool {
+    return !(lhs == rhs)
+}
+
+func == (lhs: OSULogger.Event, rhs: OSULogger.Event) -> Bool {
+    if lhs.severity != rhs.severity {
+        #if DEBUG
+            print("Logs don't match because severities don't match (\(lhs.severity) != \(rhs.severity))")
+        #endif
+        return false
+    }
+    
+    if lhs.date     != rhs.date     {
+        #if DEBUG
+            print("Logs don't match because dates don't match (\(lhs.date) != \(rhs.date))")
+        #endif
+        return false
+    }
+    
+    if lhs.message  != rhs.message  {
+        #if DEBUG
+            print("Logs don't match because messages don't match (\(lhs.message) != \(rhs.message))")
+        #endif
+        return false
+    }
+    
+    return true
+}
+
+func != (lhs: OSULogger.Event, rhs: OSULogger.Event) -> Bool {
+    return !(lhs == rhs)
+}
+
+func == (lhs: OSULogger, rhs: OSULogger) -> Bool {
+    // First, flush the logs
+    lhs.flush()
+    rhs.flush()
+    
+    // Next, make sure that the message counts are equal
+    if lhs.events.count != rhs.events.count {
+        #if DEBUG
+            print("Logs don't match because counts don't match (\(lhs.events.count) != \(rhs.events.count))")
+        #endif
+
+        return false
+    }
+    
+    // Finally, iterate through the list of events and ensure that they're equal
+    for var i = 0; i < lhs.events.count; i++ {
+        if lhs.events[i] != rhs.events[i] {
+            #if DEBUG
+                print("Logs don't match because event \(i) don't match")
+            #endif
+
+            return false
+        }
+    }
+    
+    return true
+}
+
 let _sharedLogger = OSULogger()
 
 public class OSULogger: NSObject {
@@ -139,7 +204,7 @@ public class OSULogger: NSObject {
         fontAttributes[NSFontAttributeName] = font
         fontAttributes[NSForegroundColorAttributeName] = NSColor.blackColor()
         
-        self.log("Starting OSULogger.", severity: .Information)
+//        self.log("Starting OSULogger.", severity: .Information)
     }
 
     @objc public class func sharedLogger() -> OSULogger { return _sharedLogger }
@@ -220,7 +285,7 @@ public class OSULogger: NSObject {
             print("\(dateFormatter.stringFromDate(date)), \(severity): \(string)")
         #endif
     }
-    
+
     deinit {
         self.flush()
     }

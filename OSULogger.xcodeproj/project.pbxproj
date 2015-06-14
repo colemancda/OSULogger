@@ -264,7 +264,6 @@
 				TargetAttributes = {
 					3C52A59B1B28A3EC00078382 = {
 						CreatedOnToolsVersion = 7.0;
-						TestTargetID = 3C52AE4D1B2B79F900CD909E;
 					};
 					3C52AE4D1B2B79F900CD909E = {
 						CreatedOnToolsVersion = 7.0;
@@ -556,7 +555,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.oregonstate.ceoas.OSULogger-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LoggerTestApp.app/Contents/MacOS/LoggerTestApp";
 			};
 			name = Debug;
 		};
@@ -592,7 +590,6 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.oregonstate.ceoas.OSULogger-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LoggerTestApp.app/Contents/MacOS/LoggerTestApp";
 			};
 			name = Release;
 		};
@@ -681,6 +678,7 @@
 				3C52AE5A1B2B79F900CD909E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
