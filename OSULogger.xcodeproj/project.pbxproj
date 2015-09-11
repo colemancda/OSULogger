@@ -17,13 +17,13 @@
 		3C52A5A81B28A41D00078382 /* OSULogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52A5A71B28A41D00078382 /* OSULogger.swift */; };
 		3C52A5A91B28A41D00078382 /* OSULogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52A5A71B28A41D00078382 /* OSULogger.swift */; };
 		3C52A5AA1B28A9FE00078382 /* OSULogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C210B43138B15F600FFA1BA /* OSULogger.m */; };
-		3C52A5AB1B28AA0100078382 /* OSULogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C210B43138B15F600FFA1BA /* OSULogger.m */; };
 		3C52AE511B2B79F900CD909E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52AE501B2B79F900CD909E /* AppDelegate.swift */; };
 		3C52AE531B2B79F900CD909E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C52AE521B2B79F900CD909E /* Assets.xcassets */; };
 		3C52AE561B2B79F900CD909E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C52AE541B2B79F900CD909E /* MainMenu.xib */; };
 		3C52AE5D1B2B7A5C00CD909E /* OSULogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C210B2D138B15CE00FFA1BA /* OSULogger.framework */; };
 		3C5EDE781B2A669D0089D30F /* exampleLog.xml in Resources */ = {isa = PBXBuildFile; fileRef = 3C5EDE771B2A669D0089D30F /* exampleLog.xml */; };
 		3C90BE521B2B6A51008EA880 /* exampleLog.string in Resources */ = {isa = PBXBuildFile; fileRef = 3C90BE511B2B6A51008EA880 /* exampleLog.string */; };
+		3CCAD2401B93947D00A09251 /* OSULogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C210B43138B15F600FFA1BA /* OSULogger.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -343,8 +343,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CCAD2401B93947D00A09251 /* OSULogger.m in Sources */,
 				3C52A5A81B28A41D00078382 /* OSULogger.swift in Sources */,
-				3C52A5AB1B28AA0100078382 /* OSULogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

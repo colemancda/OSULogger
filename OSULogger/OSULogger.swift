@@ -76,6 +76,17 @@ func == (lhs: OSULogger, rhs: OSULogger) -> Bool {
 
 let _sharedLogger = OSULogger()
 
+public func OSULoggerLog(string: String, function: String = __FUNCTION__, filePath: String = __FILE__, line: Int = __LINE__) {
+    OSULoggerLog(.Undefined, string: string, function: function, filePath: filePath, line: line)
+}
+
+public func OSULoggerLog(severity: OSULogger.Severity, string: String, function: String = __FUNCTION__, filePath: String = __FILE__, line: Int = __LINE__) {
+    let pathComponents = filePath.componentsSeparatedByString("\\/")
+    if let fileName = pathComponents.last {
+        OSULogger.sharedLogger().log(string, severity: severity, function: function, file: fileName, line: line)
+    }
+}
+
 public class OSULogger: NSObject {
     public enum Severity: Int {
         case Failure     = 4
@@ -119,6 +130,9 @@ public class OSULogger: NSObject {
         let date: NSDate
         let severity: Severity
         let message: String
+        let function: String
+        let file: String
+        let line: Int
     }
     
     let dispatchQueue: dispatch_queue_t
@@ -173,13 +187,20 @@ public class OSULogger: NSObject {
         
         if let children = xmlRep.children as? [NSXMLElement] {
             for element in children {
-                if let timeElement = element.attributeForName("timestamp"),
-                   let sevElement  = element.attributeForName("severity"),
-                   let message = element.stringValue {
-                    if let timeString = timeElement.stringValue,
-                       let sevString  =  sevElement.stringValue {
-                        if let date = dateFormatter.dateFromString(timeString) {
-                            _log(date, severity: Severity.stringValue(sevString), string: message)
+                if  let timeElement = element.attributeForName("timestamp"),
+                    let sevElement  = element.attributeForName("severity"),
+                    let lineElement = element.attributeForName("line"),
+                    let fileElement = element.attributeForName("file"),
+                    let funcElement = element.attributeForName("function"),
+                    let message = element.stringValue {
+                    if  let timeString = timeElement.stringValue,
+                        let sevString  =  sevElement.stringValue,
+                        let lineString = lineElement.stringValue,
+                        let fileString = fileElement.stringValue,
+                        let funcString = funcElement.stringValue {
+                        if  let date      = dateFormatter.dateFromString(timeString),
+                            let lineValue = Int(lineString) {
+                            _log(date, severity: Severity.stringValue(sevString), message: message, function: funcString, file: fileString, line: lineValue)
                         }
                     }
                 }
@@ -206,32 +227,13 @@ public class OSULogger: NSObject {
         
 //        self.log("Starting OSULogger.", severity: .Information)
     }
+    
+    deinit {
+        self.flush()
+    }
 
     @objc public class func sharedLogger() -> OSULogger { return _sharedLogger }
  
-    @objc public func logStringObjc(string: String, severity: Int) {
-        var sev = Severity(rawValue: severity)
-        if sev == nil { sev = Severity.Undefined }
-        self.log(string, severity: sev!)
-    }
-    
-    @objc(logString:withFile:line:version:andSeverity:)
-    public func log(string: String, file: String = __FILE__, line: Int = __LINE__,
-        version: String, severity: Int) -> Void {
-        // We only want the source name of the __FILE__ macro, so lets only keep
-        // the last component of the path
-        let pathComponents = file.componentsSeparatedByString("\\/")
-        if let fileName = pathComponents.last {
-            let sev: Severity
-            if let temp = Severity(rawValue: severity) {
-                sev = temp
-            } else {
-                sev = Severity.Undefined
-                self.log("\(fileName):\(line):\(version): \(string)", severity: sev)
-            }
-        }
-    }
-
     @objc public func flush() -> Void {
         // Wait for up to one second for the dispatch queue to process pending logs
         dispatch_sync(dispatchQueue) { () -> Void in
@@ -246,11 +248,7 @@ public class OSULogger: NSObject {
     public func xmlStringValue() -> String? {
         return self.document.XMLString
     }
-    
-    public func log(string: String, severity: Severity = Severity.Undefined) {
-        dispatch_async(dispatchQueue, { self._log(NSDate(), severity: severity, string: string) })
-    }
-    
+
     private func _updateString(event: Event) -> Void {
         var attributes = fontAttributes
         
@@ -262,16 +260,59 @@ public class OSULogger: NSObject {
         case .Failure:   attributes[NSForegroundColorAttributeName] = NSColor.redColor()
         case .Debugging: attributes[NSForegroundColorAttributeName] = NSColor.grayColor()
         }
-
+        
         attributedString.appendAttributedString(NSAttributedString(
             string: "\(dateFormatter.stringFromDate(event.date)): \(event.severity.justifiedString()): \(event.message))",
             attributes: attributes))
     }
     
+
+    @objc public func logStringObjc(string: String, severity: Int) {
+        var sev = Severity(rawValue: severity)
+        if sev == nil { sev = Severity.Undefined }
+        self.log(string, severity: sev!)
+    }
+    
+    @objc(logString:withFile:line:version:andSeverity:)
+    public func log(
+    string: String,
+    file: String = __FILE__,
+    line: Int = __LINE__,
+    version: String,
+    severity: Int) {
+            // We only want the source name of the __FILE__ macro, so lets only keep
+            // the last component of the path
+            let pathComponents = file.componentsSeparatedByString("\\/")
+            if let fileName = pathComponents.last {
+                let sev: Severity
+                if let temp = Severity(rawValue: severity) {
+                    sev = temp
+                } else {
+                    sev = Severity.Undefined
+                    self.log(string, severity: sev, function: "", file: fileName, line: line)
+                }
+            }
+    }
+    
+    public func log(
+    string: String,
+    severity: Severity = Severity.Undefined,
+    function: String = __FUNCTION__,
+    file: String = __FILE__,
+    line: Int = __LINE__) {
+        dispatch_async(dispatchQueue, { self._log(NSDate(), severity: severity, message: string, function: function, file: file, line: line) })
+    }
+    
     // This function should only execute on the main thread.
-    private func _log(date: NSDate, severity: Severity, string: String) -> Void {
+    private func _log(
+    date: NSDate,
+    severity: Severity,
+    message: String,
+    function: String,
+    file: String,
+    line: Int) {
         // Append a new event to the log array
-        let event = Event(date: date, severity: severity, message: string)
+        let event = Event(date: date, severity: severity, message: message, function: function, file: file, line: line)
         events.append(event)
 
         // If a callback exists, call it on the main thread
@@ -282,11 +323,7 @@ public class OSULogger: NSObject {
         
         // When debugging, also print output to the console
         #if DEBUG
-            print("\(dateFormatter.stringFromDate(date)), \(severity): \(string)")
+            print("\(dateFormatter.stringFromDate(date)), \(severity), \(function) (\(file):\(line)): \(message)")
         #endif
-    }
-
-    deinit {
-        self.flush()
     }
 }
