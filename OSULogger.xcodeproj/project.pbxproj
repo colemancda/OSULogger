@@ -15,8 +15,6 @@
 		3C52A59F1B28A3EC00078382 /* OSULogger_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52A59E1B28A3EC00078382 /* OSULogger_Tests.swift */; };
 		3C52A5A11B28A3EC00078382 /* OSULogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C210B2D138B15CE00FFA1BA /* OSULogger.framework */; };
 		3C52A5A81B28A41D00078382 /* OSULogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52A5A71B28A41D00078382 /* OSULogger.swift */; };
-		3C52A5A91B28A41D00078382 /* OSULogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52A5A71B28A41D00078382 /* OSULogger.swift */; };
-		3C52A5AA1B28A9FE00078382 /* OSULogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C210B43138B15F600FFA1BA /* OSULogger.m */; };
 		3C52AE511B2B79F900CD909E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52AE501B2B79F900CD909E /* AppDelegate.swift */; };
 		3C52AE531B2B79F900CD909E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C52AE521B2B79F900CD909E /* Assets.xcassets */; };
 		3C52AE561B2B79F900CD909E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C52AE541B2B79F900CD909E /* MainMenu.xib */; };
@@ -33,13 +31,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 3C210B2C138B15CE00FFA1BA;
 			remoteInfo = OSULogger;
-		};
-		3C52AE5B1B2B7A1800CD909E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3C210B23138B15CE00FFA1BA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3C52AE4D1B2B79F900CD909E;
-			remoteInfo = LoggerTestApp;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -228,7 +219,6 @@
 			);
 			dependencies = (
 				3C52A5A31B28A3EC00078382 /* PBXTargetDependency */,
-				3C52AE5C1B2B7A1800CD909E /* PBXTargetDependency */,
 			);
 			name = "OSULogger Tests";
 			productName = "OSULogger Tests";
@@ -353,8 +343,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C52A59F1B28A3EC00078382 /* OSULogger_Tests.swift in Sources */,
-				3C52A5A91B28A41D00078382 /* OSULogger.swift in Sources */,
-				3C52A5AA1B28A9FE00078382 /* OSULogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,11 +361,6 @@
 			isa = PBXTargetDependency;
 			target = 3C210B2C138B15CE00FFA1BA /* OSULogger */;
 			targetProxy = 3C52A5A21B28A3EC00078382 /* PBXContainerItemProxy */;
-		};
-		3C52AE5C1B2B7A1800CD909E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 3C52AE4D1B2B79F900CD909E /* LoggerTestApp */;
-			targetProxy = 3C52AE5B1B2B7A1800CD909E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
