@@ -6,8 +6,15 @@
 //  Copyright © 2015 Oregon State University (COAS). All rights reserved.
 //
 
-
 import Cocoa
+
+let escape = "\u{001B}["
+let none   = escape + ";"
+let blue   = escape + "fg0,0,255;"
+let red    = escape + "fg255,0,0;"
+let green  = escape + "fg0,255,0;"
+let yellow = escape + "fg200,200,0;"
+let gray   = escape + "fg128,128,128;"
 
 func == (lhs: NSDate, rhs: NSDate) -> Bool {
     return lhs.isEqualToDate(rhs)
@@ -17,7 +24,7 @@ func != (lhs: NSDate, rhs: NSDate) -> Bool {
     return !(lhs == rhs)
 }
 
-func == (lhs: OSULogger.Event, rhs: OSULogger.Event) -> Bool {
+public func == (lhs: OSULogger.Event, rhs: OSULogger.Event) -> Bool {
     if lhs.severity != rhs.severity {
         #if DEBUG
             print("Logs don't match because severities don't match (\(lhs.severity) != \(rhs.severity))")
@@ -42,11 +49,11 @@ func == (lhs: OSULogger.Event, rhs: OSULogger.Event) -> Bool {
     return true
 }
 
-func != (lhs: OSULogger.Event, rhs: OSULogger.Event) -> Bool {
+public func != (lhs: OSULogger.Event, rhs: OSULogger.Event) -> Bool {
     return !(lhs == rhs)
 }
 
-func == (lhs: OSULogger, rhs: OSULogger) -> Bool {
+public func == (lhs: OSULogger, rhs: OSULogger) -> Bool {
     // First, flush the logs
     lhs.flush()
     rhs.flush()
@@ -74,7 +81,7 @@ func == (lhs: OSULogger, rhs: OSULogger) -> Bool {
     return true
 }
 
-let _sharedLogger = OSULogger()
+internal let _sharedLogger = OSULogger()
 
 public func OSULoggerLog(string: String, function: String = __FUNCTION__, filePath: String = __FILE__, line: Int = __LINE__) {
     OSULoggerLog(.Undefined, string: string, function: function, filePath: filePath, line: line)
@@ -135,18 +142,18 @@ public class OSULogger: NSObject {
         let line: Int
     }
     
-    let dispatchQueue: dispatch_queue_t
+    private let dispatchQueue: dispatch_queue_t
     
     var events = [Event]()
     
     let dateFormatter = NSDateFormatter()
-    var attributedString = NSMutableAttributedString()
+    public var attributedString = NSMutableAttributedString()
     var fontAttributes = [String: AnyObject]()
     var font: NSFont
     
-    var callback: ((Event) -> Void)? = nil
+    public var callback: ((Event) -> Void)? = nil
     
-    var document: NSXMLDocument {
+    public var document: NSXMLDocument {
         get {
             let root = NSXMLElement(name: "log")
             root.addAttribute(NSXMLNode.attributeWithName("timestamp", stringValue: NSDate.description()) as! NSXMLNode)
@@ -166,7 +173,7 @@ public class OSULogger: NSObject {
         }
     }
     
-    class func stringFrom(xmlRep: NSXMLElement) -> String {
+    public class func stringFrom(xmlRep: NSXMLElement) -> String {
         var string = ""
         
         if let children = xmlRep.children as? [NSXMLElement] {
@@ -182,7 +189,7 @@ public class OSULogger: NSObject {
         return string
     }
     
-    convenience init(xmlRep: NSXMLElement) {
+    public convenience init(xmlRep: NSXMLElement) {
         self.init()
         
         if let children = xmlRep.children as? [NSXMLElement] {
@@ -208,7 +215,7 @@ public class OSULogger: NSObject {
         }
     }
     
-    override init() {
+    public override init() {
         if #available(iOS 9.0, OSX 10.11, *) {
             font = NSFont.monospacedDigitSystemFontOfSize(CGFloat(8.0), weight: NSFontWeightRegular)
         } else {
@@ -323,7 +330,15 @@ public class OSULogger: NSObject {
         
         // When debugging, also print output to the console
         #if DEBUG
-            print("\(dateFormatter.stringFromDate(date)), \(severity), \(function) (\(file):\(line)): \(message)")
+            let color: String
+            switch severity {
+            case .Failure: color = red
+            case .Warning: color = yellow
+            case .Information: color = green
+            case .Debugging: color = gray
+            case .Undefined: color = blue
+            }
+            print("\(dateFormatter.stringFromDate(date)), \(color)\(severity)\(none): \(message)")
         #endif
     }
 }
