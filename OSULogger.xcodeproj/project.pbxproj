@@ -12,6 +12,9 @@
 		3C210B45138B15F600FFA1BA /* OSULogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C210B42138B15F600FFA1BA /* OSULogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3C210B47138B15F600FFA1BA /* versions.pl in Resources */ = {isa = PBXBuildFile; fileRef = 3C210B44138B15F600FFA1BA /* versions.pl */; };
 		3C210B51138B189100FFA1BA /* version.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C210B50138B189100FFA1BA /* version.h */; };
+		3C32E0091C0CDFF500FE72BB /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C32E0081C0CDFF500FE72BB /* SwiftyJSON.framework */; };
+		3C32E00B1C0CF5B000FE72BB /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C32E00A1C0CF5B000FE72BB /* SwiftyJSON.framework */; };
+		3C32E00D1C0CF68C00FE72BB /* exampleLog.json in Resources */ = {isa = PBXBuildFile; fileRef = 3C32E00C1C0CF68C00FE72BB /* exampleLog.json */; };
 		3C52A59F1B28A3EC00078382 /* OSULogger_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52A59E1B28A3EC00078382 /* OSULogger_Tests.swift */; };
 		3C52A5A11B28A3EC00078382 /* OSULogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C210B2D138B15CE00FFA1BA /* OSULogger.framework */; };
 		3C52A5A81B28A41D00078382 /* OSULogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C52A5A71B28A41D00078382 /* OSULogger.swift */; };
@@ -47,6 +50,9 @@
 		3C210B43138B15F600FFA1BA /* OSULogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSULogger.m; sourceTree = "<group>"; };
 		3C210B44138B15F600FFA1BA /* versions.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = versions.pl; sourceTree = "<group>"; };
 		3C210B50138B189100FFA1BA /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = SOURCE_ROOT; };
+		3C32E0081C0CDFF500FE72BB /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = ../../SensorStream/SwiftyJSON/build/Debug/SwiftyJSON.framework; sourceTree = "<group>"; };
+		3C32E00A1C0CF5B000FE72BB /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = ../../SensorStream/SwiftyJSON/build/Debug/SwiftyJSON.framework; sourceTree = "<group>"; };
+		3C32E00C1C0CF68C00FE72BB /* exampleLog.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = exampleLog.json; sourceTree = "<group>"; };
 		3C52A59C1B28A3EC00078382 /* OSULogger Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OSULogger Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C52A59E1B28A3EC00078382 /* OSULogger_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSULogger_Tests.swift; sourceTree = "<group>"; };
 		3C52A5A01B28A3EC00078382 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -66,6 +72,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C210B31138B15CE00FFA1BA /* Cocoa.framework in Frameworks */,
+				3C32E0091C0CDFF500FE72BB /* SwiftyJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +81,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C52A5A11B28A3EC00078382 /* OSULogger.framework in Frameworks */,
+				3C32E00B1C0CF5B000FE72BB /* SwiftyJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +120,8 @@
 		3C210B2F138B15CE00FFA1BA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3C32E00A1C0CF5B000FE72BB /* SwiftyJSON.framework */,
+				3C32E0081C0CDFF500FE72BB /* SwiftyJSON.framework */,
 				3C210B30138B15CE00FFA1BA /* Cocoa.framework */,
 				3C210B32138B15CE00FFA1BA /* Other Frameworks */,
 			);
@@ -154,6 +164,7 @@
 		3C52A59D1B28A3EC00078382 /* OSULogger Tests */ = {
 			isa = PBXGroup;
 			children = (
+				3C32E00C1C0CF68C00FE72BB /* exampleLog.json */,
 				3C5EDE771B2A669D0089D30F /* exampleLog.xml */,
 				3C90BE511B2B6A51008EA880 /* exampleLog.string */,
 				3C52A59E1B28A3EC00078382 /* OSULogger_Tests.swift */,
@@ -296,6 +307,7 @@
 			files = (
 				3C90BE521B2B6A51008EA880 /* exampleLog.string in Resources */,
 				3C5EDE781B2A669D0089D30F /* exampleLog.xml in Resources */,
+				3C32E00D1C0CF68C00FE72BB /* exampleLog.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,6 +505,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_TESTABILITY = NO;
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OSULogger/OSULogger-Prefix.pch";
@@ -563,6 +576,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = NO;
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;

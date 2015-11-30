@@ -6,52 +6,51 @@
 //  Copyright © 2015 Oregon State University (COAS). All rights reserved.
 //
 
-import XCTest
 @testable import OSULogger
+import XCTest
+import SwiftyJSON
 
 class OSULogger_Tests: XCTestCase {
     
-    var xmlPath:     String! = nil
-    var stringPath:  String! = nil
-    var xmlContents: String! = nil
-    var strContents: String! = nil
-    var xmlInput:    NSXMLElement! = nil
-    var sampleLog:   OSULogger! = nil
+    var xmlPath:            String! = nil
+    var stringPath:         String! = nil
+    var xmlContents:        String! = nil
+    var strContents:        String! = nil
+    var xmlInput:     NSXMLElement! = nil
+    var sampleLog:       OSULogger! = nil
+    var jsonPath:           String! = nil
+    var jsonContents:       NSData! = nil
+    var jsonInput:            JSON! = nil
     
     override func setUp() {
         super.setUp()
 
         if let resourceURL = NSBundle(forClass: OSULogger_Tests.self).resourceURL {
-            xmlPath = NSURL(string: "exampleLog.xml", relativeToURL: resourceURL)?.path
-        }
-        
-        assert(xmlPath != nil, "Unable to find exampleXMLLogFile.")
-
-        do {
-            xmlContents = try String(contentsOfFile: xmlPath!)
-        } catch {
-            assert(false, "Unable to load example XML file")
-        }
-        
-        do {
-            xmlInput = try NSXMLElement(XMLString: xmlContents)
-        } catch {
-            assert(false, "Unable to create XML from example file")
-        }
-
-        if let resourceURL = NSBundle(forClass: OSULogger_Tests.self).resourceURL {
+            xmlPath    = NSURL(string: "exampleLog.xml",    relativeToURL: resourceURL)?.path
+            jsonPath   = NSURL(string: "exampleLog.json",   relativeToURL: resourceURL)?.path
             stringPath = NSURL(string: "exampleLog.string", relativeToURL: resourceURL)?.path
         }
         
+        assert(xmlPath    != nil, "Unable to find exampleXMLLogFile.")
+        assert(jsonPath   != nil, "Unable to find exampleJSONLogFile.")
         assert(stringPath != nil, "Unable to find exampleStringLogFile.")
 
         do {
-            strContents = try String(contentsOfFile: stringPath!)
+            xmlContents  = try String(contentsOfFile:  xmlPath)
+            xmlInput     = try NSXMLElement(XMLString: xmlContents)
+            strContents  = try String(contentsOfFile:  stringPath)
+            jsonContents = NSData(contentsOfFile:  jsonPath)
+            jsonInput    = JSON(data: jsonContents)
         } catch {
-            assert(false, "Unable to load example string log file")
+            assert(false, "Unable to load example file for test")
         }
-
+        
         sampleLog = OSULogger(xmlRep: xmlInput)
+    }
+    
+    func testLoggerEquivalence() {
+        assert(sampleLog == sampleLog, "Logger doesn't equal itself.")
+        assert(sampleLog != OSULogger.sharedLogger(), "Logger not equal doesn't work")
     }
     
     override func tearDown() {
@@ -61,6 +60,7 @@ class OSULogger_Tests: XCTestCase {
     
     func testSharedLogger() {
         let sharedLogger = OSULogger.sharedLogger()
+        
         
         // Iterate through the sample logs and add some stuff to the shared logger
         for event in sampleLog.events {
@@ -87,14 +87,26 @@ class OSULogger_Tests: XCTestCase {
     }
     
     func testPerformanceXMLLoad() {
-        self.measureBlock() {
+        self.measureBlock {
             _ = OSULogger(xmlRep: self.xmlInput)
+        }
+    }
+    
+    func testPerformanceJSONLoad() {
+        self.measureBlock {
+            _ = OSULogger(jsonRep: self.jsonInput)
         }
     }
 
     func testPerformanceXMLWrite() {
-        self.measureBlock() {
+        self.measureBlock {
             _ = self.sampleLog.document
+        }
+    }
+
+    func testPerformanceJSONWrite() {
+        self.measureBlock {
+            _ = self.sampleLog.jsonRep
         }
     }
     
@@ -103,7 +115,7 @@ class OSULogger_Tests: XCTestCase {
 
         assert(stringOutput == strContents, "String output mismatch")
     }
-
+    
     func testXMLReadAndWrite() {
         // Try to create a new logger class from the created XML
         var xmlTemp: NSXMLElement! = nil
@@ -120,4 +132,5 @@ class OSULogger_Tests: XCTestCase {
         // Try to create the logger
         assert(OSULogger(xmlRep: xmlTemp) == sampleLog, "Log created from intermediate XML does not match original")
     }
+    
 }
