@@ -100,7 +100,8 @@ public func OSULoggerLog(severity: OSULogger.Severity, string: String, function:
 
 public class OSULogger: NSObject {
     public enum Severity: Int {
-        case Failure     = 4
+        case Fatal       = 5
+        case Error       = 4
         case Warning     = 3
         case Information = 2
         case Debugging   = 1
@@ -108,7 +109,8 @@ public class OSULogger: NSObject {
 
         func justifiedString() -> String {
             switch self {
-            case .Failure:     return "Failure    "
+            case .Fatal:       return "Fatal      "
+            case .Error:       return "Error      "
             case .Warning:     return "Warning    "
             case .Information: return "Information"
             case .Debugging:   return "Debugging  "
@@ -118,7 +120,8 @@ public class OSULogger: NSObject {
 
         func string() -> String {
             switch self {
-            case .Failure:     return "Failure"
+            case .Fatal:       return "Fatal"
+            case .Error:       return "Error"
             case .Warning:     return "Warning"
             case .Information: return "Information"
             case .Debugging:   return "Debugging"
@@ -131,8 +134,10 @@ public class OSULogger: NSObject {
             switch string! {
             case Severity.Debugging.string(), Severity.Debugging.justifiedString():
                 return .Debugging
-            case Severity.Failure.string(), Severity.Failure.justifiedString():
-                return .Failure
+            case Severity.Fatal.string(), Severity.Fatal.justifiedString():
+                return .Fatal
+            case Severity.Error.string(), Severity.Error.justifiedString():
+                return .Error
             case Severity.Warning.string(), Severity.Warning.justifiedString():
                 return .Warning
             case Severity.Information.string(), Severity.Information.justifiedString():
@@ -333,7 +338,8 @@ public class OSULogger: NSObject {
         case .Undefined: break
         case .Information: break
         case .Warning:   attributes[NSForegroundColorAttributeName] = NSColor.orangeColor()
-        case .Failure:   attributes[NSForegroundColorAttributeName] = NSColor.redColor()
+        case .Error:     attributes[NSForegroundColorAttributeName] = NSColor.redColor()
+        case .Fatal:     attributes[NSForegroundColorAttributeName] = NSColor.redColor()
         case .Debugging: attributes[NSForegroundColorAttributeName] = NSColor.grayColor()
         }
 
@@ -383,7 +389,7 @@ public class OSULogger: NSObject {
     file: String = #file,
     line: Int = #line) {
 #if DEBUG
-        if severity == .Failure {
+        if severity == .Fatal {
             noop()
     }
 #endif
@@ -412,7 +418,8 @@ public class OSULogger: NSObject {
         #if DEBUG
             let color: String
             switch severity {
-            case .Failure: color = red
+            case .Fatal: color = red
+            case .Error: color = red
             case .Warning: color = yellow
             case .Information: color = green
             case .Debugging: color = white

@@ -22,7 +22,8 @@ void OSULogs(NSInteger, NSString *format, ... ) NS_FORMAT_FUNCTION(2, 3);
 typedef void (^LogBlock)(void);
 
 enum LOG_SEVERITY {
-	LOG_FAIL  = 4,
+	LOG_FATAL = 5,
+	LOG_ERROR = 4,
 	LOG_WARN  = 3,
 	LOG_INFO  = 2,
 	LOG_DEBUG = 1,

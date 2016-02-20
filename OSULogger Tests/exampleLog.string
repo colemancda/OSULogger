@@ -1,13 +1,13 @@
-2010-07-14 10:21:40.891: Warning: Starting Distributed OpenCL Agent
+2010-07-14 10:21:40.891: Warning: Starting Distributed Agent
 2010-07-14 10:21:41.044: Information: Created UDP benchmark endpoint at 65488
-2010-07-14 10:21:41.044: Failure: Started browser.
+2010-07-14 10:21:41.044: Error: Started browser.
 2010-07-14 10:21:41.045: Information: Starting service in 16.100000 seconds, unless peers are found.
 2010-07-14 10:21:41.045: Debugging: Found service: tundra3, more coming = TRUE
 2010-07-14 10:21:41.047: Undefined: Found service: tundra4, more coming = TRUE
 2010-07-14 10:21:41.048: Information: Found service: tundra2, more coming = TRUE
 2010-07-14 10:21:41.048: Information: Found service: tundra8, more coming = TRUE
 2010-07-14 10:21:41.049: Information: Found service: tundra5, more coming = TRUE
-2010-07-14 10:21:41.049: Applesauce: Found service: tundra7, more coming = FALSE
+2010-07-14 10:21:41.049: Information: Found service: tundra7, more coming = FALSE
 2010-07-14 10:21:41.049: Information: Delaying service start 6 seconds
 2010-07-14 10:21:41.158: Information: Resolved address: 172.20.71.213:49191 for service name: tundra3
 2010-07-14 10:21:41.159: Information: Created TCP benchmark endpoint at 50157
@@ -55,7 +55,7 @@
 2010-07-14 10:21:46.288: Information: Selected 172.20.71.214 for control connection
 2010-07-14 10:21:46.291: Information: Sending peering request to tundra4
 2010-07-14 10:21:47.050: Information: Net service will publish.
-2010-07-14 10:21:47.051: Information: Created net service for "_dist-opencl._tcp" on port 0.
+2010-07-14 10:21:47.051: Information: Created net service for "_dist-agent._tcp" on port 0.
 2010-07-14 10:21:47.322: Information: Received system configuration from tundra4.
 2010-07-14 10:21:47.802: Information: Net service published as forest.local.
 2010-07-14 10:21:48.053: Information: Found service: forest, more coming = FALSE
