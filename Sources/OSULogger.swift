@@ -123,7 +123,7 @@ public class OSULogger: NSObject {
             }
         }
 
-        static func stringValue(string: String?) -> Severity {
+        static func fromString(string: String?) -> Severity {
             if string == nil { return .Undefined }
             switch string! {
             case Severity.Debugging.string(), Severity.Debugging.justifiedString():
@@ -157,12 +157,12 @@ public class OSULogger: NSObject {
     var fontAttributes = [String: AnyObject]()
     var font: NSFont
     
-    // This is a place to keep a date for when a remote
+    // This is a place to keep track of how stale a remote log is
     public var updateDate: NSDate? = nil
     
     public var callback: ((Event) -> Void)? = nil
     
-    public var document: NSXMLDocument {
+    public var xmlDocument: NSXMLDocument {
         get {
             let root = NSXMLElement(name: "log")
             root.addAttribute(NSXMLNode.attributeWithName("timestamp", stringValue: NSDate.description()) as! NSXMLNode)
@@ -187,7 +187,7 @@ public class OSULogger: NSObject {
     // xmlStringValue in swift.
     @objc(stringValue)
     public func xmlStringValue() -> String? {
-        return self.document.XMLString
+        return self.xmlDocument.XMLString
     }
     
     public class func stringFrom(xmlRep: NSXMLElement) -> String {
@@ -213,7 +213,7 @@ public class OSULogger: NSObject {
             for element in children {
                 let date = dateFormatter.dateFromString(
                     element.attributeForName("timestamp")?.stringValue ?? "")
-                let severity  = Severity.stringValue(
+                let severity  = Severity.fromString(
                     element.attributeForName("severity")?.stringValue ?? "")
                 let line = Int64(element.attributeForName("line")?.stringValue ?? "")
                 let file = element.attributeForName("file")?.stringValue
@@ -269,7 +269,7 @@ public class OSULogger: NSObject {
         
         if let jsonEvents = jsonRep["events"]?.array {
             for jsonEvent in jsonEvents where jsonEvent != nil {
-                let severity = Severity.stringValue(jsonEvent["severity"]?.string)
+                let severity = Severity.fromString(jsonEvent["severity"]?.string)
                 let line     = jsonEvent["line"]?.int64
                 let file     = jsonEvent["file"]?.string
                 let function = jsonEvent["function"]?.string
