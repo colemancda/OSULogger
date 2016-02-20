@@ -31,15 +31,15 @@ enum LOG_SEVERITY {
 
 /*
 @interface OSULogger : NSObject {
-	
+
 	NSXMLDocument *document;
 	NSXMLElement *root;
-	
+
 	NSDateFormatter *dateFormatter;
-	
+
 	dispatch_group_t loggerGroup;
 	dispatch_queue_t loggerQueue;
-	
+
 	id <OSULoggerDelegate> delegate;
 
 @private

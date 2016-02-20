@@ -7,7 +7,6 @@
 //  Read LICENSE in the top level directory for further licensing information.
 //
 
-#import "version.h"
 #import "OSULogger.h"
 #import "OSULogger/OSULogger-Swift.h"
 #import <stdarg.h>
@@ -21,9 +20,9 @@ void OSULog(NSString *format, ... )
 	va_start(arguments, format);
 	NSString *tempString = [[NSString alloc] initWithFormat:format arguments:arguments];
 	va_end(arguments);
-	
+
 	// Enqueue the actual logging until later, but keep the timestamp
-	
+
     [[OSULogger sharedLogger] logStringObjc:tempString severity:LOG_NONE];
 }
 
@@ -34,6 +33,6 @@ void OSULogs(NSInteger severity, NSString *format, ... )
 	NSString *tempString = [[NSString alloc] initWithFormat:format
 												  arguments:arguments];
 	va_end(arguments);
-	
+
     [[OSULogger sharedLogger] logStringObjc:tempString severity:severity];
 }
