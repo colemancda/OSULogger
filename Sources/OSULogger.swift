@@ -87,11 +87,11 @@ public func == (lhs: OSULogger, rhs: OSULogger) -> Bool {
 
 internal let _sharedLogger = OSULogger()
 
-public func OSULoggerLog(string: String, function: String = __FUNCTION__, filePath: String = __FILE__, line: Int = __LINE__) {
+public func OSULoggerLog(string: String, function: String = #function, filePath: String = #file, line: Int = #line) {
     OSULoggerLog(.Undefined, string: string, function: function, filePath: filePath, line: line)
 }
 
-public func OSULoggerLog(severity: OSULogger.Severity, string: String, function: String = __FUNCTION__, filePath: String = __FILE__, line: Int = __LINE__) {
+public func OSULoggerLog(severity: OSULogger.Severity, string: String, function: String = #function, filePath: String = #file, line: Int = #line) {
     let pathComponents = filePath.componentsSeparatedByString("\\/")
     if let fileName = pathComponents.last {
         OSULogger.sharedLogger().log(string, severity: severity, function: function, file: fileName, line: line)
@@ -358,11 +358,11 @@ public class OSULogger: NSObject {
     @objc(logString:withFile:line:version:andSeverity:)
     public func log(
     string: String,
-    file: String = __FILE__,
-    line: Int = __LINE__,
+    file: String = #file,
+    line: Int = #line,
     version: String,
     severity: Int) {
-            // We only want the source name of the __FILE__ macro, so lets only keep
+            // We only want the source name of the #file macro, so lets only keep
             // the last component of the path
             let pathComponents = file.componentsSeparatedByString("\\/")
             if let fileName = pathComponents.last {
@@ -379,9 +379,9 @@ public class OSULogger: NSObject {
     public func log(
     string: String,
     severity: Severity = Severity.Undefined,
-    function: String = __FUNCTION__,
-    file: String = __FILE__,
-    line: Int = __LINE__) {
+    function: String = #function,
+    file: String = #file,
+    line: Int = #line) {
 #if DEBUG
         if severity == .Failure {
             noop()
