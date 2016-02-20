@@ -10,13 +10,15 @@
 import Cocoa
 import PMJSON
 
-let escape = "\u{001B}["
-let none   = escape + ";"
-let blue   = escape + "fg0,0,255;"
-let red    = escape + "fg255,0,0;"
-let green  = escape + "fg0,255,0;"
-let yellow = escape + "fg200,200,0;"
-let gray   = escape + "fg128,128,128;"
+let escape  = "\u{001B}["
+let normal  = escape + "m"
+let red     = escape + "31m"
+let green   = escape + "32m"
+let yellow  = escape + "33m"
+let blue    = escape + "34m"
+let magenta = escape + "35m"
+let cyan    = escape + "36m"
+let white   = escape + "37m"
 
 func == (lhs: NSDate, rhs: NSDate) -> Bool {
     return lhs.isEqualToDate(rhs)
@@ -413,10 +415,10 @@ public class OSULogger: NSObject {
             case .Failure: color = red
             case .Warning: color = yellow
             case .Information: color = green
-            case .Debugging: color = gray
+            case .Debugging: color = white
             case .Undefined: color = blue
             }
-            print("\(dateFormatter.stringFromDate(date)), \(color)\(severity)\(none): \(message)")
+            print("\(dateFormatter.stringFromDate(date)), \(color)\(severity)\(normal): \(message)")
         #endif
     }
 }
