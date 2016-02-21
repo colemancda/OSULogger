@@ -9,9 +9,15 @@
 
 import PackageDescription
 
-var package = Package(name: "OSULogger")
+let package = Package(
+    name: "OSULogger",
+    dependencies: [
+        //.Package(url: "https://github.com/hpux735/PMJSON.git", majorVersion: 0, minor: 9)
+    ]
+)
 
-// MARK: Custom configuration
+// Build dynamic library
 
-// Only include the JSON library if the user desires JSON serialization
-package.dependencies = [Package.Dependency.Package(url: "https://github.com/hpux735/PMJSON.git", majorVersion: 0, minor: 9)]
+let dylib = Product(name: "OSULogger", type: .Library(.Dynamic), modules: "OSULogger")
+
+products.append(dylib)
