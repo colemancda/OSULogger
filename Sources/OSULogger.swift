@@ -117,7 +117,7 @@ public class OSULogger: NSObject {
     // This is a place to keep track of how stale a remote log is
     public var updateDate: NSDate? = nil
 
-    public var callback: ((Event) -> Void)? = nil
+    public var callback: ((Event) -> ())? = nil
 
     public init(queueLabel: String = "edu.orst.ceoas.osulogger") {
 #if OSULOGGER_ASYNC_SUPPORT
@@ -160,16 +160,16 @@ public class OSULogger: NSObject {
     public class func sharedLogger() -> OSULogger { return _sharedLogger }
 #endif
 
-    @objc public func flush() -> Void {
+    @objc public func flush() {
 #if OSULOGGER_ASYNC_SUPPORT
         // Wait for up to one second for the dispatch queue to process pending logs
-        dispatch_sync(dispatchQueue) { () -> Void in
+        dispatch_sync(dispatchQueue) { () -> () in
             return
         }
 #endif
     }
 
-    private func _updateString(event: Event) -> Void {
+    private func _updateString(event: Event) {
 #if os(OSX) || os(iOS)
         var attributes = fontAttributes
 
@@ -232,9 +232,9 @@ public class OSULogger: NSObject {
     file: String = #file,
     line: Int = #line) {
 #if DEBUG
-        if severity == .Fatal {
+        if severity == .Error || severity == .Fatal {
             noop()
-    }
+        }
 #endif
 #if OSULOGGER_ASYNC_SUPPORT
         dispatch_async(dispatchQueue, { self._log(NSDate(), severity: severity, message: string, function: function, file: file, line: line) })
@@ -500,5 +500,8 @@ public extension OSULogger {
 #endif
 
 #if OSULOGGER_SIMPLE_TEST
+OSULogger.sharedLogger().callback = { (event: OSULogger.Event) -> () in
+    print(event)
+}
 OSULogger.sharedLogger().log("Hello")
 #endif
