@@ -20,12 +20,25 @@ let magenta = escape + "35m"
 let cyan    = escape + "36m"
 let white   = escape + "37m"
 
-func == (lhs: NSDate, rhs: NSDate) -> Bool {
-    return lhs.isEqualToDate(rhs)
-}
+extension String {
+    func stringByPadding(width: Int, pad: String) -> String {
+#if os(OSX) || os(iOS)
+        return stringByPaddingToLength(width, withString: pad, startingAtIndex: 0)
+#else
+        let length = self.characters.count
 
-func != (lhs: NSDate, rhs: NSDate) -> Bool {
-    return !(lhs == rhs)
+        guard length <= width else {
+            return self
+        }
+
+        var result = self
+        for _ in 1...(width - length) {
+            result += pad
+        }
+
+        return result
+#endif
+    }
 }
 
 public func == (lhs: OSULogger.Event, rhs: OSULogger.Event) -> Bool {
@@ -107,17 +120,6 @@ public class OSULogger: NSObject {
         case Debugging   = 1
         case Undefined   = 0
 
-        func justifiedString() -> String {
-            switch self {
-            case .Fatal:       return "Fatal      "
-            case .Error:       return "Error      "
-            case .Warning:     return "Warning    "
-            case .Information: return "Information"
-            case .Debugging:   return "Debugging  "
-            case .Undefined:   return "Undefined  "
-            }
-        }
-
         func string() -> String {
             switch self {
             case .Fatal:       return "Fatal"
@@ -130,19 +132,22 @@ public class OSULogger: NSObject {
         }
 
         static func fromString(string: String?) -> Severity {
-            if string == nil { return .Undefined }
-            switch string! {
-            case Severity.Debugging.string(), Severity.Debugging.justifiedString():
+            guard let string = string else {
+                return .Undefined
+            }
+            switch string {
+            case Severity.Debugging.string():
                 return .Debugging
-            case Severity.Fatal.string(), Severity.Fatal.justifiedString():
+            case Severity.Fatal.string():
                 return .Fatal
-            case Severity.Error.string(), Severity.Error.justifiedString():
+            case Severity.Error.string():
                 return .Error
-            case Severity.Warning.string(), Severity.Warning.justifiedString():
+            case Severity.Warning.string():
                 return .Warning
-            case Severity.Information.string(), Severity.Information.justifiedString():
+            case Severity.Information.string():
                 return .Information
-            default: return .Undefined
+            default:
+                return .Undefined
             }
         }
     }
@@ -349,7 +354,7 @@ public class OSULogger: NSObject {
         }
 
         attributedString.appendAttributedString(NSAttributedString(
-            string: "\(event.severity.justifiedString()): \(event.message))",
+            string: "\(event.severity.string().stringByPadding(13, pad: " ")): \(event.message))",
             attributes: attributes))
     }
 
