@@ -175,135 +175,6 @@ public class OSULogger: NSObject {
 
     public var callback: ((Event) -> Void)? = nil
 
-    public var xmlDocument: NSXMLDocument {
-        get {
-            let root = NSXMLElement(name: "log")
-            root.addAttribute(NSXMLNode.attributeWithName("timestamp", stringValue: NSDate.description()) as! NSXMLNode)
-
-            // By coping events locally, we can be sure that the array is stable
-            for event in events {
-                let xmlEvent = NSXMLElement(name: "event", stringValue: event.message)
-                xmlEvent.addAttribute(NSXMLNode.attributeWithName("severity",  stringValue: event.severity.description) as! NSXMLNode)
-                xmlEvent.addAttribute(NSXMLNode.attributeWithName("timestamp", stringValue: dateFormatter.stringFromDate(event.date!)) as! NSXMLNode)
-                root.addChild(xmlEvent)
-            }
-
-            let document = NSXMLDocument(rootElement: root)
-            document.characterEncoding = "UTF-8"
-
-            return document
-        }
-    }
-
-    // In the objc. api stringValue was used to get the XML string.
-    // In Swift, we're moving away from that.  Alias stringValue in Objc to
-    // xmlStringValue in swift.
-    @objc(stringValue)
-    public func xmlStringValue() -> String? {
-        return self.xmlDocument.XMLString
-    }
-
-    public class func stringFrom(xmlRep: NSXMLElement) -> String {
-        var string = ""
-
-        if let children = xmlRep.children as? [NSXMLElement] {
-            for element in children {
-                if  let timestamp = element.attributeForName("timestamp")?.stringValue,
-                    let severity  = element.attributeForName("severity")?.stringValue,
-                    let message   = element.stringValue {
-                        string = string + "\(timestamp): \(severity): \(message)\n"
-                }
-            }
-        }
-
-        return string
-    }
-
-    public convenience init(xmlRep: NSXMLElement) {
-        self.init()
-
-        if let children = xmlRep.children as? [NSXMLElement] {
-            for element in children {
-                let date = dateFormatter.dateFromString(
-                    element.attributeForName("timestamp")?.stringValue ?? "")
-                let severity  = Severity.fromString(
-                    element.attributeForName("severity")?.stringValue ?? "")
-                let line = Int64(element.attributeForName("line")?.stringValue ?? "")
-                let file = element.attributeForName("file")?.stringValue
-                let function = element.attributeForName("function")?.stringValue
-                if let message = element.stringValue {
-                    events.append(Event(date: date, severity: severity, message: message, function: function, file: file, line: line))
-                }
-            }
-        }
-    }
-
-    public var jsonRep: JSON {
-        get {
-            var logsDict: [String: JSON] = ["timestamp": JSON.String(dateFormatter.stringFromDate(NSDate()))]
-
-            var jsonEvents = ContiguousArray<JSON>()
-            for event in events {
-                var eventDict: [String: JSON] = [
-                    "severity":  JSON.String(event.severity.description),
-                    "message":   JSON.String(event.message)
-                ]
-
-                if let timestamp = event.date {
-                    eventDict["timestamp"] = JSON.String(dateFormatter.stringFromDate(timestamp))
-                }
-
-                if let function = event.function {
-                    eventDict["function"] = JSON.String(function)
-                }
-
-                if let file = event.file {
-                    eventDict["file"] = JSON.String(file)
-                }
-
-                if let line = event.line {
-                    eventDict["line"] = JSON.Int64(Int64(line))
-                }
-
-                jsonEvents.append(JSON.Object(JSONObject(eventDict)))
-            }
-
-            logsDict["events"] = JSON.Array(jsonEvents)
-            return JSON.Object(JSONObject(logsDict))
-        }
-    }
-
-    public convenience init(jsonRep: JSON) {
-        self.init()
-
-        if let timestampString = jsonRep["timestamp"]?.string {
-            updateDate = dateFormatter.dateFromString(timestampString)
-        }
-
-        if let jsonEvents = jsonRep["events"]?.array {
-            for jsonEvent in jsonEvents where jsonEvent != nil {
-                let severity = Severity.fromString(jsonEvent["severity"]?.string)
-                let line     = jsonEvent["line"]?.int64
-                let file     = jsonEvent["file"]?.string
-                let function = jsonEvent["function"]?.string
-                let message  = jsonEvent["message"]?.string
-                // Log messages without a time or a message aren't usable.
-                if let timestamp = jsonEvent["timestamp"]?.string,
-                   let mess = message {
-                    let time     = dateFormatter.dateFromString(timestamp) ?? nil
-                    events.append(Event(
-                        date: time,
-                        severity: severity,
-                        message: mess,
-                        function: function,
-                        file: file,
-                        line: line
-                        ))
-                }
-            }
-        }
-    }
-
     public init(queueLabel: String = "edu.orst.ceoas.osulogger") {
         if #available(iOS 9.0, OSX 10.11, *) {
             font = NSFont.monospacedDigitSystemFontOfSize(CGFloat(8.0), weight: NSFontWeightRegular)
@@ -433,4 +304,147 @@ public class OSULogger: NSObject {
             print("\(dateFormatter.stringFromDate(date)), \(color)\(severity)\(normal): \(message)")
         #endif
     }
+}
+
+//
+// XML Support Extension
+//
+public extension OSULogger {
+
+    public var xmlDocument: NSXMLDocument {
+        get {
+            let root = NSXMLElement(name: "log")
+            root.addAttribute(NSXMLNode.attributeWithName("timestamp", stringValue: NSDate.description()) as! NSXMLNode)
+
+            // By coping events locally, we can be sure that the array is stable
+            for event in events {
+                let xmlEvent = NSXMLElement(name: "event", stringValue: event.message)
+                xmlEvent.addAttribute(NSXMLNode.attributeWithName("severity",  stringValue: event.severity.description) as! NSXMLNode)
+                xmlEvent.addAttribute(NSXMLNode.attributeWithName("timestamp", stringValue: dateFormatter.stringFromDate(event.date!)) as! NSXMLNode)
+                root.addChild(xmlEvent)
+            }
+
+            let document = NSXMLDocument(rootElement: root)
+            document.characterEncoding = "UTF-8"
+
+            return document
+        }
+    }
+
+    // In the objc. api stringValue was used to get the XML string.
+    // In Swift, we're moving away from that.  Alias stringValue in Objc to
+    // xmlStringValue in swift.
+    @objc(stringValue)
+    public func xmlStringValue() -> String? {
+        return self.xmlDocument.XMLString
+    }
+
+    public class func stringFrom(xmlRep: NSXMLElement) -> String {
+        var string = ""
+
+        if let children = xmlRep.children as? [NSXMLElement] {
+            for element in children {
+                if  let timestamp = element.attributeForName("timestamp")?.stringValue,
+                    let severity  = element.attributeForName("severity")?.stringValue,
+                    let message   = element.stringValue {
+                        string = string + "\(timestamp): \(severity): \(message)\n"
+                }
+            }
+        }
+
+        return string
+    }
+
+    public convenience init(xmlRep: NSXMLElement) {
+        self.init()
+
+        if let children = xmlRep.children as? [NSXMLElement] {
+            for element in children {
+                let date = dateFormatter.dateFromString(
+                    element.attributeForName("timestamp")?.stringValue ?? "")
+                let severity  = Severity.fromString(
+                    element.attributeForName("severity")?.stringValue ?? "")
+                let line = Int64(element.attributeForName("line")?.stringValue ?? "")
+                let file = element.attributeForName("file")?.stringValue
+                let function = element.attributeForName("function")?.stringValue
+                if let message = element.stringValue {
+                    events.append(Event(date: date, severity: severity, message: message, function: function, file: file, line: line))
+                }
+            }
+        }
+    }
+
+}
+
+//
+// JSON Support Extension
+//
+public extension OSULogger {
+
+    public var jsonRep: JSON {
+        get {
+            var logsDict: [String: JSON] = ["timestamp": JSON.String(dateFormatter.stringFromDate(NSDate()))]
+
+            var jsonEvents = ContiguousArray<JSON>()
+            for event in events {
+                var eventDict: [String: JSON] = [
+                    "severity":  JSON.String(event.severity.description),
+                    "message":   JSON.String(event.message)
+                ]
+
+                if let timestamp = event.date {
+                    eventDict["timestamp"] = JSON.String(dateFormatter.stringFromDate(timestamp))
+                }
+
+                if let function = event.function {
+                    eventDict["function"] = JSON.String(function)
+                }
+
+                if let file = event.file {
+                    eventDict["file"] = JSON.String(file)
+                }
+
+                if let line = event.line {
+                    eventDict["line"] = JSON.Int64(Int64(line))
+                }
+
+                jsonEvents.append(JSON.Object(JSONObject(eventDict)))
+            }
+
+            logsDict["events"] = JSON.Array(jsonEvents)
+            return JSON.Object(JSONObject(logsDict))
+        }
+    }
+
+    public convenience init(jsonRep: JSON) {
+        self.init()
+
+        if let timestampString = jsonRep["timestamp"]?.string {
+            updateDate = dateFormatter.dateFromString(timestampString)
+        }
+
+        if let jsonEvents = jsonRep["events"]?.array {
+            for jsonEvent in jsonEvents where jsonEvent != nil {
+                let severity = Severity.fromString(jsonEvent["severity"]?.string)
+                let line     = jsonEvent["line"]?.int64
+                let file     = jsonEvent["file"]?.string
+                let function = jsonEvent["function"]?.string
+                let message  = jsonEvent["message"]?.string
+                // Log messages without a time or a message aren't usable.
+                if let timestamp = jsonEvent["timestamp"]?.string,
+                   let mess = message {
+                    let time     = dateFormatter.dateFromString(timestamp) ?? nil
+                    events.append(Event(
+                        date: time,
+                        severity: severity,
+                        message: mess,
+                        function: function,
+                        file: file,
+                        line: line
+                        ))
+                }
+            }
+        }
+    }
+
 }
