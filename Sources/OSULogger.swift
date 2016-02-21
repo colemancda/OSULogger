@@ -112,7 +112,7 @@ public func OSULoggerLog(severity: OSULogger.Severity, string: String, function:
 }
 
 public class OSULogger: NSObject {
-    public enum Severity: Int {
+    public enum Severity: Int, CustomStringConvertible {
         case Fatal       = 5
         case Error       = 4
         case Warning     = 3
@@ -120,7 +120,7 @@ public class OSULogger: NSObject {
         case Debugging   = 1
         case Undefined   = 0
 
-        func string() -> String {
+        public var description: String {
             switch self {
             case .Fatal:       return "Fatal"
             case .Error:       return "Error"
@@ -136,15 +136,15 @@ public class OSULogger: NSObject {
                 return .Undefined
             }
             switch string {
-            case Severity.Debugging.string():
+            case Severity.Debugging.description:
                 return .Debugging
-            case Severity.Fatal.string():
+            case Severity.Fatal.description:
                 return .Fatal
-            case Severity.Error.string():
+            case Severity.Error.description:
                 return .Error
-            case Severity.Warning.string():
+            case Severity.Warning.description:
                 return .Warning
-            case Severity.Information.string():
+            case Severity.Information.description:
                 return .Information
             default:
                 return .Undefined
@@ -183,7 +183,7 @@ public class OSULogger: NSObject {
             // By coping events locally, we can be sure that the array is stable
             for event in events {
                 let xmlEvent = NSXMLElement(name: "event", stringValue: event.message)
-                xmlEvent.addAttribute(NSXMLNode.attributeWithName("severity",  stringValue: event.severity.string()) as! NSXMLNode)
+                xmlEvent.addAttribute(NSXMLNode.attributeWithName("severity",  stringValue: event.severity.description) as! NSXMLNode)
                 xmlEvent.addAttribute(NSXMLNode.attributeWithName("timestamp", stringValue: dateFormatter.stringFromDate(event.date!)) as! NSXMLNode)
                 root.addChild(xmlEvent)
             }
@@ -245,7 +245,7 @@ public class OSULogger: NSObject {
             var jsonEvents = ContiguousArray<JSON>()
             for event in events {
                 var eventDict: [String: JSON] = [
-                    "severity":  JSON.String(event.severity.string()),
+                    "severity":  JSON.String(event.severity.description),
                     "message":   JSON.String(event.message)
                 ]
 
@@ -354,7 +354,7 @@ public class OSULogger: NSObject {
         }
 
         attributedString.appendAttributedString(NSAttributedString(
-            string: "\(event.severity.string().stringByPadding(13, pad: " ")): \(event.message))",
+            string: "\(event.severity.description.stringByPadding(13, pad: " ")): \(event.message))",
             attributes: attributes))
     }
 
