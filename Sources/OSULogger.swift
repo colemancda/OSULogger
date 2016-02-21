@@ -117,7 +117,7 @@ public class OSULogger: NSObject {
     // This is a place to keep track of how stale a remote log is
     public var updateDate: NSDate? = nil
 
-    public var callback: ((Event) -> ())? = nil
+    public var callback: ((Event) -> Void)? = nil
 
     public init(queueLabel: String = "edu.orst.ceoas.osulogger") {
 #if OSULOGGER_ASYNC_SUPPORT
@@ -141,6 +141,10 @@ public class OSULogger: NSObject {
 #endif
     }
 
+    deinit {
+        self.flush()
+    }
+
     // NSDateFormatter in SwiftFoundation is broken, so we return just the description.
     internal func _formatDate(date: NSDate) -> String {
 #if os(OSX) || os(iOS)
@@ -150,8 +154,13 @@ public class OSULogger: NSObject {
 #endif
     }
 
-    deinit {
-        self.flush()
+    // NSDateFormatter in SwiftFoundation is broken, so we return just a dummy date.
+    internal func _parseDate(string: String) -> NSDate {
+#if os(OSX) || os(iOS)
+        return dateFormatter.dateFromString(string)
+#else
+        return NSDate()
+#endif
     }
 
 #if os(OSX) || os(iOS)
@@ -163,7 +172,7 @@ public class OSULogger: NSObject {
     @objc public func flush() {
 #if OSULOGGER_ASYNC_SUPPORT
         // Wait for up to one second for the dispatch queue to process pending logs
-        dispatch_sync(dispatchQueue) { () -> () in
+        dispatch_sync(dispatchQueue) { () -> Void in
             return
         }
 #endif
@@ -407,7 +416,7 @@ public extension OSULogger {
         if let children = xmlRep.children {
             for child in children {
                 if let element = child as? NSXMLElement {
-                    let date = dateFormatter.dateFromString(
+                    let date = _parseDate(
                         element.attributeForName("timestamp")?.stringValue ?? "")
                     let severity  = Severity.fromString(
                         element.attributeForName("severity")?.stringValue ?? "")
@@ -497,11 +506,4 @@ public extension OSULogger {
     }
 
 }
-#endif
-
-#if OSULOGGER_SIMPLE_TEST
-OSULogger.sharedLogger().callback = { (event: OSULogger.Event) -> () in
-    print(event)
-}
-OSULogger.sharedLogger().log("Hello")
 #endif
