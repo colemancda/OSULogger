@@ -12,6 +12,6 @@ import XCTest
 @testable import OSULoggertest
 
 XCTMain([
-    OSULogger_TestSimple(),
     OSULogger_TestComplete(),
+    OSULogger_TestSimple(),
 ])

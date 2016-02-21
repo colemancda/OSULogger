@@ -124,6 +124,11 @@ public class OSULogger: NSObject {
         dispatchQueue = dispatch_queue_create(queueLabel, DISPATCH_QUEUE_SERIAL)
 #endif
 
+#if os(OSX) || os(iOS)
+        dateFormatter.formatterBehavior = NSDateFormatterBehavior.Behavior10_4
+#endif
+        dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss.SSS"
+
         super.init()
 
 #if os(OSX) || os(iOS)
@@ -132,9 +137,6 @@ public class OSULogger: NSObject {
         } else {
             font = NSFont.systemFontOfSize(8.0)
         }
-
-        dateFormatter.formatterBehavior = NSDateFormatterBehavior.Behavior10_4
-        dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss.SSS"
 
         fontAttributes[NSFontAttributeName] = font
         fontAttributes[NSForegroundColorAttributeName] = NSColor.blackColor()
@@ -145,22 +147,12 @@ public class OSULogger: NSObject {
         self.flush()
     }
 
-    // NSDateFormatter in SwiftFoundation is broken, so we return just the description.
     internal func _formatDate(date: NSDate) -> String {
-#if os(OSX) || os(iOS)
         return dateFormatter.stringFromDate(date)
-#else
-        return date.description
-#endif
     }
 
-    // NSDateFormatter in SwiftFoundation is broken, so we return just a dummy date.
     internal func _parseDate(string: String) -> NSDate {
-#if os(OSX) || os(iOS)
-        return dateFormatter.dateFromString(string)
-#else
-        return NSDate()
-#endif
+        return dateFormatter.dateFromString(string)!
     }
 
 #if os(OSX) || os(iOS)
@@ -176,6 +168,10 @@ public class OSULogger: NSObject {
             return
         }
 #endif
+    }
+
+    public func clearEvents() {
+        events.removeAll()
     }
 
     private func _updateString(event: Event) {
@@ -478,7 +474,7 @@ public extension OSULogger {
         self.init()
 
         if let timestampString = jsonRep["timestamp"]?.string {
-            updateDate = dateFormatter.dateFromString(timestampString)
+            updateDate = _parseDate(timestampString)
         }
 
         if let jsonEvents = jsonRep["events"]?.array {
