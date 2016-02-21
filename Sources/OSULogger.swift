@@ -7,8 +7,15 @@
 //  Read LICENSE in the top level directory for further licensing information.
 //
 
+#if os(OSX) || os(iOS)
 import Cocoa
+#else
+import Foundation
+#endif
+
+#if OSULOGGER_JSON_SUPPORT
 import PMJSON
+#endif
 
 let escape  = "\u{001B}["
 let normal  = escape + "m"
@@ -41,77 +48,10 @@ extension String {
     }
 }
 
-public func == (lhs: OSULogger.Event, rhs: OSULogger.Event) -> Bool {
-    if lhs.severity != rhs.severity {
-        #if DEBUG
-            print("Logs don't match because severities don't match (\(lhs.severity) != \(rhs.severity))")
-        #endif
-        return false
-    }
-
-    if lhs.date     != rhs.date     {
-        #if DEBUG
-            print("Logs don't match because dates don't match (\(lhs.date) != \(rhs.date))")
-        #endif
-        return false
-    }
-
-    if lhs.message  != rhs.message  {
-        #if DEBUG
-            print("Logs don't match because messages don't match (\(lhs.message) != \(rhs.message))")
-        #endif
-        return false
-    }
-
-    return true
-}
-
-public func != (lhs: OSULogger.Event, rhs: OSULogger.Event) -> Bool {
-    return !(lhs == rhs)
-}
-
-public func == (lhs: OSULogger, rhs: OSULogger) -> Bool {
-    // First, flush the logs
-    lhs.flush()
-    rhs.flush()
-
-    // Next, make sure that the message counts are equal
-    if lhs.events.count != rhs.events.count {
-        #if DEBUG
-            print("Logs don't match because counts don't match (\(lhs.events.count) != \(rhs.events.count))")
-        #endif
-
-        return false
-    }
-
-    // Finally, iterate through the list of events and ensure that they're equal
-    for i in 0 ..< lhs.events.count {
-        if lhs.events[i] != rhs.events[i] {
-            #if DEBUG
-                print("Logs don't match because event \(i) don't match")
-            #endif
-
-            return false
-        }
-    }
-
-    return true
-}
-
-internal let _sharedLogger = OSULogger()
-
-public func OSULoggerLog(string: String, function: String = #function, filePath: String = #file, line: Int = #line) {
-    OSULoggerLog(.Undefined, string: string, function: function, filePath: filePath, line: line)
-}
-
-public func OSULoggerLog(severity: OSULogger.Severity, string: String, function: String = #function, filePath: String = #file, line: Int = #line) {
-    let pathComponents = filePath.componentsSeparatedByString("\\/")
-    if let fileName = pathComponents.last {
-        OSULogger.sharedLogger().log(string, severity: severity, function: function, file: fileName, line: line)
-    }
-}
-
 public class OSULogger: NSObject {
+
+    internal static let _sharedLogger = OSULogger()
+
     public enum Severity: Int, CustomStringConvertible {
         case Fatal       = 5
         case Error       = 4
@@ -158,17 +98,21 @@ public class OSULogger: NSObject {
         let message: String
         let function: String?
         let file: String?
-        let line: Int64?
+        let line: Int?
     }
 
+#if OSULOGGER_ASYNC_SUPPORT
     private let dispatchQueue: dispatch_queue_t
+#endif
 
     var events = [Event]()
 
     let dateFormatter = NSDateFormatter()
+#if os(OSX) || os(iOS)
     public var attributedString = NSMutableAttributedString()
     var fontAttributes = [String: AnyObject]()
     var font: NSFont
+#endif
 
     // This is a place to keep track of how stale a remote log is
     public var updateDate: NSDate? = nil
@@ -176,37 +120,57 @@ public class OSULogger: NSObject {
     public var callback: ((Event) -> Void)? = nil
 
     public init(queueLabel: String = "edu.orst.ceoas.osulogger") {
+#if OSULOGGER_ASYNC_SUPPORT
+        dispatchQueue = dispatch_queue_create(queueLabel, DISPATCH_QUEUE_SERIAL)
+#endif
+
+        super.init()
+
+#if os(OSX) || os(iOS)
         if #available(iOS 9.0, OSX 10.11, *) {
             font = NSFont.monospacedDigitSystemFontOfSize(CGFloat(8.0), weight: NSFontWeightRegular)
         } else {
             font = NSFont.systemFontOfSize(8.0)
         }
 
-        dispatchQueue = dispatch_queue_create(queueLabel, DISPATCH_QUEUE_SERIAL)
-
-        super.init()
-
         dateFormatter.formatterBehavior = NSDateFormatterBehavior.Behavior10_4
         dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss.SSS"
 
         fontAttributes[NSFontAttributeName] = font
         fontAttributes[NSForegroundColorAttributeName] = NSColor.blackColor()
+#endif
+    }
+
+    // NSDateFormatter in SwiftFoundation is broken, so we return just the description.
+    internal func _formatDate(date: NSDate) -> String {
+#if os(OSX) || os(iOS)
+        return dateFormatter.stringFromDate(date)
+#else
+        return date.description
+#endif
     }
 
     deinit {
         self.flush()
     }
 
+#if os(OSX) || os(iOS)
     @objc public class func sharedLogger() -> OSULogger { return _sharedLogger }
+#else
+    public class func sharedLogger() -> OSULogger { return _sharedLogger }
+#endif
 
     @objc public func flush() -> Void {
+#if OSULOGGER_ASYNC_SUPPORT
         // Wait for up to one second for the dispatch queue to process pending logs
         dispatch_sync(dispatchQueue) { () -> Void in
             return
         }
+#endif
     }
 
     private func _updateString(event: Event) -> Void {
+#if os(OSX) || os(iOS)
         var attributes = fontAttributes
 
         // Set the color of the line based upon the severity
@@ -221,16 +185,18 @@ public class OSULogger: NSObject {
 
         if let date = event.date {
             attributedString.appendAttributedString(NSAttributedString(
-                string: "\(dateFormatter.stringFromDate((date))): "))
+                string: "\(_formatDate(date)): "))
         }
 
         attributedString.appendAttributedString(NSAttributedString(
             string: "\(event.severity.description.stringByPadding(13, pad: " ")): \(event.message))",
             attributes: attributes))
+#endif
     }
 
     private func noop() { }
 
+#if os(OSX) || os(iOS)
     @objc public func logStringObjc(string: String, severity: Int) {
         var sev = Severity(rawValue: severity)
         if sev == nil { sev = Severity.Undefined }
@@ -257,6 +223,7 @@ public class OSULogger: NSObject {
                 }
             }
     }
+#endif
 
     public func log(
     string: String,
@@ -269,7 +236,11 @@ public class OSULogger: NSObject {
             noop()
     }
 #endif
+#if OSULOGGER_ASYNC_SUPPORT
         dispatch_async(dispatchQueue, { self._log(NSDate(), severity: severity, message: string, function: function, file: file, line: line) })
+#else
+        _log(NSDate(), severity: severity, message: string, function: function, file: file, line: line)
+#endif
     }
 
     // This function should only execute on the main thread.
@@ -281,11 +252,17 @@ public class OSULogger: NSObject {
     file: String,
     line: Int) {
         // Append a new event to the log array
-        let event = Event(date: date, severity: severity, message: message, function: function, file: file, line: Int64(line))
+        let event = Event(date: date, severity: severity, message: message, function: function, file: file, line: line)
         events.append(event)
 
         // If a callback exists, call it on the main thread
-        if callback != nil { dispatch_async(dispatch_get_main_queue(), { self.callback!(event) })}
+        if callback != nil {
+#if OSULOGGER_ASYNC_SUPPORT
+            dispatch_async(dispatch_get_main_queue(), { self.callback!(event) })
+#else
+            callback!(event)
+#endif
+        }
 
         // Update the attributed string log
         _updateString(event)
@@ -301,8 +278,76 @@ public class OSULogger: NSObject {
             case .Debugging: color = white
             case .Undefined: color = blue
             }
-            print("\(dateFormatter.stringFromDate(date)), \(color)\(severity)\(normal): \(message)")
+            print("\(_formatDate(date)), \(color)\(severity)\(normal): \(message)")
         #endif
+    }
+}
+
+public func == (lhs: OSULogger.Event, rhs: OSULogger.Event) -> Bool {
+    if lhs.severity != rhs.severity {
+        #if DEBUG
+            print("Logs don't match because severities don't match (\(lhs.severity) != \(rhs.severity))")
+        #endif
+        return false
+    }
+
+    if lhs.date != rhs.date {
+        #if DEBUG
+            print("Logs don't match because dates don't match (\(lhs.date) != \(rhs.date))")
+        #endif
+        return false
+    }
+
+    if lhs.message != rhs.message {
+        #if DEBUG
+            print("Logs don't match because messages don't match (\(lhs.message) != \(rhs.message))")
+        #endif
+        return false
+    }
+
+    return true
+}
+
+public func != (lhs: OSULogger.Event, rhs: OSULogger.Event) -> Bool {
+    return !(lhs == rhs)
+}
+
+public func == (lhs: OSULogger, rhs: OSULogger) -> Bool {
+    // First, flush the logs
+    lhs.flush()
+    rhs.flush()
+
+    // Next, make sure that the message counts are equal
+    if lhs.events.count != rhs.events.count {
+        #if DEBUG
+            print("Logs don't match because counts don't match (\(lhs.events.count) != \(rhs.events.count))")
+        #endif
+
+        return false
+    }
+
+    // Finally, iterate through the list of events and ensure that they're equal
+    for i in 0 ..< lhs.events.count {
+        if lhs.events[i] != rhs.events[i] {
+            #if DEBUG
+                print("Logs don't match because event \(i) don't match")
+            #endif
+
+            return false
+        }
+    }
+
+    return true
+}
+
+public func OSULoggerLog(string: String, function: String = #function, filePath: String = #file, line: Int = #line) {
+    OSULoggerLog(.Undefined, string: string, function: function, filePath: filePath, line: line)
+}
+
+public func OSULoggerLog(severity: OSULogger.Severity, string: String, function: String = #function, filePath: String = #file, line: Int = #line) {
+    let pathComponents = filePath.componentsSeparatedByString("\\/")
+    if let fileName = pathComponents.last {
+        OSULogger.sharedLogger().log(string, severity: severity, function: function, file: fileName, line: line)
     }
 }
 
@@ -314,23 +359,21 @@ public extension OSULogger {
     public var xmlDocument: NSXMLDocument {
         get {
             let root = NSXMLElement(name: "log")
-            root.addAttribute(NSXMLNode.attributeWithName("timestamp", stringValue: NSDate.description()) as! NSXMLNode)
+            root.addAttribute(NSXMLNode.attributeWithName("timestamp", stringValue: NSDate().description) as! NSXMLNode)
 
             // By coping events locally, we can be sure that the array is stable
             for event in events {
                 let xmlEvent = NSXMLElement(name: "event", stringValue: event.message)
                 xmlEvent.addAttribute(NSXMLNode.attributeWithName("severity",  stringValue: event.severity.description) as! NSXMLNode)
-                xmlEvent.addAttribute(NSXMLNode.attributeWithName("timestamp", stringValue: dateFormatter.stringFromDate(event.date!)) as! NSXMLNode)
+                xmlEvent.addAttribute(NSXMLNode.attributeWithName("timestamp", stringValue: _formatDate(event.date!)) as! NSXMLNode)
                 root.addChild(xmlEvent)
             }
 
-            let document = NSXMLDocument(rootElement: root)
-            document.characterEncoding = "UTF-8"
-
-            return document
+            return NSXMLDocument(rootElement: root)
         }
     }
 
+#if os(OSX) || os(iOS)
     // In the objc. api stringValue was used to get the XML string.
     // In Swift, we're moving away from that.  Alias stringValue in Objc to
     // xmlStringValue in swift.
@@ -338,16 +381,19 @@ public extension OSULogger {
     public func xmlStringValue() -> String? {
         return self.xmlDocument.XMLString
     }
+#endif
 
     public class func stringFrom(xmlRep: NSXMLElement) -> String {
         var string = ""
 
-        if let children = xmlRep.children as? [NSXMLElement] {
-            for element in children {
-                if  let timestamp = element.attributeForName("timestamp")?.stringValue,
-                    let severity  = element.attributeForName("severity")?.stringValue,
-                    let message   = element.stringValue {
-                        string = string + "\(timestamp): \(severity): \(message)\n"
+        if let children = xmlRep.children {
+            for child in children {
+                if let element = child as? NSXMLElement {
+                    if  let timestamp = element.attributeForName("timestamp")?.stringValue,
+                        let severity  = element.attributeForName("severity")?.stringValue,
+                        let message   = element.stringValue {
+                            string = string + "\(timestamp): \(severity): \(message)\n"
+                    }
                 }
             }
         }
@@ -358,17 +404,19 @@ public extension OSULogger {
     public convenience init(xmlRep: NSXMLElement) {
         self.init()
 
-        if let children = xmlRep.children as? [NSXMLElement] {
-            for element in children {
-                let date = dateFormatter.dateFromString(
-                    element.attributeForName("timestamp")?.stringValue ?? "")
-                let severity  = Severity.fromString(
-                    element.attributeForName("severity")?.stringValue ?? "")
-                let line = Int64(element.attributeForName("line")?.stringValue ?? "")
-                let file = element.attributeForName("file")?.stringValue
-                let function = element.attributeForName("function")?.stringValue
-                if let message = element.stringValue {
-                    events.append(Event(date: date, severity: severity, message: message, function: function, file: file, line: line))
+        if let children = xmlRep.children {
+            for child in children {
+                if let element = child as? NSXMLElement {
+                    let date = dateFormatter.dateFromString(
+                        element.attributeForName("timestamp")?.stringValue ?? "")
+                    let severity  = Severity.fromString(
+                        element.attributeForName("severity")?.stringValue ?? "")
+                    let line = Int(element.attributeForName("line")?.stringValue ?? "")
+                    let file = element.attributeForName("file")?.stringValue
+                    let function = element.attributeForName("function")?.stringValue
+                    if let message = element.stringValue {
+                        events.append(Event(date: date, severity: severity, message: message, function: function, file: file, line: line))
+                    }
                 }
             }
         }
@@ -376,6 +424,7 @@ public extension OSULogger {
 
 }
 
+#if OSULOGGER_JSON_SUPPORT
 //
 // JSON Support Extension
 //
@@ -383,7 +432,7 @@ public extension OSULogger {
 
     public var jsonRep: JSON {
         get {
-            var logsDict: [String: JSON] = ["timestamp": JSON.String(dateFormatter.stringFromDate(NSDate()))]
+            var logsDict: [String: JSON] = ["timestamp": JSON.String(_formatDate(NSDate()))]
 
             var jsonEvents = ContiguousArray<JSON>()
             for event in events {
@@ -393,7 +442,7 @@ public extension OSULogger {
                 ]
 
                 if let timestamp = event.date {
-                    eventDict["timestamp"] = JSON.String(dateFormatter.stringFromDate(timestamp))
+                    eventDict["timestamp"] = JSON.String(_formatDate(timestamp))
                 }
 
                 if let function = event.function {
@@ -448,3 +497,8 @@ public extension OSULogger {
     }
 
 }
+#endif
+
+#if OSULOGGER_SIMPLE_TEST
+OSULogger.sharedLogger().log("Hello")
+#endif
