@@ -179,7 +179,7 @@ public class OSULogger: NSObject {
         case .Information: break
         case .Warning:   attributes[NSForegroundColorAttributeName] = NSColor.orangeColor()
         case .Error:     attributes[NSForegroundColorAttributeName] = NSColor.redColor()
-        case .Fatal:     attributes[NSForegroundColorAttributeName] = NSColor.redColor()
+        case .Fatal:     attributes[NSForegroundColorAttributeName] = NSColor.magentaColor()
         case .Debugging: attributes[NSForegroundColorAttributeName] = NSColor.grayColor()
         }
 
@@ -212,7 +212,7 @@ public class OSULogger: NSObject {
     severity: Int) {
             // We only want the source name of the #file macro, so lets only keep
             // the last component of the path
-            let pathComponents = file.componentsSeparatedByString("\\/")
+            let pathComponents = file.componentsSeparatedByString("/")
             if let fileName = pathComponents.last {
                 let sev: Severity
                 if let temp = Severity(rawValue: severity) {
@@ -271,7 +271,7 @@ public class OSULogger: NSObject {
         #if DEBUG
             let color: String
             switch severity {
-            case .Fatal: color = red
+            case .Fatal: color = magenta
             case .Error: color = red
             case .Warning: color = yellow
             case .Information: color = green
@@ -345,7 +345,7 @@ public func OSULoggerLog(string: String, function: String = #function, filePath:
 }
 
 public func OSULoggerLog(severity: OSULogger.Severity, string: String, function: String = #function, filePath: String = #file, line: Int = #line) {
-    let pathComponents = filePath.componentsSeparatedByString("\\/")
+    let pathComponents = filePath.componentsSeparatedByString("/")
     if let fileName = pathComponents.last {
         OSULogger.sharedLogger().log(string, severity: severity, function: function, file: fileName, line: line)
     }
