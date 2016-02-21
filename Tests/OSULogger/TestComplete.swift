@@ -33,7 +33,6 @@ class OSULogger_TestComplete : XCTestCase {
     var stringURL:           NSURL! = nil
     var strContents:        String! = nil
     var xmlDocument: NSXMLDocument! = nil
-    var xmlInput:     NSXMLElement! = nil
     var sampleLog:       OSULogger! = nil
 #if OSULOGGER_JSON_SUPPORT
     var jsonURL:             NSURL! = nil
@@ -67,7 +66,6 @@ class OSULogger_TestComplete : XCTestCase {
 
         do {
             xmlDocument  = try NSXMLDocument(contentsOfURL: xmlURL, options: 0)
-            xmlInput     = xmlDocument.rootElement()
             strContents  = try String(contentsOfURL: stringURL, encoding: NSUTF8StringEncoding)
 #if OSULOGGER_JSON_SUPPORT
             jsonContents = NSData(contentsOfURL: jsonURL)
@@ -77,7 +75,7 @@ class OSULogger_TestComplete : XCTestCase {
             XCTAssert(false, "Unable to load example file for test")
         }
 
-        sampleLog = OSULogger(xmlRep: xmlInput)
+        sampleLog = OSULogger(xmlRep: xmlDocument.rootElement()!)
     }
 
     func testLoggerEquivalence() {
@@ -88,6 +86,7 @@ class OSULogger_TestComplete : XCTestCase {
     func testSharedLogger() {
         let sharedLogger = OSULogger.sharedLogger()
 
+        sharedLogger.clearEvents()
 
         // Iterate through the sample logs and add some stuff to the shared logger
         for event in sampleLog.events {
@@ -114,7 +113,7 @@ class OSULogger_TestComplete : XCTestCase {
     }
 
     func testPerformanceXMLLoad() {
-        _ = OSULogger(xmlRep: self.xmlInput)
+        _ = OSULogger(xmlRep: xmlDocument.rootElement()!)
     }
 
     func testPerformanceJSONLoad() {
@@ -134,26 +133,26 @@ class OSULogger_TestComplete : XCTestCase {
     }
 
     func testStringFromXML() {
-        let stringOutput = OSULogger.stringFrom(xmlInput)
+        let stringOutput = OSULogger.stringFrom(xmlDocument.rootElement()!)
 
         XCTAssert(stringOutput == strContents, "String output mismatch")
     }
 
     func testXMLReadAndWrite() {
         // Try to create a new logger class from the created XML
-        var xmlTemp: NSXMLElement! = nil
+        var xmlTemp: NSXMLDocument! = nil
         do {
             // Create an XML representation of the sample log
             let xmlStringOutput: String! = sampleLog.xmlDocument.XMLString
             XCTAssert(xmlStringOutput != nil, "Unable to get XML String output")
 
-            xmlTemp = try NSXMLElement(XMLString: xmlStringOutput)
+            xmlTemp = try NSXMLDocument(XMLString: xmlStringOutput!, options: 0)
         } catch {
             XCTAssert(false, "NSXMLElement was not able to be made from XMLOutput")
         }
 
         // Try to create the logger
-        XCTAssert(OSULogger(xmlRep: xmlTemp) == sampleLog, "Log created from intermediate XML does not match original")
+        XCTAssert(OSULogger(xmlRep: xmlTemp.rootElement()!) == sampleLog, "Log created from intermediate XML does not match original")
     }
 
 }
