@@ -7,7 +7,7 @@
 //  Read LICENSE in the top level directory for further licensing information.
 //
 
-#if os(OSX) || os(iOS)
+#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
 import Cocoa
 #else
 import Foundation
@@ -83,7 +83,7 @@ public class OSULogger : NSObject {
     var events = [Event]()
 
     let dateFormatter = NSDateFormatter()
-#if os(OSX) || os(iOS)
+#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
     public var attributedString = NSMutableAttributedString()
     var fontAttributes = [String: AnyObject]()
     var font: NSFont
@@ -99,12 +99,12 @@ public class OSULogger : NSObject {
         dispatchQueue = dispatch_queue_create(queueLabel, DISPATCH_QUEUE_SERIAL)
 #endif
 
-#if os(OSX) || os(iOS)
+#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
         dateFormatter.formatterBehavior = NSDateFormatterBehavior.Behavior10_4
 #endif
         dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss.SSS"
 
-#if os(OSX) || os(iOS)
+#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
         if #available(iOS 9.0, OSX 10.11, *) {
             font = NSFont.monospacedDigitSystemFontOfSize(CGFloat(8.0), weight: NSFontWeightRegular)
         } else {
@@ -130,7 +130,7 @@ public class OSULogger : NSObject {
         return dateFormatter.dateFromString(string)!
     }
 
-#if os(OSX) || os(iOS)
+#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
     @objc public class func sharedLogger() -> OSULogger { return _sharedLogger }
 #else
     public class func sharedLogger() -> OSULogger { return _sharedLogger }
@@ -150,7 +150,7 @@ public class OSULogger : NSObject {
     }
 
     private func _updateString(event: Event) {
-#if os(OSX) || os(iOS)
+#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
         var attributes = fontAttributes
 
         // Set the color of the line based upon the severity
@@ -176,7 +176,7 @@ public class OSULogger : NSObject {
 
     private func noop() { }
 
-#if os(OSX) || os(iOS)
+#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
     @objc public func logStringObjc(string: String, severity: Int) {
         var sev = Severity(rawValue: severity)
         if sev == nil { sev = Severity.Undefined }
@@ -184,12 +184,8 @@ public class OSULogger : NSObject {
     }
 
     @objc(logString:withFile:line:version:andSeverity:)
-    public func log(
-    string: String,
-    file: String = #file,
-    line: Int = #line,
-    version: String,
-    severity: Int) {
+    public func log(string: String, file: String = #file, line: Int = #line, version: String,
+                    severity: Int) {
             // We only want the source name of the #file macro, so lets only keep
             // the last component of the path
             let pathComponents = file.componentsSeparatedByString("/")

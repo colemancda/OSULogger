@@ -11,7 +11,7 @@ import Foundation
 
 extension String {
     func stringByPadding(width: Int, pad: String) -> String {
-#if os(OSX) || os(iOS)
+#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
         return stringByPaddingToLength(width, withString: pad, startingAtIndex: 0)
 #else
         let length = self.characters.count

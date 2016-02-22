@@ -9,9 +9,7 @@
 
 import XCTest
 import Foundation
-#if OSULOGGER_JSON_SUPPORT
 import PMJSON
-#endif
 @testable import OSULogger
 
 class OSULogger_TestComplete : XCTestCase {
@@ -34,11 +32,8 @@ class OSULogger_TestComplete : XCTestCase {
     var strContents:        String! = nil
     var xmlDocument: NSXMLDocument! = nil
     var sampleLog:       OSULogger! = nil
-#if OSULOGGER_JSON_SUPPORT
     var jsonURL:             NSURL! = nil
-    var jsonContents:       NSData! = nil
     var jsonInput:            JSON! = nil
-#endif
 
 #if os(OSX) || os(iOS)
     override func setUp() {
@@ -54,21 +49,15 @@ class OSULogger_TestComplete : XCTestCase {
         let resourceURL = NSURL(fileURLWithPath: "./Tests/OSULogger/")
         xmlURL    = NSURL(string: "exampleLog.xml",    relativeToURL: resourceURL)
         stringURL = NSURL(string: "exampleLog.string", relativeToURL: resourceURL)
+        jsonURL   = NSURL(string: "exampleLog.json",   relativeToURL: resourceURL)
         XCTAssert(xmlURL    != nil, "Unable to find exampleXMLLogFile.")
         XCTAssert(stringURL != nil, "Unable to find exampleStringLogFile.")
-
-#if OSULOGGER_JSON_SUPPORT
-        jsonURL   = NSURL(string: "exampleLog.json",   relativeToURL: resourceURL)
         XCTAssert(jsonURL   != nil, "Unable to find exampleJSONLogFile.")
-#endif
 
         do {
             xmlDocument  = try NSXMLDocument(contentsOfURL: xmlURL, options: 0)
             strContents  = try String(contentsOfURL: stringURL, encoding: NSUTF8StringEncoding)
-#if OSULOGGER_JSON_SUPPORT
-            jsonContents = NSData(contentsOfURL: jsonURL)
-            jsonInput    = JSON(data: jsonContents)
-#endif
+            jsonInput    = try JSON.decode(try String(contentsOfURL: jsonURL, encoding: NSUTF8StringEncoding))
         } catch {
             XCTAssert(false, "Unable to load example file for test")
         }
@@ -115,19 +104,16 @@ class OSULogger_TestComplete : XCTestCase {
     }
 
     func testPerformanceJSONLoad() {
-#if OSULOGGER_JSON_SUPPORT
-        _ = OSULogger(jsonRep: self.jsonInput)
-#endif
+        _ = OSULogger(jsonRep: jsonInput)
     }
 
     func testPerformanceXMLWrite() {
-        _ = self.sampleLog.xmlDocument
+        _ = sampleLog.xmlDocument
     }
 
     func testPerformanceJSONWrite() {
-#if OSULOGGER_JSON_SUPPORT
-        _ = self.sampleLog.jsonRep
-#endif
+        _ = sampleLog.jsonRep
+        print(JSON.encodeAsString(sampleLog.jsonRep, pretty: true))
     }
 
     func testStringFromXML() {

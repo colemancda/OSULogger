@@ -12,7 +12,7 @@ import PackageDescription
 let package = Package(
     name: "OSULogger",
     dependencies: [
-        //.Package(url: "https://github.com/hpux735/PMJSON.git", majorVersion: 0, minor: 9)
+        .Package(url: "https://github.com/postmates/PMJSON.git", majorVersion: 0, minor: 9)
     ]
 )
 

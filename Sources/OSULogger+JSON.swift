@@ -7,7 +7,6 @@
 //  Read LICENSE in the top level directory for further licensing information.
 //
 
-#if OSULOGGER_JSON_SUPPORT
 import Foundation
 import PMJSON
 
@@ -61,26 +60,19 @@ public extension OSULogger {
         if let jsonEvents = jsonRep["events"]?.array {
             for jsonEvent in jsonEvents where jsonEvent != nil {
                 let severity = Severity.fromString(jsonEvent["severity"]?.string)
-                let line     = jsonEvent["line"]?.int64
+                let line     = jsonEvent["line"]?.int
                 let file     = jsonEvent["file"]?.string
                 let function = jsonEvent["function"]?.string
                 let message  = jsonEvent["message"]?.string
                 // Log messages without a time or a message aren't usable.
                 if let timestamp = jsonEvent["timestamp"]?.string,
                    let mess = message {
-                    let time     = dateFormatter.dateFromString(timestamp) ?? nil
-                    events.append(Event(
-                        date: time,
-                        severity: severity,
-                        message: mess,
-                        function: function,
-                        file: file,
-                        line: line
-                        ))
+                    let time = _parseDate(timestamp)
+                    events.append(Event(date: time, severity: severity, message: mess,
+                                        function: function, file: file, line: line))
                 }
             }
         }
     }
 
 }
-#endif

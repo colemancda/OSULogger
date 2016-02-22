@@ -31,7 +31,7 @@ public extension OSULogger {
         }
     }
 
-#if os(OSX) || os(iOS)
+#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
     // In the objc. api stringValue was used to get the XML string.
     // In Swift, we're moving away from that.  Alias stringValue in Objc to
     // xmlStringValue in swift.
