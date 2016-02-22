@@ -48,6 +48,10 @@ extension String {
     }
 }
 
+public protocol OSULoggerObserver {
+    func log(event: OSULogger.Event)
+}
+
 public class OSULogger: NSObject {
 
     internal static let _sharedLogger = OSULogger()
@@ -117,7 +121,7 @@ public class OSULogger: NSObject {
     // This is a place to keep track of how stale a remote log is
     public var updateDate: NSDate? = nil
 
-    public var callback: ((Event) -> Void)? = nil
+    public var observers = [OSULoggerObserver]()
 
     public init(queueLabel: String = "edu.orst.ceoas.osulogger") {
 #if OSULOGGER_ASYNC_SUPPORT
@@ -260,12 +264,18 @@ public class OSULogger: NSObject {
         let event = Event(date: date, severity: severity, message: message, function: function, file: file, line: line)
         events.append(event)
 
-        // If a callback exists, call it on the main thread
-        if callback != nil {
+        // If we have observers, call them on the main thread
+        if !observers.isEmpty {
 #if OSULOGGER_ASYNC_SUPPORT
-            dispatch_async(dispatch_get_main_queue(), { self.callback!(event) })
+            dispatch_async(dispatch_get_main_queue(), {
+                for observer in self.observers {
+                    observer.log(event)
+                }
+            })
 #else
-            callback!(event)
+            for observer in self.observers {
+                observer.log(event)
+            }
 #endif
         }
 
