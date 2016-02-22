@@ -40,7 +40,17 @@ class OSULogger_TestComplete : XCTestCase {
     var jsonInput:            JSON! = nil
 #endif
 
+#if os(OSX) || os(iOS)
     override func setUp() {
+        doSetUp();
+    }
+#else
+    func setUp() {
+        doSetUp();
+    }
+#endif
+
+    func doSetUp() {
         let resourceURL = NSURL(fileURLWithPath: "./Tests/OSULogger/")
         xmlURL    = NSURL(string: "exampleLog.xml",    relativeToURL: resourceURL)
         stringURL = NSURL(string: "exampleLog.string", relativeToURL: resourceURL)
