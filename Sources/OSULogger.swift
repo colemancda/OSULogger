@@ -129,8 +129,6 @@ public class OSULogger: NSObject {
 #endif
         dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss.SSS"
 
-        super.init()
-
 #if os(OSX) || os(iOS)
         if #available(iOS 9.0, OSX 10.11, *) {
             font = NSFont.monospacedDigitSystemFontOfSize(CGFloat(8.0), weight: NSFontWeightRegular)
@@ -141,6 +139,8 @@ public class OSULogger: NSObject {
         fontAttributes[NSFontAttributeName] = font
         fontAttributes[NSForegroundColorAttributeName] = NSColor.blackColor()
 #endif
+
+        super.init()
     }
 
     deinit {

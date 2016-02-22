@@ -40,29 +40,17 @@ class OSULogger_TestComplete : XCTestCase {
     var jsonInput:            JSON! = nil
 #endif
 
-    func setUp() {
-#if os(OSX) || os(iOS)
-        if let resourceURL = NSBundle(forClass: OSULogger_TestComplete.self).resourceURL {
-            xmlURL    = NSURL(string: "exampleLog.xml",    relativeToURL: resourceURL)
-#if OSULOGGER_JSON_SUPPORT
-            jsonURL   = NSURL(string: "exampleLog.json",   relativeToURL: resourceURL)
-#endif
-            stringURL = NSURL(string: "exampleLog.string", relativeToURL: resourceURL)
-        }
-#else
+    override func setUp() {
         let resourceURL = NSURL(fileURLWithPath: "./Tests/OSULogger/")
         xmlURL    = NSURL(string: "exampleLog.xml",    relativeToURL: resourceURL)
+        stringURL = NSURL(string: "exampleLog.string", relativeToURL: resourceURL)
+        XCTAssert(xmlURL    != nil, "Unable to find exampleXMLLogFile.")
+        XCTAssert(stringURL != nil, "Unable to find exampleStringLogFile.")
+
 #if OSULOGGER_JSON_SUPPORT
         jsonURL   = NSURL(string: "exampleLog.json",   relativeToURL: resourceURL)
-#endif
-        stringURL = NSURL(string: "exampleLog.string", relativeToURL: resourceURL)
-#endif
-
-        XCTAssert(xmlURL    != nil, "Unable to find exampleXMLLogFile.")
-#if OSULOGGER_JSON_SUPPORT
         XCTAssert(jsonURL   != nil, "Unable to find exampleJSONLogFile.")
 #endif
-        XCTAssert(stringURL != nil, "Unable to find exampleStringLogFile.")
 
         do {
             xmlDocument  = try NSXMLDocument(contentsOfURL: xmlURL, options: 0)
