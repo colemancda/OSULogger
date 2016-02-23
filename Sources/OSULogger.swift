@@ -9,16 +9,6 @@
 
 import Foundation
 
-let escape  = "\u{001B}["
-let normal  = escape + "m"
-let red     = escape + "31m"
-let green   = escape + "32m"
-let yellow  = escape + "33m"
-let blue    = escape + "34m"
-let magenta = escape + "35m"
-let cyan    = escape + "36m"
-let white   = escape + "37m"
-
 public class OSULogger : NSObject {
 
     internal static let _sharedLogger = OSULogger()
@@ -100,6 +90,11 @@ public class OSULogger : NSObject {
     public var observers = [OSULoggerObserver]()
 
     public init(queueLabel: String = "edu.orst.ceoas.osulogger") {
+
+#if DEBUG
+        // When debugging, also print output to the console
+        observers.append(OSUConsoleLoggerObserver())
+#endif
 
 #if OSULOGGER_ASYNC_SUPPORT
         dispatchQueue = dispatch_queue_create(queueLabel, DISPATCH_QUEUE_SERIAL)
@@ -190,20 +185,6 @@ public class OSULogger : NSObject {
             }
 #endif
         }
-
-        // When debugging, also print output to the console
-        #if DEBUG
-            let color: String
-            switch severity {
-            case .Fatal: color = magenta
-            case .Error: color = red
-            case .Warning: color = yellow
-            case .Information: color = green
-            case .Debugging: color = white
-            case .Undefined: color = blue
-            }
-            print("\(_formatDate(date, useISO8601Format: false)), \(color)\(severity)\(normal): \(message)")
-        #endif
     }
 }
 
