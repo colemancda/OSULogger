@@ -1,8 +1,8 @@
 #OSULogger
 
-[![Version](https://img.shields.io/badge/version-v0.1.0-blue.svg)](https://github.com/hpux735/OSULogger/releases/latest)
+[![Version](https://img.shields.io/badge/version-v0.1.2-blue.svg)](https://github.com/hpux735/OSULogger/releases/latest)
 ![Platforms](https://img.shields.io/badge/platforms-linux%20%7C%20Darwin-lightgrey.svg)
-![Architectures](https://img.shields.io/badge/architectures-x86__64%20%7C%20arm-blue.svg)
+![Architectures](https://img.shields.io/badge/architectures-x86__64%20%7C%20arm-green.svg)
 ![Languages](https://img.shields.io/badge/languages-swift-orange.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
