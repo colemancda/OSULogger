@@ -4,7 +4,7 @@
 ![Platforms](https://img.shields.io/badge/platforms-linux%20%7C%20Darwin-lightgrey.svg)
 ![Architectures](https://img.shields.io/badge/architectures-x86__64%20%7C%20arm-blue.svg)
 ![Languages](https://img.shields.io/badge/languages-swift-orange.svg)
-![License](https://img.shields.io/badge/license-MIT%2FApache-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
 **OSULogger** is a relatively simple logging library the provides some unique features.  Getting started is easy, simply add us to your ```Package.swift``` file, add an import to ```OSULogger``` and log a message
 ```OSULogger.sharedLogger().log("Hello world.", severity: .Information)```
