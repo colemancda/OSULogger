@@ -91,7 +91,8 @@ public class OSULogger : NSObject {
 
     var events = [Event]()
 
-    let dateFormatter = NSDateFormatter()
+    let oldDateFormatter = NSDateFormatter()
+    let iso8601DateFormatter = NSDateFormatter()
 
     // This is a place to keep track of how stale a remote log is
     public var updateDate: NSDate? = nil
@@ -104,21 +105,32 @@ public class OSULogger : NSObject {
         dispatchQueue = dispatch_queue_create(queueLabel, DISPATCH_QUEUE_SERIAL)
 #endif
 
-        dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss.SSS"
+        oldDateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss.SSS"
+        iso8601DateFormatter.dateFormat = "YYYY-MM-dd'T'HH:mm:ss.SSS'Z'"
 
         super.init()
     }
 
     deinit {
-        self.flush()
+        flush()
     }
 
-    internal func _formatDate(date: NSDate) -> String {
-        return dateFormatter.stringFromDate(date)
+    internal func _formatDate(date: NSDate, useISO8601Format: Bool = true) -> String {
+        if useISO8601Format {
+            return iso8601DateFormatter.stringFromDate(date)
+        } else {
+            return oldDateFormatter.stringFromDate(date)
+        }
     }
 
     internal func _parseDate(string: String) -> NSDate {
-        return dateFormatter.dateFromString(string)!
+        if let date = iso8601DateFormatter.dateFromString(string) {
+            return date
+        }
+        if let date = oldDateFormatter.dateFromString(string) {
+            return date
+        }
+        return NSDate.distantPast()
     }
 
 #if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
@@ -173,7 +185,7 @@ public class OSULogger : NSObject {
                 }
             })
 #else
-            for observer in self.observers {
+            for observer in observers {
                 observer.log(event)
             }
 #endif
@@ -190,7 +202,7 @@ public class OSULogger : NSObject {
             case .Debugging: color = white
             case .Undefined: color = blue
             }
-            print("\(_formatDate(date)), \(color)\(severity)\(normal): \(message)")
+            print("\(_formatDate(date, useISO8601Format: false)), \(color)\(severity)\(normal): \(message)")
         #endif
     }
 }
