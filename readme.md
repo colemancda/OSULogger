@@ -38,3 +38,4 @@ int main()
     return 0;
 }
 ```
+I also encourage you to try out the example project (along with its Makefile) in the ```CExample``` directory.
