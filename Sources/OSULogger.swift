@@ -173,17 +173,13 @@ public class OSULogger : NSObject {
 
         // If we have observers, call them on the main thread
         if !observers.isEmpty {
+            for observer in self.observers {
 #if OSULOGGER_ASYNC_SUPPORT
-            dispatch_async(dispatch_get_main_queue(), {
-                for observer in self.observers {
-                    observer.log(event)
-                }
-            })
+                dispatch_async(dispatch_get_main_queue(), { observer.log(event) })
 #else
-            for observer in observers {
                 observer.log(event)
-            }
 #endif
+            }
         }
     }
 }
