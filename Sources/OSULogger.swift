@@ -27,22 +27,36 @@ public class OSULogger : NSObject {
 
     internal static let _sharedLogger = OSULogger()
 
-    public enum Severity : Int, CustomStringConvertible {
-        case Fatal       = 5
-        case Error       = 4
-        case Warning     = 3
-        case Information = 2
-        case Debugging   = 1
-        case Undefined   = 0
+    public enum Severity : CustomStringConvertible {
+        case Undefined
+        case Debugging
+        case Information
+        case Warning
+        case Error
+        case Fatal
+        case Custom(String)
 
         public var description: String {
             switch self {
-            case .Fatal:       return "Fatal"
-            case .Error:       return "Error"
-            case .Warning:     return "Warning"
-            case .Information: return "Information"
-            case .Debugging:   return "Debugging"
-            case .Undefined:   return "Undefined"
+            case .Fatal:             return "Fatal"
+            case .Error:             return "Error"
+            case .Warning:           return "Warning"
+            case .Information:       return "Information"
+            case .Debugging:         return "Debugging"
+            case .Undefined:         return "Undefined"
+            case .Custom(let label): return label
+            }
+        }
+
+        public var level: Int {
+            switch self {
+            case .Undefined:   return -1
+            case .Debugging:   return 0
+            case .Information: return 1
+            case .Warning:     return 2
+            case .Error:       return 3
+            case .Fatal:       return 4
+            case .Custom(_):   return 5
             }
         }
 
@@ -50,19 +64,18 @@ public class OSULogger : NSObject {
             guard let string = string else {
                 return .Undefined
             }
-            switch string {
-            case Severity.Debugging.description:
-                return .Debugging
-            case Severity.Fatal.description:
-                return .Fatal
-            case Severity.Error.description:
-                return .Error
-            case Severity.Warning.description:
-                return .Warning
-            case Severity.Information.description:
-                return .Information
-            default:
+            let trimmedString = string.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            if trimmedString.isEmpty {
                 return .Undefined
+            }
+            switch trimmedString {
+            case Severity.Debugging.description:   return .Debugging
+            case Severity.Fatal.description:       return .Fatal
+            case Severity.Error.description:       return .Error
+            case Severity.Warning.description:     return .Warning
+            case Severity.Information.description: return .Information
+            case Severity.Undefined.description:   return .Undefined
+            default:                               return .Custom(trimmedString)
             }
         }
     }
@@ -256,6 +269,37 @@ public class OSULogger : NSObject {
         #endif
     }
 }
+
+extension OSULogger.Severity : Comparable { }
+
+public func < (lhs: OSULogger.Severity, rhs: OSULogger.Severity) -> Bool {
+    return lhs.level < rhs.level
+}
+
+public func == (lhs: OSULogger.Severity, rhs: OSULogger.Severity) -> Bool {
+    switch (lhs, rhs) {
+    case (.Undefined, .Undefined):
+        fallthrough
+    case (.Debugging, .Debugging):
+        fallthrough
+    case (.Information, .Information):
+        fallthrough
+    case (.Warning, .Warning):
+        fallthrough
+    case (.Error, .Error):
+        fallthrough
+    case (.Fatal, .Fatal):
+        return true
+
+    case (.Custom(let label1), .Custom(let label2)):
+        return label1 == label2
+
+    default:
+        return false
+    }
+}
+
+extension OSULogger.Event : Equatable { }
 
 public func == (lhs: OSULogger.Event, rhs: OSULogger.Event) -> Bool {
     if lhs.severity != rhs.severity {

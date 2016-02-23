@@ -16,6 +16,7 @@ class OSULogger_TestComplete : XCTestCase {
 
     var allTests : [(String, () throws -> Void)] {
         return [
+            ("testSeverityComparable", testSeverityComparable),
             ("testLoggerEquivalence", testLoggerEquivalence),
             ("testSharedLogger", testSharedLogger),
             ("testPerformanceXMLLoad", testPerformanceXMLLoad),
@@ -63,6 +64,23 @@ class OSULogger_TestComplete : XCTestCase {
         }
 
         sampleLog = OSULogger(xmlRep: xmlDocument.rootElement()!)
+    }
+
+    func testSeverityComparable() {
+        XCTAssert(OSULogger.Severity.Undefined == OSULogger.Severity.Undefined, "Undefined does not compare for equality.")
+        XCTAssert(OSULogger.Severity.Debugging == OSULogger.Severity.Debugging, "Debugging does not compare for equality.")
+        XCTAssert(OSULogger.Severity.Information == OSULogger.Severity.Information, "Information does not compare for equality.")
+        XCTAssert(OSULogger.Severity.Warning == OSULogger.Severity.Warning, "Warning does not compare for equality.")
+        XCTAssert(OSULogger.Severity.Error == OSULogger.Severity.Error, "Error does not compare for equality.")
+        XCTAssert(OSULogger.Severity.Fatal == OSULogger.Severity.Fatal, "Fatal does not compare for equality.")
+        XCTAssert(OSULogger.Severity.Custom("Test") == OSULogger.Severity.Custom("Test"), "Custom(\"Test\") does not compare for equality.")
+        XCTAssert(OSULogger.Severity.Undefined != OSULogger.Severity.Information, "Undefined and Information do not compare for inequality.")
+        XCTAssert(OSULogger.Severity.Custom("ABC") != OSULogger.Severity.Custom("DEF"), "Custom(\"ABC\") and Custom(\"DEF\") do not compare for inequality.")
+        XCTAssert(OSULogger.Severity.Undefined < OSULogger.Severity.Information, "Undefined is not less-than Information")
+        XCTAssert(OSULogger.Severity.Debugging <= OSULogger.Severity.Information, "Debugging is not less-than-or-equal-to Information")
+        XCTAssert(OSULogger.Severity.Fatal > OSULogger.Severity.Information, "Fatal is not greater-than Information")
+        XCTAssert(OSULogger.Severity.Error >= OSULogger.Severity.Warning, "Error is not greater-than-or-equal-to Warning")
+        XCTAssert(OSULogger.Severity.Custom("ABC") > OSULogger.Severity.Information, "Custom(\"ABC\") is not greater-than Information")
     }
 
     func testLoggerEquivalence() {
@@ -113,7 +131,6 @@ class OSULogger_TestComplete : XCTestCase {
 
     func testPerformanceJSONWrite() {
         _ = sampleLog.jsonRep
-        print(JSON.encodeAsString(sampleLog.jsonRep, pretty: true))
     }
 
     func testStringFromXML() {
