@@ -7,11 +7,7 @@
 //  Read LICENSE in the top level directory for further licensing information.
 //
 
-#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
-import Cocoa
-#else
 import Foundation
-#endif
 
 let escape  = "\u{001B}["
 let normal  = escape + "m"
@@ -96,11 +92,6 @@ public class OSULogger : NSObject {
     var events = [Event]()
 
     let dateFormatter = NSDateFormatter()
-#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
-    public var attributedString = NSMutableAttributedString()
-    var fontAttributes = [String: AnyObject]()
-    var font: NSFont
-#endif
 
     // This is a place to keep track of how stale a remote log is
     public var updateDate: NSDate? = nil
@@ -108,25 +99,12 @@ public class OSULogger : NSObject {
     public var observers = [OSULoggerObserver]()
 
     public init(queueLabel: String = "edu.orst.ceoas.osulogger") {
+
 #if OSULOGGER_ASYNC_SUPPORT
         dispatchQueue = dispatch_queue_create(queueLabel, DISPATCH_QUEUE_SERIAL)
 #endif
 
-#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
-        dateFormatter.formatterBehavior = NSDateFormatterBehavior.Behavior10_4
-#endif
         dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss.SSS"
-
-#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
-        if #available(iOS 9.0, OSX 10.11, *) {
-            font = NSFont.monospacedDigitSystemFontOfSize(CGFloat(8.0), weight: NSFontWeightRegular)
-        } else {
-            font = NSFont.systemFontOfSize(8.0)
-        }
-
-        fontAttributes[NSFontAttributeName] = font
-        fontAttributes[NSForegroundColorAttributeName] = NSColor.blackColor()
-#endif
 
         super.init()
     }
@@ -162,57 +140,7 @@ public class OSULogger : NSObject {
         events.removeAll()
     }
 
-    private func _updateString(event: Event) {
-#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
-        var attributes = fontAttributes
-
-        // Set the color of the line based upon the severity
-        switch event.severity {
-        case .Undefined: break
-        case .Information: break
-        case .Warning:   attributes[NSForegroundColorAttributeName] = NSColor.orangeColor()
-        case .Error:     attributes[NSForegroundColorAttributeName] = NSColor.redColor()
-        case .Fatal:     attributes[NSForegroundColorAttributeName] = NSColor.magentaColor()
-        case .Debugging: attributes[NSForegroundColorAttributeName] = NSColor.grayColor()
-        }
-
-        if let date = event.date {
-            attributedString.appendAttributedString(NSAttributedString(
-                string: "\(_formatDate(date)): "))
-        }
-
-        attributedString.appendAttributedString(NSAttributedString(
-            string: "\(event.severity.description.stringByPadding(13, pad: " ")): \(event.message))",
-            attributes: attributes))
-#endif
-    }
-
     private func noop() { }
-
-#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
-    @objc public func logStringObjc(string: String, severity: Int) {
-        var sev = Severity(rawValue: severity)
-        if sev == nil { sev = Severity.Undefined }
-        self.log(string, severity: sev!)
-    }
-
-    @objc(logString:withFile:line:version:andSeverity:)
-    public func log(string: String, file: String = #file, line: Int = #line, version: String,
-                    severity: Int) {
-            // We only want the source name of the #file macro, so lets only keep
-            // the last component of the path
-            let pathComponents = file.componentsSeparatedByString("/")
-            if let fileName = pathComponents.last {
-                let sev: Severity
-                if let temp = Severity(rawValue: severity) {
-                    sev = temp
-                } else {
-                    sev = Severity.Undefined
-                    self.log(string, severity: sev, function: "", file: fileName, line: line)
-                }
-            }
-    }
-#endif
 
     public func log(string: String, severity: Severity = Severity.Undefined,
                     function: String = #function, file: String = #file,
@@ -250,9 +178,6 @@ public class OSULogger : NSObject {
             }
 #endif
         }
-
-        // Update the attributed string log
-        _updateString(event)
 
         // When debugging, also print output to the console
         #if DEBUG
