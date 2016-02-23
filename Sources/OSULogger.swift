@@ -34,18 +34,6 @@ public class OSULogger : NSObject {
             }
         }
 
-        public var level: Int {
-            switch self {
-            case .Undefined:   return -1
-            case .Debugging:   return 0
-            case .Information: return 1
-            case .Warning:     return 2
-            case .Error:       return 3
-            case .Fatal:       return 4
-            case .Custom(_):   return 5
-            }
-        }
-
         static func fromString(string: String?) -> Severity {
             guard let string = string else {
                 return .Undefined
@@ -62,6 +50,29 @@ public class OSULogger : NSObject {
             case Severity.Information.description: return .Information
             case Severity.Undefined.description:   return .Undefined
             default:                               return .Custom(trimmedString)
+            }
+        }
+
+        public var level: Int {
+            switch self {
+            case .Undefined:   return -1
+            case .Debugging:   return 0
+            case .Information: return 1
+            case .Warning:     return 2
+            case .Error:       return 3
+            case .Fatal:       return 4
+            case .Custom(_):   return 5
+            }
+        }
+
+        static func fromLevel(level: Int) -> Severity {
+            switch level {
+            case Severity.Debugging.level:   return .Debugging
+            case Severity.Fatal.level:       return .Fatal
+            case Severity.Error.level:       return .Error
+            case Severity.Warning.level:     return .Warning
+            case Severity.Information.level: return .Information
+            default:                         return .Undefined
             }
         }
     }
