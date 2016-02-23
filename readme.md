@@ -19,6 +19,8 @@ OSULogger allows the user to supply a list of observers that will be notified wh
 
 Unique features
 ---------------
+- Custom severity levels.  Using the .Custom() severity, you can provide a string that indicates the importance of the message you're logging
+- Log and Event equality checking.  Curious whether two logs are the same?  Want to check whether the same message appears in other logs?  Equality FTW.
 - OSULogger's swift class can be used from C.  To achieve this, you'll need to provide some extra path information to the compiler, like so:
 
 We'll use gcc in this case, but it should work with clang.  First, we include the swift library directory for the compiler using ```-L ${SWIFT_LIB_PATH}```.  Next, we have to provide the linker with that path again, but this time as a runtime path using ```-Wl,-rpath,${SWIFT_LIB_PATH}```.  Then we have the typical stuff where we provide the output filename using ```-o test```, and the input file ```../test.c```.  Finally, we have to tell the compiler and linker about OSULogger.  To do that, we provide it the artisnal, hand-crafted, C header in the Headers directory -- ```-I Headers/```, provide the project library path to the compiler using ```-L .build/debug```, tell the linker to link with OSULogger -- ```-lOSULogger``` and tell the linker where to find it at runtime ```-Wl,-rpath,`pwd`/.build/debug```.  Put it all together and you have:
@@ -36,5 +38,3 @@ int main()
     return 0;
 }
 ```
-- Custom severity levels.  Using the .Custom() severity, you can provide a string that indicates the importance of the message you're logging
-- Log and Event equality checking.  Curious whether two logs are the same?  Want to check whether the same message appears in other logs?  Equality FTW.
