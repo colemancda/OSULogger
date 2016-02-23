@@ -8,6 +8,11 @@
 //
 
 import Foundation
+#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
+import Darwin
+#else
+import Glibc
+#endif
 
 private let escape  = "\u{001B}["
 private let normal  = escape + "m"
@@ -29,15 +34,22 @@ public class OSUConsoleLoggerObserver : OSULoggerObserver {
 
     public func log(event: OSULogger.Event) {
         let color: String
-        switch event.severity {
-        case .Fatal:       color = magenta
-        case .Error:       color = red
-        case .Warning:     color = yellow
-        case .Information: color = green
-        case .Debugging:   color = white
-        case .Undefined:   color = cyan
-        case .Custom(_):   color = blue
+        let restore: String
+        if isatty(fileno(stderr)) != 0 {
+            switch event.severity {
+            case .Fatal:       color = magenta
+            case .Error:       color = red
+            case .Warning:     color = yellow
+            case .Information: color = green
+            case .Debugging:   color = white
+            case .Undefined:   color = cyan
+            case .Custom(_):   color = blue
+            }
+            restore = normal
+        } else {
+            color = ""
+            restore = ""
         }
-        print("\(dateFormatter.stringFromDate(event.date!)), \(color)\(event.severity)\(normal): \(event.message)")
+        fputs("\(dateFormatter.stringFromDate(event.date!)), \(color)\(event.severity)\(restore): \(event.message)\n", stderr)
     }
 }
