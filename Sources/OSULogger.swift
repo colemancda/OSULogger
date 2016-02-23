@@ -156,7 +156,7 @@ public class OSULogger : NSObject {
 
     private func noop() { }
 
-    public func log(string: String, severity: Severity = Severity.Undefined,
+    public func log(message: String, severity: Severity = Severity.Undefined,
                     function: String = #function, file: String = #file,
                     line: Int = #line) {
 #if DEBUG
@@ -165,9 +165,9 @@ public class OSULogger : NSObject {
         }
 #endif
 #if OSULOGGER_ASYNC_SUPPORT
-        dispatch_async(dispatchQueue, { self._log(NSDate(), severity: severity, message: string, function: function, file: file, line: line) })
+        dispatch_async(dispatchQueue, { self._log(NSDate(), severity: severity, message: message, function: function, file: file, line: line) })
 #else
-        _log(NSDate(), severity: severity, message: string, function: function, file: file, line: line)
+        _log(NSDate(), severity: severity, message: message, function: function, file: file, line: line)
 #endif
     }
 

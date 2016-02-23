@@ -31,23 +31,45 @@
 #ifndef __OSULogger_OSULogger_h
 #define __OSULogger_OSULogger_h
 
+#include <stdbool.h>
+#include <stdint.h>
+
 typedef enum OSULogSeverity {
     kOSULogSeverityUndefined = -1,
     kOSULogSeverityDebugging,
     kOSULogSeverityInformation,
     kOSULogSeverityWarning,
     kOSULogSeverityError,
-    kOSULogSeverityFatal
+    kOSULogSeverityFatal,
+    kOSULogSeverityCustom
 } OSULogSeverity;
 
-#define OSULog(level, string) \
- _OSULog(level, string, __func__,  __FILE__, __LINE__)
+typedef struct OSUEvent {
+    OSULogSeverity  severity;
+    char const     *customSeverityName;
+    uint64_t        timestamp;
+    char const     *function;
+    char const     *filename;
+    int32_t         line;
+    char const     *message;
+} OSUEvent;
+
+typedef void (*OSULoggerCallback)(void *info, OSUEvent const *event);
+
+#define OSULog(severity, string) \
+ _OSULog(severity, string, __func__,  __FILE__, __LINE__)
+#define OSULogCustom(severity, string) \
+ _OSULogCustom(severity, string, __func__,  __FILE__, __LINE__)
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+bool OSULoggerAddCallback(OSULoggerCallback callback, void *info);
+
 void _OSULog(OSULogSeverity severity, char const *string, char const *function,
+        char const *file, int line);
+void _OSULogCustom(char const *severity, char const *string, char const *function,
         char const *file, int line);
 
 #ifdef __cplusplus
