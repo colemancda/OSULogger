@@ -128,13 +128,9 @@ public class OSULogger : NSObject {
         return NSDate.distantPast()
     }
 
-#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
-    @objc public class func sharedLogger() -> OSULogger { return _sharedLogger }
-#else
     public class func sharedLogger() -> OSULogger { return _sharedLogger }
-#endif
 
-    @objc public func flush() {
+    public func flush() {
 #if OSULOGGER_ASYNC_SUPPORT
         // Wait for up to one second for the dispatch queue to process pending logs
         dispatch_sync(dispatchQueue) { () -> Void in

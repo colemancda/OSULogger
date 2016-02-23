@@ -31,16 +31,6 @@ public extension OSULogger {
         }
     }
 
-#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
-    // In the objc. api stringValue was used to get the XML string.
-    // In Swift, we're moving away from that.  Alias stringValue in Objc to
-    // xmlStringValue in swift.
-    @objc(stringValue)
-    public func xmlStringValue() -> String? {
-        return self.xmlDocument.XMLString
-    }
-#endif
-
     public class func stringFrom(xmlRep: NSXMLElement) -> String {
         var string = ""
 

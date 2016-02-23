@@ -36,7 +36,7 @@ class OSULogger_TestComplete : XCTestCase {
     var jsonURL:             NSURL! = nil
     var jsonInput:            JSON! = nil
 
-#if os(OSX) || os(iOS)
+#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
     override func setUp() {
         doSetUp();
     }
