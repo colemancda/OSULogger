@@ -10,6 +10,12 @@
 import XCTest
 @testable import OSULogger
 
+class TestObserver : OSULoggerObserver {
+    func log(event: OSULogger.Event) {
+        XCTAssertEqual(event.message, "Hello world.")
+    }
+}
+
 class OSULogger_TestSimple : XCTestCase {
 
     var allTests : [(String, () throws -> Void)] {
@@ -20,9 +26,7 @@ class OSULogger_TestSimple : XCTestCase {
 
     func testSimple() {
         let logger = OSULogger.sharedLogger()
-        logger.callback = { (event: OSULogger.Event) -> () in
-            XCTAssertEqual(event.message, "Hello world.")
-        }
+        logger.observers.append(TestObserver())
         logger.log("Hello world.", severity: .Information)
     }
 

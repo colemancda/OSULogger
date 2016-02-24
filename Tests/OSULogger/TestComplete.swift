@@ -9,15 +9,14 @@
 
 import XCTest
 import Foundation
-#if OSULOGGER_JSON_SUPPORT
 import PMJSON
-#endif
 @testable import OSULogger
 
 class OSULogger_TestComplete : XCTestCase {
 
     var allTests : [(String, () throws -> Void)] {
         return [
+            ("testSeverityComparable", testSeverityComparable),
             ("testLoggerEquivalence", testLoggerEquivalence),
             ("testSharedLogger", testSharedLogger),
             ("testPerformanceXMLLoad", testPerformanceXMLLoad),
@@ -33,51 +32,55 @@ class OSULogger_TestComplete : XCTestCase {
     var stringURL:           NSURL! = nil
     var strContents:        String! = nil
     var xmlDocument: NSXMLDocument! = nil
-    var xmlInput:     NSXMLElement! = nil
     var sampleLog:       OSULogger! = nil
-#if OSULOGGER_JSON_SUPPORT
     var jsonURL:             NSURL! = nil
-    var jsonContents:       NSData! = nil
     var jsonInput:            JSON! = nil
+
+#if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
+    override func setUp() {
+        doSetUp();
+    }
+#else
+    func setUp() {
+        doSetUp();
+    }
 #endif
 
-    func setUp() {
-#if os(OSX) || os(iOS)
-        if let resourceURL = NSBundle(forClass: OSULogger_TestComplete.self).resourceURL {
-            xmlURL    = NSURL(string: "exampleLog.xml",    relativeToURL: resourceURL)
-#if OSULOGGER_JSON_SUPPORT
-            jsonURL   = NSURL(string: "exampleLog.json",   relativeToURL: resourceURL)
-#endif
-            stringURL = NSURL(string: "exampleLog.string", relativeToURL: resourceURL)
-        }
-#else
+    func doSetUp() {
         let resourceURL = NSURL(fileURLWithPath: "./Tests/OSULogger/")
         xmlURL    = NSURL(string: "exampleLog.xml",    relativeToURL: resourceURL)
-#if OSULOGGER_JSON_SUPPORT
-        jsonURL   = NSURL(string: "exampleLog.json",   relativeToURL: resourceURL)
-#endif
         stringURL = NSURL(string: "exampleLog.string", relativeToURL: resourceURL)
-#endif
-
+        jsonURL   = NSURL(string: "exampleLog.json",   relativeToURL: resourceURL)
         XCTAssert(xmlURL    != nil, "Unable to find exampleXMLLogFile.")
-#if OSULOGGER_JSON_SUPPORT
-        XCTAssert(jsonURL   != nil, "Unable to find exampleJSONLogFile.")
-#endif
         XCTAssert(stringURL != nil, "Unable to find exampleStringLogFile.")
+        XCTAssert(jsonURL   != nil, "Unable to find exampleJSONLogFile.")
 
         do {
             xmlDocument  = try NSXMLDocument(contentsOfURL: xmlURL, options: 0)
-            xmlInput     = xmlDocument.rootElement()
             strContents  = try String(contentsOfURL: stringURL, encoding: NSUTF8StringEncoding)
-#if OSULOGGER_JSON_SUPPORT
-            jsonContents = NSData(contentsOfURL: jsonURL)
-            jsonInput    = JSON(data: jsonContents)
-#endif
+            jsonInput    = try JSON.decode(try String(contentsOfURL: jsonURL, encoding: NSUTF8StringEncoding))
         } catch {
             XCTAssert(false, "Unable to load example file for test")
         }
 
-        sampleLog = OSULogger(xmlRep: xmlInput)
+        sampleLog = OSULogger(xmlRep: xmlDocument.rootElement()!)
+    }
+
+    func testSeverityComparable() {
+        XCTAssert(OSULogger.Severity.Undefined == OSULogger.Severity.Undefined, "Undefined does not compare for equality.")
+        XCTAssert(OSULogger.Severity.Debugging == OSULogger.Severity.Debugging, "Debugging does not compare for equality.")
+        XCTAssert(OSULogger.Severity.Information == OSULogger.Severity.Information, "Information does not compare for equality.")
+        XCTAssert(OSULogger.Severity.Warning == OSULogger.Severity.Warning, "Warning does not compare for equality.")
+        XCTAssert(OSULogger.Severity.Error == OSULogger.Severity.Error, "Error does not compare for equality.")
+        XCTAssert(OSULogger.Severity.Fatal == OSULogger.Severity.Fatal, "Fatal does not compare for equality.")
+        XCTAssert(OSULogger.Severity.Custom("Test") == OSULogger.Severity.Custom("Test"), "Custom(\"Test\") does not compare for equality.")
+        XCTAssert(OSULogger.Severity.Undefined != OSULogger.Severity.Information, "Undefined and Information do not compare for inequality.")
+        XCTAssert(OSULogger.Severity.Custom("ABC") != OSULogger.Severity.Custom("DEF"), "Custom(\"ABC\") and Custom(\"DEF\") do not compare for inequality.")
+        XCTAssert(OSULogger.Severity.Undefined < OSULogger.Severity.Information, "Undefined is not less-than Information")
+        XCTAssert(OSULogger.Severity.Debugging <= OSULogger.Severity.Information, "Debugging is not less-than-or-equal-to Information")
+        XCTAssert(OSULogger.Severity.Fatal > OSULogger.Severity.Information, "Fatal is not greater-than Information")
+        XCTAssert(OSULogger.Severity.Error >= OSULogger.Severity.Warning, "Error is not greater-than-or-equal-to Warning")
+        XCTAssert(OSULogger.Severity.Custom("ABC") > OSULogger.Severity.Information, "Custom(\"ABC\") is not greater-than Information")
     }
 
     func testLoggerEquivalence() {
@@ -88,6 +91,7 @@ class OSULogger_TestComplete : XCTestCase {
     func testSharedLogger() {
         let sharedLogger = OSULogger.sharedLogger()
 
+        sharedLogger.clearEvents()
 
         // Iterate through the sample logs and add some stuff to the shared logger
         for event in sampleLog.events {
@@ -114,46 +118,42 @@ class OSULogger_TestComplete : XCTestCase {
     }
 
     func testPerformanceXMLLoad() {
-        _ = OSULogger(xmlRep: self.xmlInput)
+        _ = OSULogger(xmlRep: xmlDocument.rootElement()!)
     }
 
     func testPerformanceJSONLoad() {
-#if OSULOGGER_JSON_SUPPORT
-        _ = OSULogger(jsonRep: self.jsonInput)
-#endif
+        _ = OSULogger(jsonRep: jsonInput)
     }
 
     func testPerformanceXMLWrite() {
-        _ = self.sampleLog.xmlDocument
+        _ = sampleLog.xmlDocument
     }
 
     func testPerformanceJSONWrite() {
-#if OSULOGGER_JSON_SUPPORT
-        _ = self.sampleLog.jsonRep
-#endif
+        _ = sampleLog.jsonRep
     }
 
     func testStringFromXML() {
-        let stringOutput = OSULogger.stringFrom(xmlInput)
+        let stringOutput = OSULogger.stringFrom(xmlDocument.rootElement()!)
 
         XCTAssert(stringOutput == strContents, "String output mismatch")
     }
 
     func testXMLReadAndWrite() {
         // Try to create a new logger class from the created XML
-        var xmlTemp: NSXMLElement! = nil
+        var xmlTemp: NSXMLDocument! = nil
         do {
             // Create an XML representation of the sample log
             let xmlStringOutput: String! = sampleLog.xmlDocument.XMLString
             XCTAssert(xmlStringOutput != nil, "Unable to get XML String output")
 
-            xmlTemp = try NSXMLElement(XMLString: xmlStringOutput)
+            xmlTemp = try NSXMLDocument(XMLString: xmlStringOutput!, options: 0)
         } catch {
             XCTAssert(false, "NSXMLElement was not able to be made from XMLOutput")
         }
 
         // Try to create the logger
-        XCTAssert(OSULogger(xmlRep: xmlTemp) == sampleLog, "Log created from intermediate XML does not match original")
+        XCTAssert(OSULogger(xmlRep: xmlTemp.rootElement()!) == sampleLog, "Log created from intermediate XML does not match original")
     }
 
 }

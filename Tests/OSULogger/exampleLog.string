@@ -3,7 +3,7 @@
 2010-07-14 10:21:41.044: Error: Started browser.
 2010-07-14 10:21:41.045: Information: Starting service in 16.100000 seconds, unless peers are found.
 2010-07-14 10:21:41.045: Debugging: Found service: tundra3, more coming = TRUE
-2010-07-14 10:21:41.047: Undefined: Found service: tundra4, more coming = TRUE
+2010-07-14 10:21:41.047: TestLevel: Found service: tundra4, more coming = TRUE
 2010-07-14 10:21:41.048: Information: Found service: tundra2, more coming = TRUE
 2010-07-14 10:21:41.048: Information: Found service: tundra8, more coming = TRUE
 2010-07-14 10:21:41.049: Information: Found service: tundra5, more coming = TRUE

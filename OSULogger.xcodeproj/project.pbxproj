@@ -7,20 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3C0808631C77A0180044FB17 /* OSULogger.h in Sources */ = {isa = PBXBuildFile; fileRef = 3C08084C1C768E770044FB17 /* OSULogger.h */; };
-		3C0808641C77A0180044FB17 /* OSULogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C08084D1C768E770044FB17 /* OSULogger.m */; };
 		3C0808651C77A0180044FB17 /* OSULogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C08084E1C768E770044FB17 /* OSULogger.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3C08084B1C768E770044FB17 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = main.swift; path = Sources/main.swift; sourceTree = "<group>"; };
-		3C08084C1C768E770044FB17 /* OSULogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSULogger.h; path = Sources/OSULogger.h; sourceTree = "<group>"; };
-		3C08084D1C768E770044FB17 /* OSULogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSULogger.m; path = Sources/OSULogger.m; sourceTree = "<group>"; };
 		3C08084E1C768E770044FB17 /* OSULogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OSULogger.swift; path = Sources/OSULogger.swift; sourceTree = "<group>"; };
 		3C08084F1C768E830044FB17 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		3C0808501C768E830044FB17 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		3C0808581C779FD50044FB17 /* libOSULogger-lib.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "libOSULogger-lib.dylib"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C0808621C779FED0044FB17 /* Packages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Packages; sourceTree = "<group>"; };
+		3CD9C0CD1C7CDF190031FD97 /* OSULogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSULogger.h; path = Legacy/OSULogger.h; sourceTree = "<group>"; };
+		3CD9C0CE1C7CDF190031FD97 /* OSULogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OSULogger.m; path = Legacy/OSULogger.m; sourceTree = "<group>"; };
+		3CD9C0CF1C7CDF320031FD97 /* OSUConsoleLoggerObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OSUConsoleLoggerObserver.swift; path = Sources/OSUConsoleLoggerObserver.swift; sourceTree = "<group>"; };
+		3CD9C0D01C7CDF320031FD97 /* OSULog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OSULog.swift; path = Sources/OSULog.swift; sourceTree = "<group>"; };
+		3CD9C0D11C7CDF320031FD97 /* OSULogger+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "OSULogger+JSON.swift"; path = "Sources/OSULogger+JSON.swift"; sourceTree = "<group>"; };
+		3CD9C0D21C7CDF320031FD97 /* OSULogger+XML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "OSULogger+XML.swift"; path = "Sources/OSULogger+XML.swift"; sourceTree = "<group>"; };
+		3CD9C0D31C7CDF320031FD97 /* OSULoggerObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OSULoggerObserver.swift; path = Sources/OSULoggerObserver.swift; sourceTree = "<group>"; };
+		3CD9C0D41C7CDF320031FD97 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtension.swift; path = Sources/StringExtension.swift; sourceTree = "<group>"; };
+		3CD9C0D61C7CDF950031FD97 /* OSULogger */ = {isa = PBXFileReference; lastKnownFileType = folder; name = OSULogger; path = Headers/OSULogger; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +41,8 @@
 		3C0808331C768E1A0044FB17 = {
 			isa = PBXGroup;
 			children = (
+				3CD9C0D51C7CDF8B0031FD97 /* Headers */,
+				3CD9C0CC1C7CDF060031FD97 /* Legacy */,
 				3C0808621C779FED0044FB17 /* Packages */,
 				3C0808511C768EA20044FB17 /* Sources */,
 				3C08084F1C768E830044FB17 /* LICENSE */,
@@ -48,9 +54,12 @@
 		3C0808511C768EA20044FB17 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				3C08084B1C768E770044FB17 /* main.swift */,
-				3C08084C1C768E770044FB17 /* OSULogger.h */,
-				3C08084D1C768E770044FB17 /* OSULogger.m */,
+				3CD9C0CF1C7CDF320031FD97 /* OSUConsoleLoggerObserver.swift */,
+				3CD9C0D01C7CDF320031FD97 /* OSULog.swift */,
+				3CD9C0D11C7CDF320031FD97 /* OSULogger+JSON.swift */,
+				3CD9C0D21C7CDF320031FD97 /* OSULogger+XML.swift */,
+				3CD9C0D31C7CDF320031FD97 /* OSULoggerObserver.swift */,
+				3CD9C0D41C7CDF320031FD97 /* StringExtension.swift */,
 				3C08084E1C768E770044FB17 /* OSULogger.swift */,
 			);
 			name = Sources;
@@ -62,6 +71,23 @@
 				3C0808581C779FD50044FB17 /* libOSULogger-lib.dylib */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		3CD9C0CC1C7CDF060031FD97 /* Legacy */ = {
+			isa = PBXGroup;
+			children = (
+				3CD9C0CD1C7CDF190031FD97 /* OSULogger.h */,
+				3CD9C0CE1C7CDF190031FD97 /* OSULogger.m */,
+			);
+			name = Legacy;
+			sourceTree = "<group>";
+		};
+		3CD9C0D51C7CDF8B0031FD97 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				3CD9C0D61C7CDF950031FD97 /* OSULogger */,
+			);
+			name = Headers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,8 +177,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C0808631C77A0180044FB17 /* OSULogger.h in Sources */,
-				3C0808641C77A0180044FB17 /* OSULogger.m in Sources */,
 				3C0808651C77A0180044FB17 /* OSULogger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -317,6 +341,7 @@
 				3C0808611C779FD50044FB17 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
