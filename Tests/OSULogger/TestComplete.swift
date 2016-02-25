@@ -28,13 +28,10 @@ class OSULogger_TestComplete : XCTestCase {
         ]
     }
 
-    var xmlURL:              NSURL! = nil
-    var stringURL:           NSURL! = nil
-    var strContents:        String! = nil
-    var xmlDocument: NSXMLDocument! = nil
-    var sampleLog:       OSULogger! = nil
-    var jsonURL:             NSURL! = nil
-    var jsonInput:            JSON! = nil
+    var strContents:        String? = nil
+    var xmlDocument: NSXMLDocument? = nil
+    var jsonInput:            JSON? = nil
+    var sampleLog:       OSULogger? = nil
 
 #if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
     override func setUp() {
@@ -46,24 +43,47 @@ class OSULogger_TestComplete : XCTestCase {
     }
 #endif
 
-    func doSetUp() {
-        let resourceURL = NSURL(fileURLWithPath: "./Tests/OSULogger/")
-        xmlURL    = NSURL(string: "exampleLog.xml",    relativeToURL: resourceURL)
-        stringURL = NSURL(string: "exampleLog.string", relativeToURL: resourceURL)
-        jsonURL   = NSURL(string: "exampleLog.json",   relativeToURL: resourceURL)
-        XCTAssert(xmlURL    != nil, "Unable to find exampleXMLLogFile.")
-        XCTAssert(stringURL != nil, "Unable to find exampleStringLogFile.")
-        XCTAssert(jsonURL   != nil, "Unable to find exampleJSONLogFile.")
+    func loadExamplesRelativeTo(URL: NSURL) -> Bool {
+        let xmlURL    = NSURL(string: "exampleLog.xml",    relativeToURL: URL)
+        let stringURL = NSURL(string: "exampleLog.string", relativeToURL: URL)
+        let jsonURL   = NSURL(string: "exampleLog.json",   relativeToURL: URL)
 
-        do {
-            xmlDocument  = try NSXMLDocument(contentsOfURL: xmlURL, options: 0)
-            strContents  = try String(contentsOfURL: stringURL, encoding: NSUTF8StringEncoding)
-            jsonInput    = try JSON.decode(try String(contentsOfURL: jsonURL, encoding: NSUTF8StringEncoding))
-        } catch {
-            XCTAssert(false, "Unable to load example file for test")
+        assert(xmlURL != nil && stringURL != nil && jsonURL != nil,
+            "Unable to create resource URLs.") 
+
+        xmlDocument = try? NSXMLDocument(contentsOfURL: xmlURL!, options: 0)
+        guard xmlDocument != nil else {
+            return false
         }
 
-        sampleLog = OSULogger(xmlRep: xmlDocument.rootElement()!)
+        strContents = try? String(contentsOfURL: stringURL!, encoding: NSUTF8StringEncoding)
+        guard strContents != nil else {
+            return false
+        }
+
+        jsonInput = try? JSON.decode(try String(contentsOfURL: jsonURL!, encoding: NSUTF8StringEncoding))
+        guard jsonInput != nil else {
+            return false
+        }
+
+        return true
+    }
+ 
+    func doSetUp() {
+
+        // First try to load the files assuming that OSULogger is the base package
+        // Then try to load the files assuming that we're subordinate
+        // If that fails, we're hosed.
+        if loadExamplesRelativeTo(NSURL(fileURLWithPath: "./Packages/OSULogger-1.0.0/Tests/OSULogger/")) == false {
+            guard loadExamplesRelativeTo(NSURL(fileURLWithPath: "./Tests/OSULogger/")) != false else {
+// FIXME: Do we really need to specify the contents of the version tag here??
+                assert(false, "Unable to load example files for test")
+                return
+            }
+        }
+
+        XCTAssert(xmlDocument != nil)
+        sampleLog = OSULogger(xmlRep: xmlDocument!.rootElement()!)
     }
 
     func testSeverityComparable() {
@@ -84,17 +104,20 @@ class OSULogger_TestComplete : XCTestCase {
     }
 
     func testLoggerEquivalence() {
-        XCTAssert(sampleLog == sampleLog, "Logger doesn't equal itself.")
-        XCTAssert(sampleLog != OSULogger.sharedLogger(), "Logger not equal doesn't work")
+        XCTAssert(sampleLog != nil, "SampleLog was not initialized for this test.")
+        XCTAssert(sampleLog! == sampleLog!, "Logger doesn't equal itself.")
+        XCTAssert(sampleLog! != OSULogger.sharedLogger(), "Logger not equal doesn't work")
     }
 
     func testSharedLogger() {
+        XCTAssert(sampleLog != nil, "SampleLog was not initialized for this test.")
+        XCTAssert(xmlDocument != nil, "xmlDocument was not initialized for this test.")
         let sharedLogger = OSULogger.sharedLogger()
 
         sharedLogger.clearEvents()
 
         // Iterate through the sample logs and add some stuff to the shared logger
-        for event in sampleLog.events {
+        for event in sampleLog!.events {
             sharedLogger.log(event.message)
             sharedLogger.log(event.message, severity: event.severity)
         }
@@ -103,57 +126,67 @@ class OSULogger_TestComplete : XCTestCase {
         sharedLogger.flush()
 
         // Make sure the correct number of events was created
-        XCTAssert(sharedLogger.events.count == sampleLog.events.count * 2,
-            "Some log events were missed (\(sharedLogger.events.count) == \(sampleLog.events.count * 2))")
+        XCTAssert(sharedLogger.events.count == sampleLog!.events.count * 2,
+            "Some log events were missed (\(sharedLogger.events.count) == \(sampleLog!.events.count * 2))")
 
         // Iterate through the logs and make sure that everything is in there
-        for  i in 0 ..< sampleLog.events.count {
+        for  i in 0 ..< sampleLog!.events.count {
             // Test messages
-            XCTAssert(sampleLog.events[i].message  == sharedLogger.events[i * 2 + 0].message, "Failed to preserve message in logger")
-            XCTAssert(sampleLog.events[i].message  == sharedLogger.events[i * 2 + 1].message, "Failed to preserve message in logger")
+            XCTAssert(sampleLog!.events[i].message  == sharedLogger.events[i * 2 + 0].message, "Failed to preserve message in logger")
+            XCTAssert(sampleLog!.events[i].message  == sharedLogger.events[i * 2 + 1].message, "Failed to preserve message in logger")
             // Test severities
             XCTAssert(OSULogger.Severity.Undefined == sharedLogger.events[i * 2 + 0].severity, "Failed to set default severity in logger")
-            XCTAssert(sampleLog.events[i].severity == sharedLogger.events[i * 2 + 1].severity, "Failed to preserve severity in logger")
+            XCTAssert(sampleLog!.events[i].severity == sharedLogger.events[i * 2 + 1].severity, "Failed to preserve severity in logger")
         }
     }
 
     func testPerformanceXMLLoad() {
-        _ = OSULogger(xmlRep: xmlDocument.rootElement()!)
+        XCTAssert(xmlDocument != nil, "xmlDocument was not initialized for this test.")
+        _ = OSULogger(xmlRep: xmlDocument!.rootElement()!)
     }
 
     func testPerformanceJSONLoad() {
-        _ = OSULogger(jsonRep: jsonInput)
+        XCTAssert(jsonInput != nil, "jsonInput was not initialized for this test.")
+        _ = OSULogger(jsonRep: jsonInput!)
     }
 
     func testPerformanceXMLWrite() {
-        _ = sampleLog.xmlDocument
+        XCTAssert(sampleLog != nil, "SampleLog was not initialized for this test.")
+        _ = sampleLog!.xmlDocument
     }
 
     func testPerformanceJSONWrite() {
-        _ = sampleLog.jsonRep
+        XCTAssert(sampleLog != nil, "SampleLog was not initialized for this test.")
+        _ = sampleLog!.jsonRep
     }
 
     func testStringFromXML() {
-        let stringOutput = OSULogger.stringFrom(xmlDocument.rootElement()!)
+        XCTAssert(xmlDocument != nil, "xmlDocument was not initialized for this test.")
+        XCTAssert(strContents != nil, "strContents was not initialized for this test.")
+
+        let stringOutput = OSULogger.stringFrom(xmlDocument!.rootElement()!)
 
         XCTAssert(stringOutput == strContents, "String output mismatch")
     }
 
     func testXMLReadAndWrite() {
+        XCTAssert(sampleLog != nil, "SampleLog was not initialized for this test.")
+
         // Try to create a new logger class from the created XML
-        var xmlTemp: NSXMLDocument! = nil
         do {
             // Create an XML representation of the sample log
-            let xmlStringOutput: String! = sampleLog.xmlDocument.XMLString
+            let xmlStringOutput: String! = sampleLog!.xmlDocument.XMLString
             XCTAssert(xmlStringOutput != nil, "Unable to get XML String output")
 
-            xmlTemp = try NSXMLDocument(XMLString: xmlStringOutput!, options: 0)
+            let xmlTemp = try NSXMLDocument(XMLString: xmlStringOutput!, options: 0)
+
+            // Try to create the logger
+            //print("SampleLog: \(sampleLog!.xmlDocument)")
+            //print("Logger: \(OSULogger(xmlRep: xmlTemp.rootElement()!).xmlDocument)")
+            XCTAssert( OSULogger(xmlRep: xmlTemp.rootElement()!) == sampleLog!, "Log created from intermediate XML does not match original.")
+
         } catch {
             XCTAssert(false, "NSXMLElement was not able to be made from XMLOutput")
         }
-
-        // Try to create the logger
-        XCTAssert(OSULogger(xmlRep: xmlTemp.rootElement()!) == sampleLog, "Log created from intermediate XML does not match original")
     }
-
 }
