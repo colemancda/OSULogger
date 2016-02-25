@@ -74,7 +74,7 @@ class OSULogger_TestComplete : XCTestCase {
         // First try to load the files assuming that OSULogger is the base package
         // Then try to load the files assuming that we're subordinate
         // If that fails, we're hosed.
-        if loadExamplesRelativeTo(NSURL(fileURLWithPath: "./Packages/OSULogger-1.0.0/Tests/OSULogger/")) == false {
+        if loadExamplesRelativeTo(NSURL(fileURLWithPath: "./Packages/OSULogger-1.0.1/Tests/OSULogger/")) == false {
             guard loadExamplesRelativeTo(NSURL(fileURLWithPath: "./Tests/OSULogger/")) != false else {
 // FIXME: Do we really need to specify the contents of the version tag here??
                 assert(false, "Unable to load example files for test")
