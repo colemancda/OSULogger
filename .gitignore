@@ -2,3 +2,4 @@ OSULogger.xcodeproj/xcuserdata/
 
 .build
 Packages
+*.xcodeproj

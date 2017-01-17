@@ -17,36 +17,36 @@ public extension OSULogger {
 
     public var jsonRep: JSON {
         get {
-            var logsDict: [String: JSON] = ["timestamp": JSON.String(_formatDate(NSDate()))]
+            var logsDict: [String: JSON] = ["timestamp": JSON.string(_formatDate(Date()))]
 
             var jsonEvents = ContiguousArray<JSON>()
             for event in events {
                 var eventDict: [String: JSON] = [
-                    "severity":  JSON.String(event.severity.description),
-                    "message":   JSON.String(event.message)
+                    "severity":  JSON.string(event.severity.description),
+                    "message":   JSON.string(event.message)
                 ]
 
                 if let timestamp = event.date {
-                    eventDict["timestamp"] = JSON.String(_formatDate(timestamp))
+                    eventDict["timestamp"] = JSON.string(_formatDate(timestamp))
                 }
 
                 if let function = event.function {
-                    eventDict["function"] = JSON.String(function)
+                    eventDict["function"] = JSON.string(function)
                 }
 
                 if let file = event.file {
-                    eventDict["file"] = JSON.String(file)
+                    eventDict["file"] = JSON.string(file)
                 }
 
                 if let line = event.line {
-                    eventDict["line"] = JSON.Int64(Int64(line))
+                    eventDict["line"] = JSON.int64(Int64(line))
                 }
 
-                jsonEvents.append(JSON.Object(JSONObject(eventDict)))
+                jsonEvents.append(JSON.object(JSONObject(eventDict)))
             }
 
-            logsDict["events"] = JSON.Array(jsonEvents)
-            return JSON.Object(JSONObject(logsDict))
+            logsDict["events"] = JSON.array(jsonEvents)
+            return JSON.object(JSONObject(logsDict))
         }
     }
 
@@ -54,12 +54,12 @@ public extension OSULogger {
         self.init()
 
         if let timestampString = jsonRep["timestamp"]?.string {
-            updateDate = _parseDate(timestampString)
+            updateDate = _parseDate(string: timestampString)
         }
 
         if let jsonEvents = jsonRep["events"]?.array {
             for jsonEvent in jsonEvents where jsonEvent != nil {
-                let severity = Severity.fromString(jsonEvent["severity"]?.string)
+                let severity = Severity.from(string: jsonEvent["severity"]?.string)
                 let line     = jsonEvent["line"]?.int
                 let file     = jsonEvent["file"]?.string
                 let function = jsonEvent["function"]?.string
@@ -67,7 +67,7 @@ public extension OSULogger {
                 // Log messages without a time or a message aren't usable.
                 if let timestamp = jsonEvent["timestamp"]?.string,
                    let mess = message {
-                    let time = _parseDate(timestamp)
+                    let time = _parseDate(string: timestamp)
                     events.append(Event(date: time, severity: severity, message: mess,
                                         function: function, file: file, line: line))
                 }

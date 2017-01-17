@@ -16,22 +16,22 @@ class OSULogger_TestComplete : XCTestCase {
 
     var allTests : [(String, () throws -> Void)] {
         return [
-            ("testSeverityComparable", testSeverityComparable),
-            ("testLoggerEquivalence", testLoggerEquivalence),
-            ("testSharedLogger", testSharedLogger),
-            ("testPerformanceXMLLoad", testPerformanceXMLLoad),
-            ("testPerformanceJSONLoad", testPerformanceJSONLoad),
-            ("testPerformanceXMLWrite", testPerformanceXMLWrite),
+            ("testSeverityComparable",   testSeverityComparable),
+            ("testLoggerEquivalence",    testLoggerEquivalence),
+            ("testSharedLogger",         testSharedLogger),
+            ("testPerformanceXMLLoad",   testPerformanceXMLLoad),
+            ("testPerformanceJSONLoad",  testPerformanceJSONLoad),
+            ("testPerformanceXMLWrite",  testPerformanceXMLWrite),
             ("testPerformanceJSONWrite", testPerformanceJSONWrite),
-            ("testStringFromXML", testStringFromXML),
-            ("testXMLReadAndWrite", testXMLReadAndWrite)
+            ("testStringFromXML",        testStringFromXML),
+            ("testXMLReadAndWrite",      testXMLReadAndWrite)
         ]
     }
 
-    var strContents:        String? = nil
-    var xmlDocument: NSXMLDocument? = nil
-    var jsonInput:            JSON? = nil
-    var sampleLog:       OSULogger? = nil
+    var strContents:      String? = nil
+    var xmlDocument: XMLDocument? = nil
+    var jsonInput:          JSON? = nil
+    var sampleLog:     OSULogger? = nil
 
 #if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
     override func setUp() {
@@ -43,25 +43,25 @@ class OSULogger_TestComplete : XCTestCase {
     }
 #endif
 
-    func loadExamplesRelativeTo(URL: NSURL) -> Bool {
-        let xmlURL    = NSURL(string: "exampleLog.xml",    relativeToURL: URL)
-        let stringURL = NSURL(string: "exampleLog.string", relativeToURL: URL)
-        let jsonURL   = NSURL(string: "exampleLog.json",   relativeToURL: URL)
+    func loadExamplesRelativeTo(url: URL) -> Bool {
+        let xmlURL    = URL(string: "exampleLog.xml",    relativeTo: url)
+        let stringURL = URL(string: "exampleLog.string", relativeTo: url)
+        let jsonURL   = URL(string: "exampleLog.json",   relativeTo: url)
 
         assert(xmlURL != nil && stringURL != nil && jsonURL != nil,
             "Unable to create resource URLs.") 
 
-        xmlDocument = try? NSXMLDocument(contentsOfURL: xmlURL!, options: 0)
+        xmlDocument = try? XMLDocument(contentsOf: xmlURL!, options: 0)
         guard xmlDocument != nil else {
             return false
         }
 
-        strContents = try? String(contentsOfURL: stringURL!, encoding: NSUTF8StringEncoding)
+        strContents = try? String(contentsOf: stringURL!, encoding: .utf8)
         guard strContents != nil else {
             return false
         }
 
-        jsonInput = try? JSON.decode(try String(contentsOfURL: jsonURL!, encoding: NSUTF8StringEncoding))
+        jsonInput = try? JSON.decode(try String(contentsOf: jsonURL!, encoding: .utf8))
         guard jsonInput != nil else {
             return false
         }
@@ -74,8 +74,8 @@ class OSULogger_TestComplete : XCTestCase {
         // First try to load the files assuming that OSULogger is the base package
         // Then try to load the files assuming that we're subordinate
         // If that fails, we're hosed.
-        if loadExamplesRelativeTo(NSURL(fileURLWithPath: "./Packages/OSULogger-1.0.1/Tests/OSULogger/")) == false {
-            guard loadExamplesRelativeTo(NSURL(fileURLWithPath: "./Tests/OSULogger/")) != false else {
+        if loadExamplesRelativeTo(url: URL(fileURLWithPath: "./Packages/OSULogger-1.0.1/Tests/OSULogger/")) == false {
+            guard loadExamplesRelativeTo(url: URL(fileURLWithPath: "./Tests/OSULogger/")) != false else {
 // FIXME: Do we really need to specify the contents of the version tag here??
                 assert(false, "Unable to load example files for test")
                 return
@@ -164,7 +164,7 @@ class OSULogger_TestComplete : XCTestCase {
         XCTAssert(xmlDocument != nil, "xmlDocument was not initialized for this test.")
         XCTAssert(strContents != nil, "strContents was not initialized for this test.")
 
-        let stringOutput = OSULogger.stringFrom(xmlDocument!.rootElement()!)
+        let stringOutput = OSULogger.stringFrom(xmlRep: xmlDocument!.rootElement()!)
 
         XCTAssert(stringOutput == strContents, "String output mismatch")
     }
@@ -175,10 +175,10 @@ class OSULogger_TestComplete : XCTestCase {
         // Try to create a new logger class from the created XML
         do {
             // Create an XML representation of the sample log
-            let xmlStringOutput: String! = sampleLog!.xmlDocument.XMLString
+            let xmlStringOutput: String! = sampleLog!.xmlDocument.xmlString
             XCTAssert(xmlStringOutput != nil, "Unable to get XML String output")
 
-            let xmlTemp = try NSXMLDocument(XMLString: xmlStringOutput!, options: 0)
+            let xmlTemp = try XMLDocument(xmlString: xmlStringOutput!, options: 0)
 
             // Try to create the logger
             //print("SampleLog: \(sampleLog!.xmlDocument)")

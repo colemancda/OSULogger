@@ -10,7 +10,7 @@
 import Foundation
 
 class CObserver : OSULoggerObserver {
-    typealias Callback = @convention(c) (UnsafeMutablePointer <Void>, UnsafePointer <Void>) -> Void
+    typealias Callback = @convention(c) (UnsafeMutableRawPointer, UnsafeRawPointer) -> Void
 
     struct Event {
         var severity: Int32
@@ -23,15 +23,15 @@ class CObserver : OSULoggerObserver {
     }
 
     private let callback: Callback
-    private let info: UnsafeMutablePointer <Void>?
+    private let info: UnsafeMutableRawPointer
 
-    init(_ callback: Callback, _ info: UnsafeMutablePointer <Void>?) {
+    init(_ callback: @escaping Callback, _ info: UnsafeMutableRawPointer) {
         self.callback = callback
         self.info = info
     }
 
     func log(event: OSULogger.Event) {
-        var cEvent = Event(severity: 0, customSeverityName: nil, timestamp: 0, function: nil, filename: nil, line: 0, message: nil)
+        var cEvent = Event(severity: 0, customSeverityName: "", timestamp: 0, function: "", filename: "", line: 0, message: "")
 
         cEvent.severity = Int32(event.severity.level)
 
@@ -49,28 +49,29 @@ class CObserver : OSULoggerObserver {
             default:
                 break
         }
-
+        
         let function = event.function ?? ""
         let filename = event.file ?? ""
-
+        
+        // We have to capture the ownership of these variables during the
+        // duration of the callback.
         event.message.withCString { m in
             function.withCString { fn in
                 filename.withCString { fp in
                     customSeverityName.withCString { csn in
-                        if !customSeverityName.isEmpty {
-                            cEvent.customSeverityName = csn
-                        }
+
+                        cEvent.customSeverityName = csn
                         cEvent.message  = m
-                        cEvent.function = function.isEmpty ? nil : fn
-                        cEvent.filename = filename.isEmpty ? nil : fp
-                        callback(info!, &cEvent)
+                        cEvent.function = fn
+                        cEvent.filename = fp
+                        callback(info, &cEvent)
                     }
                 }
             }
         }
     }
 
-    class func create(callback callback: Callback?, info: UnsafeMutablePointer <Void>?) -> CObserver? {
+    class func create(callback: Callback?, info: UnsafeMutableRawPointer) -> CObserver? {
         guard let callback = callback else {
             return nil
         }
@@ -79,7 +80,7 @@ class CObserver : OSULoggerObserver {
 }
 
 @_silgen_name("OSULoggerAddCallback")
-func __OSULoggerAddCallback(callback: CObserver.Callback?, info: UnsafeMutablePointer <Void>?) -> Bool {
+func __OSULoggerAddCallback(callback: CObserver.Callback?, info: UnsafeMutableRawPointer) -> Bool {
     if let observer = CObserver.create(callback: callback, info: info) {
         OSULogger.sharedLogger().observers.append(observer)
         return true
@@ -90,10 +91,10 @@ func __OSULoggerAddCallback(callback: CObserver.Callback?, info: UnsafeMutablePo
 @_silgen_name("_OSULog")
 func __OSULog(severity: Int, message: UnsafePointer <CChar>, function: UnsafePointer <CChar>,
               filePath: UnsafePointer <CChar>, line: Int) {
-    OSULog(OSULogger.Severity.fromLevel(severity),
-           message: String.fromCString(message) ?? "(null)",
-           function: String.fromCString(function) ?? "",
-           filePath: String.fromCString(filePath) ?? "",
+    OSULog(OSULogger.Severity.from(level: severity),
+           message: String(cString: message),
+           function: String(cString: function),
+           filePath: String(cString: filePath),
            line: line)
 }
 
@@ -101,10 +102,10 @@ func __OSULog(severity: Int, message: UnsafePointer <CChar>, function: UnsafePoi
 func __OSULog(severity: UnsafePointer <CChar>, message: UnsafePointer <CChar>,
               function: UnsafePointer <CChar>, filePath: UnsafePointer <CChar>,
               line: Int) {
-    let severity = String.fromCString(severity) ?? ""
+    let severity = String(cString: severity)
     OSULog(severity.isEmpty ? OSULogger.Severity.Undefined : OSULogger.Severity.Custom(severity),
-           message: String.fromCString(message) ?? "(null)",
-           function: String.fromCString(function) ?? "",
-           filePath: String.fromCString(filePath) ?? "",
+           message: String(cString: message),
+           function: String(cString: function),
+           filePath: String(cString: filePath),
            line: line)
 }

@@ -26,7 +26,7 @@ private let white   = escape + "37m"
 
 public class OSUConsoleLoggerObserver : OSULoggerObserver {
 
-    let dateFormatter = NSDateFormatter()
+    let dateFormatter = DateFormatter()
 
     public init() {
         dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss.SSS"
@@ -50,6 +50,6 @@ public class OSUConsoleLoggerObserver : OSULoggerObserver {
             color = ""
             restore = ""
         }
-        fputs("\(dateFormatter.stringFromDate(event.date!)), \(color)\(event.severity)\(restore): \(event.message)\n", stderr)
+        fputs("\(dateFormatter.string(from: event.date!)), \(color)\(event.severity)\(restore): \(event.message)\n", stderr)
     }
 }

@@ -34,11 +34,11 @@ public class OSULogger : NSObject {
             }
         }
 
-        static func fromString(string: String?) -> Severity {
+        static func from(string: String?) -> Severity {
             guard let string = string else {
                 return .Undefined
             }
-            let trimmedString = string.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            let trimmedString = string.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines)
             if trimmedString.isEmpty {
                 return .Undefined
             }
@@ -65,7 +65,7 @@ public class OSULogger : NSObject {
             }
         }
 
-        static func fromLevel(level: Int) -> Severity {
+        static func from(level: Int) -> Severity {
             switch level {
             case Severity.Debugging.level:   return .Debugging
             case Severity.Fatal.level:       return .Fatal
@@ -78,7 +78,7 @@ public class OSULogger : NSObject {
     }
 
     public struct Event {
-        let date: NSDate?
+        let date: Date?
         let severity: Severity
         let message: String
         let function: String?
@@ -92,11 +92,11 @@ public class OSULogger : NSObject {
 
     var events = [Event]()
 
-    let oldDateFormatter = NSDateFormatter()
-    let iso8601DateFormatter = NSDateFormatter()
+    let oldDateFormatter = DateFormatter()
+    let iso8601DateFormatter = DateFormatter()
 
     // This is a place to keep track of how stale a remote log is
-    public var updateDate: NSDate? = nil
+    public var updateDate: Date? = nil
 
     public var observers = [OSULoggerObserver]()
 
@@ -121,22 +121,22 @@ public class OSULogger : NSObject {
         flush()
     }
 
-    internal func _formatDate(date: NSDate, useISO8601Format: Bool = true) -> String {
+    internal func _formatDate(_ date: Date, useISO8601Format: Bool = true) -> String {
         if useISO8601Format {
-            return iso8601DateFormatter.stringFromDate(date)
+            return iso8601DateFormatter.string(from: date)
         } else {
-            return oldDateFormatter.stringFromDate(date)
+            return oldDateFormatter.string(from: date)
         }
     }
 
-    internal func _parseDate(string: String) -> NSDate {
-        if let date = iso8601DateFormatter.dateFromString(string) {
+    internal func _parseDate(string: String) -> Date {
+        if let date = iso8601DateFormatter.date(from: string) {
             return date
         }
-        if let date = oldDateFormatter.dateFromString(string) {
+        if let date = oldDateFormatter.date(from: string) {
             return date
         }
-        return NSDate.distantPast()
+        return Date.distantPast
     }
 
     public class func sharedLogger() -> OSULogger { return _sharedLogger }
@@ -156,7 +156,7 @@ public class OSULogger : NSObject {
 
     private func noop() { }
 
-    public func log(message: String, severity: Severity = Severity.Undefined,
+    public func log(_ message: String, severity: Severity = Severity.Undefined,
                     function: String = #function, file: String = #file,
                     line: Int = #line) {
 #if DEBUG
@@ -165,14 +165,14 @@ public class OSULogger : NSObject {
         }
 #endif
 #if OSULOGGER_ASYNC_SUPPORT
-        dispatch_async(dispatchQueue, { self._log(NSDate(), severity: severity, message: message, function: function, file: file, line: line) })
+        dispatch_async(dispatchQueue, { self._log(Date(), severity: severity, message: message, function: function, file: file, line: line) })
 #else
-        _log(NSDate(), severity: severity, message: message, function: function, file: file, line: line)
+        _log(date: Date(), severity: severity, message: message, function: function, file: file, line: line)
 #endif
     }
 
     // This function should only execute on the main thread.
-    private func _log(date: NSDate, severity: Severity, message: String, function: String,
+    private func _log(date: Date, severity: Severity, message: String, function: String,
                       file: String, line: Int) {
         // Append a new event to the log array
         let event = Event(date: date, severity: severity, message: message, function: function, file: file, line: line)
@@ -184,7 +184,7 @@ public class OSULogger : NSObject {
 #if OSULOGGER_ASYNC_SUPPORT
                 dispatch_async(dispatch_get_main_queue(), { observer.log(event) })
 #else
-                observer.log(event)
+                observer.log(event: event)
 #endif
             }
         }
