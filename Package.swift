@@ -12,8 +12,8 @@ import PackageDescription
 let package = Package(
     name: "OSULogger",
     dependencies: [
-        .Package(url: "https://github.com/hpux735/PMJSON.git", majorVersion: 2)
-    ]
+        .Package(url: "ssh://git@git.cs.savantsystems.com:7999/rpesavant/pmjson.git", majorVersion: 2)
+   ]
 )
 
 package.exclude = ["Tests"]

@@ -113,7 +113,7 @@ public class OSULogger : NSObject {
 
         oldDateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss.SSS"
         iso8601DateFormatter.dateFormat = "YYYY-MM-dd'T'HH:mm:ss.SSS'Z'"
-        iso8601DateFormatter.timeZone = NSTimeZone(name: "UTC")!
+        iso8601DateFormatter.timeZone = TimeZone(abbreviation: "UTC")!
 
         super.init()
     }
